@@ -1,0 +1,107 @@
+---
+import '../styles/global.css';
+import { negocio, horarios, preguntas } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+  schema?: boolean;
+}
+
+const {
+  title = `${negocio.nombre} | Alimentos saludables en Victoria, San Fernando`,
+  description = 'Almacén natural en Av. Presidente Perón 3099, Victoria. Frutos secos, yerbas, leches vegetales, panificados, congelados y más. Abierto de lunes a sábado.',
+  noindex = false,
+  schema = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og.jpg', Astro.site);
+
+const diasSchema = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const pad = (h: number) => `${String(h).padStart(2, '0')}:00`;
+
+const localSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HealthFoodStore',
+  name: negocio.nombre,
+  slogan: negocio.tagline,
+  url: Astro.site?.toString(),
+  image: ogImage.toString(),
+  sameAs: [negocio.instagram],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: negocio.direccion,
+    addressLocality: 'Victoria',
+    addressRegion: 'Buenos Aires',
+    addressCountry: 'AR',
+  },
+  openingHoursSpecification: horarios
+    .map((h, i) => ({ ...h, i }))
+    .filter((h) => h.abre !== null && h.cierra !== null)
+    .map((h) => ({
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: diasSchema[h.i],
+      opens: pad(h.abre!),
+      closes: pad(h.cierra!),
+    })),
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: preguntas.map((q) => ({
+    '@type': 'Question',
+    name: q.p,
+    acceptedAnswer: { '@type': 'Answer', text: q.r },
+  })),
+};
+---
+
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#FBF8F2" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:site_name" content={negocio.nombre} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script is:inline>
+      // Marca JS disponible y si el usuario acepta animaciones, antes de pintar.
+      document.documentElement.classList.add('js');
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('motion');
+      }
+    </script>
+
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(localSchema)} />}
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+  </head>
+  <body class="min-h-svh bg-crema font-sans text-texto">
+    <a
+      href="#contenido"
+      class="fixed top-2 left-2 z-[100] -translate-y-24 rounded-full bg-profundo px-4 py-2 text-sm font-semibold text-white transition-transform duration-700 ease-fluid focus:translate-y-0"
+    >
+      Saltar al contenido
+    </a>
+    <slot />
+  </body>
+</html>

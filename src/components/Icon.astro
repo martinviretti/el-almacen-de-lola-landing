@@ -1,0 +1,24 @@
+---
+// Íconos Phosphor (variante light) embebidos como SVG en línea.
+interface Props {
+  name: string;
+  class?: string;
+  label?: string;
+}
+
+const { name, class: className = 'size-6', label } = Astro.props;
+
+// Solo los íconos que usa el sitio: si sumás uno, agregalo a la lista.
+const icons = import.meta.glob<string>(
+  '/node_modules/@phosphor-icons/core/assets/light/{tea-bag,drop,bowl-food,nut,barbell,snowflake,bread,jar-label,cookie,leaf,carrot,map-pin,clock,instagram-logo,navigation-arrow,arrow-down,arrow-up-right,plus,storefront,arrow-left}-light.svg',
+  { query: '?raw', import: 'default', eager: true },
+);
+
+const raw = icons[`/node_modules/@phosphor-icons/core/assets/light/${name}-light.svg`];
+if (!raw) throw new Error(`Ícono Phosphor inexistente: ${name}`);
+
+const a11y = label ? `role="img" aria-label="${label}"` : 'aria-hidden="true" focusable="false"';
+const svg = raw.replace('<svg ', `<svg class="${className}" ${a11y} `);
+---
+
+<Fragment set:html={svg} />

@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<Base title="Página no encontrada | El Almacén de Lola" noindex>
+  <main id="contenido" class="fondo-hojas flex min-h-svh items-center justify-center px-5 py-24">
+    <div class="max-w-[680px] text-center">
+      <p class="text-sm font-semibold text-marca">Error 404</p>
+      <h1 class="titulo-degrade mt-3 text-4xl font-bold tracking-tight lg:text-6xl">
+        Esta góndola <br />
+        está vacía
+      </h1>
+      <p class="mt-6 text-lg text-texto-2">La página que buscás no existe o cambió de lugar.</p>
+      <a href="/" class="boton boton-principal mt-8">
+        <Icon name="arrow-left" class="size-5" />
+        Volver al almacén
+      </a>
+    </div>
+  </main>
+</Base>

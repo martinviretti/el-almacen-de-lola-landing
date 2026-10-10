@@ -1,0 +1,35 @@
+---
+import Icon from './Icon.astro';
+import { preguntas } from '../data/site';
+---
+
+<section id="preguntas" class="px-5 py-24 lg:px-10 lg:py-32">
+  <div class="mx-auto grid max-w-[1200px] gap-12 lg:grid-cols-[2fr_3fr] lg:gap-16">
+    <div data-reveal>
+      <p class="mb-3 text-sm font-semibold text-marca">Preguntas frecuentes</p>
+      <h2 class="text-4xl font-bold tracking-tight text-profundo lg:text-5xl">Lo que más nos consultan</h2>
+    </div>
+
+    <div class="flex flex-col gap-3" data-reveal style="--delay:120ms">
+      {
+        preguntas.map((q) => (
+          <details class="faq group rounded-3xl bg-white ring-1 ring-profundo/8 transition-colors duration-700 ease-fluid open:bg-menta-suave">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 rounded-3xl p-6 text-base font-semibold text-profundo lg:text-lg">
+              {q.p}
+              <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-menta-suave text-profundo transition-transform duration-700 ease-fluid group-open:rotate-45 group-open:bg-white">
+                <Icon name="plus" class="size-4" />
+              </span>
+            </summary>
+            <p class="px-6 pb-6 text-base text-texto-2">{q.r}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

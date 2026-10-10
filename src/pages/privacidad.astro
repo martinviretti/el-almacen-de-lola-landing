@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { negocio } from '../data/site';
+---
+
+<Base title="Privacidad | El Almacén de Lola" description="Cómo trata los datos este sitio de El Almacén de Lola.">
+  <main id="contenido" class="px-5 py-24 lg:px-10 lg:py-32">
+    <article class="mx-auto max-w-[680px]">
+      <a href="/" class="inline-flex items-center gap-2 text-sm font-semibold text-marca underline-offset-4 hover:underline">
+        <Icon name="arrow-left" class="size-4" />
+        Volver al inicio
+      </a>
+      <h1 class="mt-6 text-4xl font-bold tracking-tight text-profundo lg:text-5xl">Privacidad</h1>
+      <div class="mt-8 flex flex-col gap-4 text-base text-texto-2">
+        <p>Este sitio es informativo. No tiene formularios, no pide datos personales y no usa cookies propias ni herramientas de seguimiento.</p>
+        <p>El mapa de Google Maps se carga solo si tocás el botón "Ver el mapa". A partir de ese momento Google puede aplicar sus propias cookies y políticas de privacidad.</p>
+        <p>Los enlaces a Instagram y Google Maps te llevan a servicios de terceros, que tienen sus propias condiciones.</p>
+        <p>Si tenés alguna consulta, escribinos por Instagram a <a class="font-semibold text-profundo underline underline-offset-4" href={negocio.instagram} target="_blank" rel="noopener">{negocio.instagramUsuario}</a>.</p>
+      </div>
+    </article>
+  </main>
+</Base>

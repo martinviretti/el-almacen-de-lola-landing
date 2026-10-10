@@ -1,0 +1,77 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { categorias, galeria, negocio } from '../data/site';
+---
+
+<section id="productos" class="px-5 py-24 lg:px-10 lg:py-32">
+  <div class="mx-auto max-w-[1200px]">
+    <div class="max-w-[680px]" data-reveal>
+      <p class="mb-3 text-sm font-semibold text-marca">Productos</p>
+      <h2 class="text-4xl font-bold tracking-tight text-profundo lg:text-5xl">Lo que vas a encontrar en el almacén</h2>
+      <p class="mt-4 text-lg text-texto-2">
+        Renovamos la mercadería todo el tiempo. Si buscás algo puntual, escribinos por Instagram antes de venir.
+      </p>
+    </div>
+
+    <ul class="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:mt-16 lg:grid-cols-4 lg:gap-4">
+      {
+        categorias.map((c, i) => (
+          <li
+            data-reveal
+            style={`--delay:${(i % 4) * 80}ms`}
+            class="group rounded-3xl bg-white p-4 ring-1 ring-profundo/8 transition-transform duration-700 ease-fluid hover:-translate-y-1 lg:p-6"
+          >
+            <span class="flex size-12 items-center justify-center rounded-2xl bg-menta-suave text-profundo transition-colors duration-700 ease-fluid group-hover:bg-menta">
+              <Icon name={c.icono} class="size-6" />
+            </span>
+            <h3 class="mt-4 text-base font-semibold text-profundo lg:text-lg">{c.nombre}</h3>
+            <p class="mt-1 text-sm text-texto-2">{c.detalle}</p>
+          </li>
+        ))
+      }
+      <li
+        data-reveal
+        style="--delay:240ms"
+        class="flex flex-col justify-between rounded-3xl bg-profundo p-4 text-white lg:p-6"
+      >
+        <p class="text-base font-semibold lg:text-lg">¿Buscás algo que no está en la lista?</p>
+        <a
+          href={negocio.instagram}
+          target="_blank"
+          rel="noopener"
+          class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-menta underline-offset-4 hover:underline"
+        >
+          Preguntanos por Instagram
+          <Icon name="arrow-up-right" class="size-4" />
+        </a>
+      </li>
+    </ul>
+
+    <div class="mt-16 grid grid-cols-2 gap-3 lg:mt-24 lg:grid-cols-4 lg:gap-4">
+      {
+        galeria.map((g, i) => (
+          <figure
+            data-reveal
+            style={`--delay:${i * 80}ms`}
+            class:list={['group', i % 2 === 1 && 'lg:mt-16']}
+          >
+            <div class="grano relative aspect-[3/4] overflow-hidden rounded-3xl bg-menta">
+              <Image
+                src={g.foto}
+                alt={g.alt}
+                widths={[g.foto.width]}
+                sizes="(min-width: 1024px) 25vw, 50vw"
+                quality={86}
+                loading="lazy"
+                data-parallax
+                class="absolute inset-x-0 -top-[6%] h-[112%] w-full object-cover"
+              />
+            </div>
+            <figcaption class="mt-3 text-sm font-semibold text-texto-2">{g.texto}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>

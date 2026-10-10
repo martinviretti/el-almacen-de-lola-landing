@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import ScrollWorld from '../components/ScrollWorld.astro';
+import Tagline from '../components/Tagline.astro';
+import Productos from '../components/Productos.astro';
+import Visitanos from '../components/Visitanos.astro';
+import Faq from '../components/Faq.astro';
+import CtaFinal from '../components/CtaFinal.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base schema>
+  <Nav />
+  <main id="contenido">
+    <ScrollWorld />
+    <Tagline />
+    <Productos />
+    <Visitanos />
+    <Faq />
+    <CtaFinal />
+  </main>
+  <Footer />
+</Base>
+
+<script>
+  import '../scripts/motion';
+</script>

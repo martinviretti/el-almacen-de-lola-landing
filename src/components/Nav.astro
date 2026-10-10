@@ -1,0 +1,149 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo-lola-circulo.png';
+import Icon from './Icon.astro';
+import { negocio } from '../data/site';
+
+const links = [
+  { href: '#recorrido', label: 'El almacén' },
+  { href: '#productos', label: 'Productos' },
+  { href: '#visitanos', label: 'Visitanos' },
+  { href: '#preguntas', label: 'Preguntas' },
+];
+---
+
+<header class="pointer-events-none fixed inset-x-0 top-0 z-50 px-4 pt-4 lg:pt-6">
+  <nav
+    aria-label="Principal"
+    class="pointer-events-auto mx-auto flex w-full max-w-max items-center gap-2 rounded-full bg-white/75 p-2 shadow-[0_8px_32px_rgb(33_76_59/0.08)] ring-1 ring-profundo/10 backdrop-blur-xl"
+  >
+    <a href="#top" class="flex items-center gap-2 rounded-full pr-2" aria-label={`${negocio.nombre}, volver al inicio`}>
+      <Image src={logo} alt="" width={40} height={40} class="size-10 rounded-full" loading="eager" />
+      <span class="text-sm font-semibold text-profundo">El Almacén de Lola</span>
+    </a>
+
+    <ul class="hidden items-center gap-1 lg:flex">
+      {
+        links.map((l) => (
+          <li>
+            <a
+              href={l.href}
+              data-nav-link
+              class="rounded-full px-3 py-2 text-sm font-semibold text-texto-2 transition-colors duration-700 ease-fluid hover:bg-menta-suave hover:text-profundo aria-[current=true]:bg-menta-suave aria-[current=true]:text-profundo"
+            >
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a
+      href={negocio.mapsDestino}
+      target="_blank"
+      rel="noopener"
+      class="boton boton-principal hidden !px-4 !py-2 !text-sm lg:inline-flex"
+    >
+      Cómo llegar
+    </a>
+
+    <button
+      type="button"
+      data-menu-toggle
+      aria-expanded="false"
+      aria-controls="menu-movil"
+      class="relative ml-2 size-10 rounded-full bg-profundo text-white transition-transform duration-700 ease-fluid active:scale-95 lg:hidden"
+    >
+      <span class="sr-only">Abrir menú</span>
+      <span data-bar="1" class="absolute top-[16px] left-[12px] h-0.5 w-4 rounded-full bg-current transition-transform duration-700 ease-fluid"></span>
+      <span data-bar="2" class="absolute top-[22px] left-[12px] h-0.5 w-4 rounded-full bg-current transition-transform duration-700 ease-fluid"></span>
+    </button>
+  </nav>
+</header>
+
+<div
+  id="menu-movil"
+  data-menu
+  class="invisible fixed inset-0 z-40 flex flex-col justify-center bg-crema/80 px-6 opacity-0 backdrop-blur-3xl transition-[opacity,visibility] duration-700 ease-fluid lg:hidden"
+>
+  <ul class="flex flex-col gap-2">
+    {
+      links.map((l, i) => (
+        <li class="overflow-hidden">
+          <a
+            href={l.href}
+            data-menu-link
+            style={`transition-delay:${100 + i * 50}ms`}
+            class="block translate-y-12 py-2 text-4xl font-semibold text-profundo opacity-0 transition-[transform,opacity] duration-700 ease-fluid"
+          >
+            {l.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <a
+    href={negocio.mapsDestino}
+    target="_blank"
+    rel="noopener"
+    data-menu-link
+    style="transition-delay:320ms"
+    class="boton boton-principal mt-8 w-max translate-y-12 opacity-0 transition-[transform,opacity] duration-700 ease-fluid"
+  >
+    <Icon name="navigation-arrow" class="size-5" />
+    Cómo llegar
+  </a>
+</div>
+
+<style>
+  [data-menu].is-open {
+    visibility: visible;
+    opacity: 1;
+  }
+  [data-menu].is-open [data-menu-link] {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  [aria-expanded='true'] [data-bar='1'] {
+    transform: translateY(3px) rotate(45deg);
+  }
+  [aria-expanded='true'] [data-bar='2'] {
+    transform: translateY(-3px) rotate(-45deg);
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+
+  const setOpen = (open: boolean) => {
+    if (!toggle || !menu) return;
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.querySelector('.sr-only')!.textContent = open ? 'Cerrar menú' : 'Abrir menú';
+    menu.classList.toggle('is-open', open);
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    if (open) window.lenis?.stop();
+    else window.lenis?.start();
+  };
+
+  toggle?.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (e) => e.key === 'Escape' && setOpen(false));
+
+  // Marca la sección visible en la navegación.
+  const navLinks = [...document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]')];
+  const sections = navLinks
+    .map((a) => document.querySelector<HTMLElement>(a.getAttribute('href')!))
+    .filter((s): s is HTMLElement => !!s);
+
+  const spy = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        navLinks.forEach((a) => a.setAttribute('aria-current', String(a.getAttribute('href') === `#${entry.target.id}`)));
+      }
+    },
+    { rootMargin: '-45% 0px -50% 0px' },
+  );
+  sections.forEach((s) => spy.observe(s));
+</script>
