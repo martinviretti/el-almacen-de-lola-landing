@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://el-almacen-de-lola.pages.dev/sitemap-index.xml
+Sitemap: https://martinviretti.github.io/el-almacen-de-lola-landing/sitemap-index.xml

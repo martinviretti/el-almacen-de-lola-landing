@@ -2,6 +2,7 @@
 // son propuestas que la marca tiene que confirmar antes de publicar (ver PENDIENTES.md).
 
 import type { ImageMetadata } from 'astro';
+import { url } from '../lib/url';
 
 // Fotos reales del local. Las interiores vienen de Google Maps (ver `credito`):
 // hace falta permiso de sus autoras antes de publicar.
@@ -38,7 +39,7 @@ import huerta from '../assets/carrusel/carrusel-03-huerta.jpg';
 export { negocio, horarios, horariosResumen } from './negocio';
 
 /** Video editado del recorrido (sin textos ni personas), servido desde public/. */
-export const videoRecorrido = '/video/recorrido.mp4';
+export const videoRecorrido = url('/video/recorrido.mp4');
 
 export interface Parada {
   id: string;

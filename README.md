@@ -58,20 +58,17 @@ Del reel original (480 × 856, 87 s) se tomaron los tramos 0:00 a 0:27 y 0:35 a 
 ffmpeg -i reel.mp4 -filter_complex "[0:v]trim=0:27,setpts=PTS-STARTPTS,crop=474:632:3:108,fps=30,format=yuv420p[a];[0:v]trim=35:52.5,setpts=PTS-STARTPTS,crop=474:632:3:108,fps=30,format=yuv420p[b];[a][b]xfade=transition=fade:duration=0.6:offset=26.4,setpts=0.5*PTS,fps=24[v]" -map "[v]" -an -c:v libx264 -preset slow -crf 28 -g 8 -keyint_min 8 -sc_threshold 0 -pix_fmt yuv420p -movflags +faststart recorrido.mp4
 ```
 
-## Publicar en Cloudflare Pages
+## Publicación
 
-Opción A, desde la terminal (sin GitHub):
+El sitio está en **https://martinviretti.github.io/el-almacen-de-lola-landing/**.
+
+Cada `git push` a `main` lo vuelve a compilar y publicar solo, con GitHub Actions (`.github/workflows/deploy.yml`). El avance se ve en la pestaña *Actions* del repo y tarda un par de minutos.
+
+Como GitHub Pages sirve el sitio en una subcarpeta, todo lo que apunte a `public/` o a otra página tiene que pasar por `url()` de `src/lib/url.ts`. Para moverlo a un dominio propio en la raíz:
 
 ```powershell
-npm run build
-npx wrangler pages deploy dist --project-name el-almacen-de-lola
+$env:SITE_URL = "https://dominio.com.ar"; $env:BASE_PATH = "/"; npm run build
 ```
-
-La primera vez pide iniciar sesión en Cloudflare en el navegador.
-
-Opción B, con GitHub: subir el repo, y en Cloudflare → Workers & Pages → Create → Pages → conectar el repo. Build command `npm run build`, output directory `dist`.
-
-Después de publicar, actualizar `SITE` en `astro.config.mjs` y la URL de `public/robots.txt` con el dominio real.
 
 ## Origen de los materiales
 

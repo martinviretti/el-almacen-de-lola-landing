@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import { negocio } from '../data/site';
@@ -7,7 +8,7 @@ import { negocio } from '../data/site';
 <Base title="Privacidad | El Almacén de Lola" description="Cómo trata los datos este sitio de El Almacén de Lola.">
   <main id="contenido" class="px-5 py-24 lg:px-10 lg:py-32">
     <article class="mx-auto max-w-[680px]">
-      <a href="/" class="inline-flex items-center gap-2 text-sm font-semibold text-marca underline-offset-4 hover:underline">
+      <a href={url('/')} class="inline-flex items-center gap-2 text-sm font-semibold text-marca underline-offset-4 hover:underline">
         <Icon name="arrow-left" class="size-4" />
         Volver al inicio
       </a>

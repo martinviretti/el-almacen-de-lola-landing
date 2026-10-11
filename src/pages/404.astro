@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 ---
@@ -12,7 +13,7 @@ import Icon from '../components/Icon.astro';
         está vacía
       </h1>
       <p class="mt-6 text-lg text-texto-2">La página que buscás no existe o cambió de lugar.</p>
-      <a href="/" class="boton boton-principal mt-8">
+      <a href={url('/')} class="boton boton-principal mt-8">
         <Icon name="arrow-left" class="size-5" />
         Volver al almacén
       </a>
