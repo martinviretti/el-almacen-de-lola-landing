@@ -1,0 +1,117 @@
+---
+// Sellos que el cliente busca en el envase + franja de marcas que corre sola.
+// Las marcas se muestran con su nombre hasta tener el logo (ver `marcas` en site.ts).
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { sellos, marcas } from '../data/site';
+---
+
+<section id="marcas" aria-labelledby="marcas-titulo" class="overflow-hidden py-24 lg:py-32">
+  <div class="mx-auto max-w-[1200px] px-5 lg:px-10">
+    <div data-reveal>
+      <p class="mb-3 text-sm font-semibold text-marca">Lo que buscás en la etiqueta</p>
+      <h2 id="marcas-titulo" class="max-w-[680px] text-4xl font-bold tracking-tight text-profundo lg:text-5xl">
+        Sin TACC, vegano, <br class="hidden lg:block" />orgánico y más
+      </h2>
+      <p class="mt-4 max-w-[560px] text-base text-texto-2 lg:text-lg">
+        Contanos qué necesitás y te mostramos las opciones. Para personas celíacas, buscá siempre el logo oficial
+        "Sin TACC" en el envase.
+      </p>
+    </div>
+
+    <ul class="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:mt-14 lg:grid-cols-6 lg:gap-4">
+      {
+        sellos.map((s) => (
+          <li class="flex items-center gap-3 rounded-3xl bg-menta-suave p-3 lg:flex-col lg:gap-0 lg:px-3 lg:py-6 lg:text-center" data-reveal>
+            <span class="flex size-11 shrink-0 lg:size-14 items-center justify-center rounded-full bg-white text-profundo ring-2 ring-marca">
+              <Icon name={s.icono} class="size-6 lg:size-7" />
+            </span>
+            <span class="min-w-0"><span class="block text-sm leading-tight font-bold text-profundo lg:mt-3 lg:text-base">{s.nombre}</span>
+            <span class="mt-0.5 block text-xs leading-snug text-texto-2 lg:mt-1">{s.detalle}</span></span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="mt-16 text-sm font-semibold text-marca lg:mt-20" data-reveal>Algunas marcas que vas a encontrar</p>
+  </div>
+
+  <div class="marcas-viewport mt-6" aria-label="Marcas que vas a encontrar">
+    <ul class="marcas-track flex w-max">
+      {
+        [0, 1].map((copia) =>
+          marcas.map((m) => (
+            <li class="marca" aria-hidden={copia === 1 ? 'true' : undefined}>
+              {m.logo ? (
+                <Image src={m.logo} alt={m.nombre} height={48} class="h-10 w-auto object-contain lg:h-12" loading="lazy" />
+              ) : (
+                <span>{m.nombre}</span>
+              )}
+            </li>
+          )),
+        )
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .marca {
+    display: flex;
+    height: 56px;
+    min-width: 128px;
+    flex-shrink: 0;
+    margin-right: 12px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1px solid var(--color-arena);
+    background: #fff;
+    padding: 0 22px;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--color-profundo);
+    white-space: nowrap;
+  }
+
+  @media (min-width: 1024px) {
+    .marca {
+      height: 72px;
+      min-width: 150px;
+      padding: 0 28px;
+      font-size: 1.125rem;
+      margin-right: 16px;
+    }
+  }
+
+  /* La franja corre sola; al pasar el mouse se frena. */
+  .marcas-viewport {
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marcas-track {
+    animation: correr 40s linear infinite;
+  }
+  .marcas-viewport:hover .marcas-track {
+    animation-play-state: paused;
+  }
+  @keyframes correr {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Sin movimiento: fila con scroll lateral y sin la copia duplicada. */
+  @media (prefers-reduced-motion: reduce) {
+    .marcas-viewport {
+      overflow-x: auto;
+      mask-image: none;
+    }
+    .marcas-track {
+      animation: none;
+    }
+    .marca[aria-hidden='true'] {
+      display: none;
+    }
+  }
+</style>

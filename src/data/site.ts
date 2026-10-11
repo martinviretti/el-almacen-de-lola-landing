@@ -256,6 +256,33 @@ export const carrusel = [
   { foto: huerta, alt: 'Verduras frescas de huerta sobre una mesa de madera' },
 ];
 
+// Sellos que el cliente busca en el envase. Son íconos propios, no los logos oficiales:
+// el logo "Sin TACC" de ANMAT solo puede ir en productos certificados.
+export const sellos = [
+  { icono: 'grains-slash', nombre: 'Sin TACC', detalle: 'Envasados con logo oficial' },
+  { icono: 'plant', nombre: 'Vegano', detalle: '100% vegetal' },
+  { icono: 'seal-check', nombre: 'Orgánico', detalle: 'Con certificación' },
+  { icono: 'drop-slash', nombre: 'Sin lactosa', detalle: 'Leches y yogures' },
+  { icono: 'cube', nombre: 'Sin azúcar agregada', detalle: 'Para cuidarte sin resignar' },
+  { icono: 'grains', nombre: 'Integral', detalle: 'Harinas, panes y cereales' },
+];
+
+// PENDIENTE: confirmar con la encargada qué marcas trabaja el local (estas son marcas
+// conocidas de dietética en Argentina, de ejemplo). Para mostrar el logo en lugar del
+// nombre, guardá el archivo en src/assets/marcas/ e importalo en `logo`.
+export const marcas: Array<{ nombre: string; logo?: ImageMetadata }> = [
+  { nombre: 'Granix' },
+  { nombre: 'Natier' },
+  { nombre: 'Felices las Vacas' },
+  { nombre: 'Kapac' },
+  { nombre: 'Smams' },
+  { nombre: 'Cachafaz' },
+  { nombre: 'Cereal Mix' },
+  { nombre: 'Kraus' },
+  { nombre: 'Roapipó' },
+  { nombre: 'Ades' },
+];
+
 export const tagline =
   'Comer mejor no tendría que ser complicado. Por eso juntamos lo rico y lo natural en un solo lugar, cerca de casa.';
 

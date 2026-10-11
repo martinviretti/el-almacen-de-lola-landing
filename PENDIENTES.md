@@ -20,6 +20,8 @@ Las 10 fotos de categorías y las 3 de la franja "Del almacén a tu mesa" son **
 - **Preguntas frecuentes** marcadas `pendiente: true`: consulta por Instagram, orgánicos. → `src/data/site.ts` → `preguntas`
 - **Categorías** marcadas `pendiente: true`: productos orgánicos. → `categorias`
 - **Textos del recorrido**: son propuestas. En particular "mezclas fraccionadas" (granel) y "Yogures, leches vegetales y congelados" (heladeras).
+- **Marcas**: la franja "Algunas marcas que vas a encontrar" usa marcas conocidas de dietética como ejemplo (Granix, Natier, Felices las Vacas, etc.). Confirmar cuáles trabaja el local → `src/data/site.ts` → `marcas`. Para mostrar el logo en vez del nombre: guardar el archivo en `src/assets/marcas/` e importarlo en `logo`.
+- **Sellos**: Sin TACC, vegano, orgánico, sin lactosa, sin azúcar agregada e integral, con íconos propios (no los logos oficiales: el de Sin TACC solo puede ir en envases certificados). Sacar los que no apliquen → `sellos`.
 - **Seguidores de Instagram**: 1.747 al 10/10/2026. Actualizarlo cada tanto o sacarlo.
 - **Número de WhatsApp**: el botón flotante ya está, pero sin número (abre WhatsApp con el mensaje listo y la persona elige el chat). Cargarlo en `src/data/negocio.ts` → `whatsapp`, con código de país y sin espacios (ej. `5491112345678`).
 
