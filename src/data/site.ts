@@ -31,7 +31,6 @@ import catPanificados from '../assets/categorias/07-panificados.jpg';
 import catDulces from '../assets/categorias/08-dulces-untables.jpg';
 import catChocolates from '../assets/categorias/09-chocolates-snacks.jpg';
 import catOrganicos from '../assets/categorias/10-productos-organicos.jpg';
-import catBolson from '../assets/categorias/11-bolson-verduras.jpg';
 import mesaNatural from '../assets/carrusel/carrusel-01-mesa-natural.jpg';
 import desayuno from '../assets/carrusel/carrusel-02-desayuno.jpg';
 import huerta from '../assets/carrusel/carrusel-03-huerta.jpg';
@@ -41,7 +40,6 @@ import igSorteos from '../assets/instagram/sorteos.jpg';
 import igRecetas from '../assets/instagram/recetas.jpg';
 import igProductos from '../assets/instagram/productos.jpg';
 import igOrganico from '../assets/instagram/organico.jpg';
-import igVerduras from '../assets/instagram/verduras.jpg';
 
 export { negocio, horarios, horariosResumen } from './negocio';
 
@@ -213,7 +211,6 @@ export const categorias = [
   { foto: catDulces, nombre: 'Dulces y untables', detalle: 'Mermeladas, pastas de maní' },
   { foto: catChocolates, nombre: 'Chocolates y snacks', detalle: 'Para darte un gusto' },
   { foto: catOrganicos, nombre: 'Productos orgánicos', detalle: 'Te ayudamos a reconocerlos', pendiente: true },
-  { foto: catBolson, nombre: 'Bolsón de verduras', detalle: 'Encargalo por Instagram', pendiente: true },
 ];
 
 // Fotos reales del interior. `credito`: autora de la foto en Google Maps.
@@ -249,7 +246,6 @@ export const destacadas = [
   { nombre: 'Productos', foto: igProductos, url: 'https://www.instagram.com/stories/highlights/17882971570988914/' },
   { nombre: 'Recetas', foto: igRecetas, url: 'https://www.instagram.com/stories/highlights/17885580514854912/' },
   { nombre: '¿Es orgánico?', foto: igOrganico, url: 'https://www.instagram.com/stories/highlights/18118607608169522/' },
-  { nombre: 'Bolsón', foto: igVerduras, url: 'https://www.instagram.com/stories/highlights/17865704171165712/' },
   { nombre: 'Sorteos', foto: igSorteos, url: 'https://www.instagram.com/stories/highlights/17905912606818650/' },
 ];
 
@@ -280,11 +276,6 @@ export const preguntas = [
   {
     p: '¿Tienen productos sin TACC?',
     r: 'Tenemos opciones. Fijate siempre que el envase tenga el logo oficial "sin TACC" y, si tenés dudas, preguntanos en el local.',
-    pendiente: true,
-  },
-  {
-    p: '¿Cómo encargo el bolsón de verduras?',
-    r: 'Lo anunciamos en nuestras historias de Instagram con el contenido y el día de retiro. Escribinos por mensaje para reservarlo.',
     pendiente: true,
   },
   {
