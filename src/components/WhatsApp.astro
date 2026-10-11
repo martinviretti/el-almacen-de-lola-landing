@@ -18,3 +18,21 @@ const svg = logo.replace('<svg ', '<svg class="size-7" aria-hidden="true" focusa
 >
   <Fragment set:html={svg} />
 </a>
+
+<style>
+  /* En el recorrido del celular, sube arriba a la derecha para no tapar la tarjeta */
+  @media (max-width: 1023px) {
+    .whatsapp {
+      transition:
+        transform 700ms var(--ease-fluid),
+        top 700ms var(--ease-fluid),
+        bottom 700ms var(--ease-fluid);
+    }
+    :global(html.en-recorrido) .whatsapp {
+      top: 100px;
+      bottom: auto;
+      width: 44px;
+      height: 44px;
+    }
+  }
+</style>

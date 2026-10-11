@@ -1,11 +1,16 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Observer } from 'gsap/Observer';
+
+gsap.registerPlugin(ScrollTrigger, Observer);
 
 // Línea de tiempo del recorrido (1 unidad por parada):
 //   0 → 1   la fachada: pausa, y la cámara entra por la puerta al arco.
 //   i → i+1 parada i: el video recorre su tramo; el texto cambia en el borde.
 // El scroll del track (ver ScrollWorld.astro) se reparte entre esas unidades.
+// En celular, además, cada deslizada avanza exactamente una parada (initPasos).
 export function initWorld(world: HTMLElement) {
+  const movil = window.matchMedia('(max-width: 1023px)').matches;
   const track = world.querySelector<HTMLElement>('.world-track')!;
   const stops = [...world.querySelectorAll<HTMLElement>('[data-stop]')];
   const copies = stops.map((s) => s.querySelector<HTMLElement>('[data-stop-copy]')!);
@@ -35,7 +40,7 @@ export function initWorld(world: HTMLElement) {
   };
   setActive(0);
 
-  const scrub = video ? createScrubber(video, videoLayer) : null;
+  const scrub = video ? createScrubber(video, videoLayer, movil) : null;
 
   const tl = gsap.timeline({
     defaults: { ease: 'none' },
@@ -44,6 +49,9 @@ export function initWorld(world: HTMLElement) {
       start: 'top top',
       end: 'bottom bottom',
       scrub: 0.6,
+      // "En el recorrido" incluye la fachada: desde el inicio hasta que se suelta el escenario.
+      onLeave: () => document.documentElement.classList.remove('en-recorrido'),
+      onEnterBack: () => document.documentElement.classList.add('en-recorrido'),
       onUpdate: (self) => {
         const t = self.progress * tl.duration();
         setActive(t < 0.85 ? 0 : Math.min(n - 1, Math.floor(t + 0.1)));
@@ -51,11 +59,13 @@ export function initWorld(world: HTMLElement) {
     },
   });
 
+  // Al cargar, ScrollTrigger todavía no midió: se decide con la posición real del track.
+  document.documentElement.classList.toggle('en-recorrido', track.getBoundingClientRect().bottom > window.innerHeight);
+
   if (hint) tl.to(hint, { autoAlpha: 0, y: -16, duration: 0.2 }, 0);
   if (bg) tl.to(bg, { yPercent: -12, duration: n }, 0);
 
   // ---- Entrada: zoom a la puerta de la fachada y apertura circular del arco ----
-  const puerta = imgs[0].style.transformOrigin || '50% 60%';
   tl.to(copies[0], { opacity: 0, y: -40, filter: 'blur(10px)', duration: 0.2, ease: 'power2.in' }, 0.35);
   tl.to(imgs[0], { scale: 2.6, duration: 0.6, ease: 'power2.in' }, 0.35);
   // La fachada arranca suave (velo + desenfoque) y se enfoca al cruzar la puerta.
@@ -112,10 +122,56 @@ export function initWorld(world: HTMLElement) {
 
   // Las fotos cargan perezosas: recalcular cuando terminen.
   window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
+
+  if (movil) initPasos(world.querySelector<HTMLElement>('.world-stage')!, tl, n);
+}
+
+// Celular: el escenario no scrollea solo (touch-action: none). Cada deslizada lleva el
+// scroll a la marca de la parada siguiente o anterior, y la línea de tiempo la sigue:
+// la cámara camina un tramo y se detiene a mostrar el texto. Tras la última parada,
+// la deslizada lleva al resto de la página, que scrollea normal.
+function initPasos(stage: HTMLElement, tl: gsap.core.Timeline, n: number) {
+  const st = tl.scrollTrigger!;
+  // Punto de lectura de cada parada: el texto ya entró y el video recorrió casi todo su tramo.
+  const marcas = Array.from({ length: n }, (_, i) => (i === 0 ? 0 : i + 0.7));
+  const yDe = (t: number) => st.start + (t / tl.duration()) * (st.end - st.start);
+  // El track termina (end) cuando su borde inferior toca el de la pantalla: la sección
+  // siguiente arranca una pantalla más abajo.
+  const salida = () => st.end + window.innerHeight;
+  let animando = false;
+
+  const actual = () => {
+    const y = window.scrollY;
+    if (y > yDe(marcas[n - 1]) + 4) return y >= st.end - 2 ? n : n - 1;
+    const t = ((y - st.start) / (st.end - st.start)) * tl.duration();
+    return marcas.reduce((mejor, m, i) => (Math.abs(m - t) < Math.abs(marcas[mejor] - t) ? i : mejor), 0);
+  };
+
+  const ir = (destino: number) => {
+    if (animando || destino < 0) return;
+    const desde = actual();
+    if (destino === desde && destino < n) return;
+    animando = true;
+    const y = destino >= n ? salida() : yDe(marcas[destino]);
+    window.lenis?.scrollTo(y, {
+      duration: desde === 0 && destino === 1 ? 2 : 1.3,
+      lock: true,
+      force: true,
+      onComplete: () => window.setTimeout(() => (animando = false), 120),
+    });
+  };
+
+  Observer.create({
+    target: stage,
+    type: 'touch',
+    tolerance: 12,
+    onUp: () => ir(actual() + 1),
+    onDown: () => ir(actual() - 1),
+  });
 }
 
 // Mueve el video a un tiempo dado sin saturar al decodificador: un seek por frame.
-function createScrubber(video: HTMLVideoElement, layer: HTMLElement | null) {
+function createScrubber(video: HTMLVideoElement, layer: HTMLElement | null, movil: boolean) {
   let ready = false;
   let target = 0;
   let raf = 0;
@@ -135,7 +191,9 @@ function createScrubber(video: HTMLVideoElement, layer: HTMLElement | null) {
   // Se descarga entero como blob: así los saltos hacia atrás y adelante son instantáneos.
   const cargar = async () => {
     try {
-      const res = await fetch(video.dataset.src!);
+      // En celular, el cuadro completo (sin recorte) para llenar la pantalla.
+      const src = (movil && video.dataset.srcMovil) || video.dataset.src!;
+      const res = await fetch(src);
       if (!res.ok) throw new Error(String(res.status));
       video.src = URL.createObjectURL(await res.blob());
     } catch {
