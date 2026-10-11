@@ -87,7 +87,7 @@ export const recorrido: Parada[] = [
   {
     id: 'granel',
     etiqueta: 'Granel',
-    titulo: 'Frutos secos bajo las lámparas',
+    titulo: 'Frutos secos para todos los gustos',
     texto: 'Frutos secos, semillas y mezclas fraccionadas, listas para llevar.',
     foto: parada3,
     alt: 'Centro del local con lámparas colgantes y mesas de frutos secos fraccionados',
@@ -97,7 +97,7 @@ export const recorrido: Parada[] = [
     id: 'mostrador',
     etiqueta: 'El mostrador',
     titulo: 'Te ayudamos a elegir',
-    texto: 'Si buscás algo puntual o no sabés por dónde empezar, preguntanos en el mostrador.',
+    texto: 'Si buscás algo puntual o no sabés por dónde empezar, preguntanos: nos encanta ayudarte.',
     foto: parada4,
     alt: 'Mostrador de madera con estantes de frascos y productos detrás',
     video: [10.8, 13.4],

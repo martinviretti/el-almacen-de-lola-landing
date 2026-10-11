@@ -1,5 +1,6 @@
 ---
 // Fotos reales del interior en mosaico: la grande manda, las otras acompañan.
+// Sin etiquetas encima: las fotos hablan solas (los créditos quedan en site.ts).
 import { Image } from 'astro:assets';
 import { galeria } from '../data/site';
 
@@ -41,10 +42,6 @@ const formas = [
                 data-parallax
                 class="absolute inset-x-0 -top-[6%] h-[112%] w-full object-cover transition-transform duration-700 ease-fluid group-hover:scale-105"
               />
-              <figcaption class="absolute inset-x-3 bottom-3 flex items-end justify-between gap-2">
-                <span class="rounded-full bg-white/90 px-3 py-1 text-sm font-semibold text-profundo backdrop-blur">{g.texto}</span>
-                {g.credito && <span class="rounded-full bg-black/40 px-2 py-1 text-xs text-white backdrop-blur">Foto: {g.credito}</span>}
-              </figcaption>
             </figure>
           ))}
         </div>

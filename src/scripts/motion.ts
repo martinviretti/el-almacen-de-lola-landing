@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { initWorld } from './world';
 import { initEstado } from './estado';
+import { initMusica } from './musica';
 
 declare global {
   interface Window {
@@ -82,4 +83,28 @@ if (motion) {
   });
 }
 
+// Categorías: arrancan desparramadas y llegan a su lugar desde distintos lados con el scroll.
+if (motion) {
+  document.querySelectorAll<HTMLElement>('[data-desorden-grid]').forEach((grid) => {
+    const cards = [...grid.querySelectorAll<HTMLElement>('[data-desorden]')];
+    // Pseudoaleatorio fijo por tarjeta: el desorden es siempre el mismo.
+    const azar = (i: number, k: number) => {
+      const x = Math.sin(i * 12.9898 + k * 78.233) * 43758.5453;
+      return x - Math.floor(x);
+    };
+    const chico = window.innerWidth < 768;
+    gsap.from(cards, {
+      x: (i) => (azar(i, 1) - 0.5) * (chico ? 360 : 960),
+      y: (i) => (azar(i, 2) - 0.3) * (chico ? 320 : 520),
+      rotation: (i) => (azar(i, 3) - 0.5) * 48,
+      scale: (i) => 0.75 + azar(i, 4) * 0.25,
+      opacity: 0.4,
+      ease: 'power3.out',
+      stagger: { each: 0.05, from: 'random' },
+      scrollTrigger: { trigger: grid, start: 'top 95%', end: 'center 60%', scrub: 0.8 },
+    });
+  });
+}
+
 initEstado();
+initMusica();

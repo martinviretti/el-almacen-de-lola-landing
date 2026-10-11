@@ -6,7 +6,7 @@ Todo lo de esta lista es propuesta o dato sin confirmar. Validarlo con la encarg
 
 | # | Tema | Situación | Dónde se cambia |
 |---|---|---|---|
-| 1 | **Fotos de Google Maps** | Las 4 fotos del interior (`src/assets/local/mostrador`, `granel-lamparas`, `pasillo`, `exhibidores`) las subieron a Google Maps dos clientas: **Miriam Marto** y **Julia Marquez**. Los derechos son de ellas: subirlas a Maps no autoriza a usarlas en otra web. Pedirles permiso por Maps o Instagram, o reemplazarlas por fotos propias de las mismas tomas. | `src/data/site.ts` → `galeria` |
+| 1 | **Fotos de Google Maps** | Las 4 fotos del interior (`src/assets/local/mostrador`, `granel-lamparas`, `pasillo`, `exhibidores`) las subieron a Google Maps dos clientas: **Miriam Marto** y **Julia Marquez**. Los derechos son de ellas: subirlas a Maps no autoriza a usarlas en otra web. Pedirles permiso por Maps o Instagram, o reemplazarlas por fotos propias de las mismas tomas. La galería no muestra créditos (decisión de diseño); si se pide permiso, conviene ofrecerles mencionarlas. | `src/data/site.ts` → `galeria` |
 | 2 | **Origen de la fachada** | `fachada.jpg` es una versión retocada ("fachada-limpia"). Confirmar de dónde salió la foto original y que se pueda usar. | `src/assets/local/fachada.jpg` |
 | 3 | **Video del recorrido** | Sale del reel propio del local. Se usaron solo los tramos sin personas y sin texto, pero conviene que la dueña lo apruebe. | `public/video/recorrido.mp4` |
 | 4 | **Nombre comercial** | La fachada dice "La almacén de Lola", Instagram dice "La Almacen de Lola" y la web dice **"El Almacén de Lola"**. Definir cuál va. | `src/data/negocio.ts` → `nombre` (y `Nav.astro`, `og.jpg`) |

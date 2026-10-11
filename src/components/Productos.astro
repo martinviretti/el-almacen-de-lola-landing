@@ -4,7 +4,7 @@ import Icon from './Icon.astro';
 import { categorias, negocio } from '../data/site';
 ---
 
-<section id="productos" class="px-5 py-24 lg:px-10 lg:py-32">
+<section id="productos" class="overflow-x-clip px-5 py-24 lg:px-10 lg:py-32">
   <div class="mx-auto max-w-[1200px]">
     <div class="max-w-[680px]" data-reveal>
       <p class="mb-3 text-sm font-semibold text-marca">Productos</p>
@@ -14,13 +14,12 @@ import { categorias, negocio } from '../data/site';
       </p>
     </div>
 
-    <ul class="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:mt-16 lg:grid-cols-4 lg:gap-4">
+    <ul data-desorden-grid class="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:mt-16 lg:grid-cols-4 lg:gap-4">
       {
-        categorias.map((c, i) => (
+        categorias.map((c) => (
           <li
-            data-reveal
-            style={`--delay:${(i % 4) * 80}ms`}
-            class="group rounded-3xl bg-white p-2 ring-1 ring-profundo/8 transition-transform duration-700 ease-fluid hover:-translate-y-1"
+            data-desorden
+            class="group rounded-3xl bg-white p-2 ring-1 ring-profundo/8 transition-[translate] duration-700 ease-fluid hover:-translate-y-1"
           >
             <div class="relative aspect-[4/5] overflow-hidden rounded-2xl bg-menta">
               <Image
@@ -41,8 +40,7 @@ import { categorias, negocio } from '../data/site';
         ))
       }
       <li
-        data-reveal
-        style="--delay:240ms"
+        data-desorden
         class="flex flex-col justify-between gap-6 rounded-3xl bg-profundo p-6 text-white"
       >
         <Icon name="storefront" class="size-10 text-menta" />

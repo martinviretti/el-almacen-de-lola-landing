@@ -33,6 +33,7 @@ npm run preview   # sirve dist/ para probar el build final
 | Colores y tipografía | `src/styles/global.css` → bloque `@theme` |
 | Animación del recorrido | `src/scripts/world.ts` |
 | Imagen para compartir en redes | `public/og.jpg` (1200 × 630) |
+| Música ambiental | `src/scripts/musica.ts` (se genera en el navegador; para usar un MP3, ponerlo en `public/audio/` y completar `PISTA`) |
 
 Para cambiar un tramo del recorrido: editar `video: [inicio, fin]` de la parada en `site.ts` (segundos del video editado) y regenerar su fotograma en `src/assets/recorrido/`.
 
