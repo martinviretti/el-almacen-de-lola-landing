@@ -33,7 +33,8 @@ const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: r
                     </p>
                     <p data-scroll-hint class="world-hint mt-6 flex items-center gap-2 text-sm font-semibold text-marca">
                       <Icon name="arrow-down" class="size-4 animate-bounce" />
-                      Deslizá para entrar al almacén
+                      <span class="lg:hidden">Deslizá para verlo</span>
+                      <span class="hidden lg:inline">Deslizá para entrar al almacén</span>
                     </p>
                   </>
                 ) : (
@@ -405,8 +406,25 @@ const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: r
       display: none;
     }
     :global(html.motion) .world-hint {
-      margin-top: 10px;
-      font-size: 0.75rem;
+      margin-top: 16px;
+      font-size: 0.875rem;
+      justify-content: center;
+    }
+    /* Portada: solo el título al centro de la pantalla y la invitación a deslizar */
+    :global(html.motion) .stop-hero .stop-copy {
+      align-self: center;
+      justify-self: center;
+      max-width: 340px;
+      padding: 24px 20px;
+      text-align: center;
+    }
+    :global(html.motion) .stop-hero .hero-sub,
+    :global(html.motion) .stop-hero .hero-seguidores {
+      display: none;
+    }
+    :global(html.motion) .stop-hero .stop-copy h1 {
+      font-size: 2.25rem;
+      line-height: 2.5rem;
     }
     :global(html.motion) .stop-video .stop-copy {
       display: none;

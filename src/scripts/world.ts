@@ -126,19 +126,23 @@ export function initWorld(world: HTMLElement) {
   if (movil) initPasos(world.querySelector<HTMLElement>('.world-stage')!, tl, n);
 }
 
-// Celular: el escenario no scrollea solo (touch-action: none). Cada deslizada lleva el
-// scroll a la marca de la parada siguiente o anterior, y la línea de tiempo la sigue:
-// la cámara camina un tramo y se detiene a mostrar el texto. Tras la última parada,
-// la deslizada lleva al resto de la página, que scrollea normal.
+// Celular: el escenario no scrollea solo (touch-action: none).
+// - Desde la fachada, una deslizada arranca el recorrido automático: la cámara camina
+//   por todas las paradas (con una pausa para leer cada texto) y termina en la frase
+//   principal. Una deslizada durante el recorrido lo frena en la parada siguiente.
+// - Si se vuelve al recorrido, cada deslizada avanza o retrocede una sola parada.
 function initPasos(stage: HTMLElement, tl: gsap.core.Timeline, n: number) {
   const st = tl.scrollTrigger!;
   // Punto de lectura de cada parada: el texto ya entró y el video recorrió casi todo su tramo.
   const marcas = Array.from({ length: n }, (_, i) => (i === 0 ? 0 : i + 0.7));
   const yDe = (t: number) => st.start + (t / tl.duration()) * (st.end - st.start);
   // El track termina (end) cuando su borde inferior toca el de la pantalla: la sección
-  // siguiente arranca una pantalla más abajo.
+  // siguiente (la frase principal) arranca una pantalla más abajo.
   const salida = () => st.end + window.innerHeight;
   let animando = false;
+  let automatico = false;
+  let frenar = false;
+  let arranque = 0;
 
   const actual = () => {
     const y = window.scrollY;
@@ -147,26 +151,48 @@ function initPasos(stage: HTMLElement, tl: gsap.core.Timeline, n: number) {
     return marcas.reduce((mejor, m, i) => (Math.abs(m - t) < Math.abs(marcas[mejor] - t) ? i : mejor), 0);
   };
 
+  const scrollA = (y: number, duration: number) =>
+    new Promise<void>((resolve) =>
+      window.lenis ? window.lenis.scrollTo(y, { duration, lock: true, force: true, onComplete: () => resolve() }) : resolve(),
+    );
+  const esperar = (ms: number) => new Promise((r) => window.setTimeout(r, ms));
+
+  const recorridoAutomatico = async () => {
+    automatico = animando = true;
+    frenar = false;
+    arranque = Date.now();
+    for (let i = 1; i < n && !frenar; i++) {
+      await scrollA(yDe(marcas[i]), i === 1 ? 2.6 : 2.2);
+      if (!frenar) await esperar(1200);
+    }
+    if (!frenar) await scrollA(salida(), 1.4);
+    automatico = animando = false;
+  };
+
   const ir = (destino: number) => {
     if (animando || destino < 0) return;
     const desde = actual();
     if (destino === desde && destino < n) return;
+    if (desde === 0 && destino === 1) {
+      recorridoAutomatico();
+      return;
+    }
     animando = true;
     const y = destino >= n ? salida() : yDe(marcas[destino]);
-    window.lenis?.scrollTo(y, {
-      duration: desde === 0 && destino === 1 ? 2 : 1.3,
-      lock: true,
-      force: true,
-      onComplete: () => window.setTimeout(() => (animando = false), 120),
-    });
+    scrollA(y, 1.3).then(() => window.setTimeout(() => (animando = false), 120));
+  };
+
+  // Una misma deslizada dispara varios eventos seguidos: solo frena una deslizada nueva.
+  const pedirFreno = () => {
+    if (Date.now() - arranque > 900) frenar = true;
   };
 
   Observer.create({
     target: stage,
     type: 'touch',
     tolerance: 12,
-    onUp: () => ir(actual() + 1),
-    onDown: () => ir(actual() - 1),
+    onUp: () => (automatico ? pedirFreno() : ir(actual() + 1)),
+    onDown: () => (automatico ? pedirFreno() : ir(actual() - 1)),
   });
 }
 

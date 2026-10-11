@@ -50,7 +50,8 @@ document.querySelectorAll<HTMLElement>('[data-words]').forEach((block) => {
   ScrollTrigger.create({
     trigger: block,
     start: 'top 80%',
-    end: 'bottom 45%',
+    // En celular termina antes: al llegar desde el recorrido automático ya se ve entera.
+    end: window.matchMedia('(max-width: 1023px)').matches ? 'center 70%' : 'bottom 45%',
     onUpdate: (self) => {
       const lit = Math.round(self.progress * words.length);
       words.forEach((w, i) => w.classList.toggle('is-lit', i < lit));

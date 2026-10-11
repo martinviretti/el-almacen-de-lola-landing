@@ -48,7 +48,7 @@ Para sumar un ícono: elegirlo en [phosphoricons.com](https://phosphoricons.com)
 
 El video se descarga entero como blob después de que carga la página: así ir para atrás y para adelante es instantáneo. Mientras carga, si falla, o con "ahorro de datos" activado, se ven los fotogramas de cada parada. En iOS se hace play y pausa al primer toque para que Safari pinte los cuadros.
 
-**En celular** (menos de 1024 px) la experiencia es tipo historias: cada parada ocupa toda la pantalla, sin arco, con una tarjeta compacta abajo, y cada deslizada avanza exactamente una parada (`initPasos` en `world.ts`, con GSAP Observer). Usa `public/video/recorrido-movil.mp4`, el cuadro completo del reel (480 × 856) con los textos borrados con `delogo`. Después de la última parada, la página scrollea normal.
+**En celular** (menos de 1024 px) la experiencia es tipo historias: cada parada ocupa toda la pantalla, sin arco, con una tarjeta compacta abajo, y la portada muestra solo el título centrado. Desde la portada, una deslizada arranca el **recorrido automático**: la cámara camina por todas las paradas con una pausa para leer cada texto y termina en la frase principal (una deslizada nueva lo frena). Si se vuelve al recorrido, cada deslizada avanza una sola parada (`initPasos` en `world.ts`, con GSAP Observer). Usa `public/video/recorrido-movil.mp4`, el cuadro completo del reel (480 × 856) con los textos borrados con `delogo`. Después de la última parada, la página scrollea normal.
 
 Sin JavaScript o con "reducir movimiento" activado, todo se muestra como una lista normal con los fotogramas, sin animaciones.
 
