@@ -17,8 +17,7 @@ Las 10 fotos de categorías y las 3 de la franja "Del almacén a tu mesa" son **
 
 ## Datos a confirmar
 
-- **Domingo cerrado**: el perfil solo lista lunes a sábado. → `src/data/negocio.ts` → `horarios`
-- **Preguntas frecuentes** marcadas `pendiente: true`: consulta por Instagram, sin TACC, orgánicos. → `src/data/site.ts` → `preguntas`
+- **Preguntas frecuentes** marcadas `pendiente: true`: consulta por Instagram, orgánicos. → `src/data/site.ts` → `preguntas`
 - **Categorías** marcadas `pendiente: true`: productos orgánicos. → `categorias`
 - **Textos del recorrido**: son propuestas. En particular "mezclas fraccionadas" (granel) y "Yogures, leches vegetales y congelados" (heladeras).
 - **Seguidores de Instagram**: 1.747 al 10/10/2026. Actualizarlo cada tanto o sacarlo.
@@ -33,3 +32,5 @@ Las 10 fotos de categorías y las 3 de la franja "Del almacén a tu mesa" son **
 
 - Nombre comercial: **El Almacén de Lola** (11/10/2026).
 - El bolsón de verduras ya no se hace: se sacó de categorías, preguntas e historias destacadas (11/10/2026).
+- Domingos cerrado (11/10/2026).
+- Sin TACC: se aseguran solo los envasados con logo oficial; lo fraccionado en el local no se recomienda a celíacos por contacto cruzado (11/10/2026).

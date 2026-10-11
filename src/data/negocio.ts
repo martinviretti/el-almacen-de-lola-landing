@@ -19,7 +19,7 @@ export const negocio = {
   mapsEmbed: 'https://maps.google.com/maps?q=Av.%20Presidente%20Per%C3%B3n%203099%2C%20Victoria%2C%20Buenos%20Aires&z=16&output=embed',
 };
 
-// Día 0 = domingo. `null` = cerrado. Domingo cerrado: pendiente de confirmar.
+// Día 0 = domingo. `null` = cerrado. Domingos cerrado: confirmado (11/10/2026).
 export const horarios: Array<{ dia: string; abre: number | null; cierra: number | null }> = [
   { dia: 'Domingo', abre: null, cierra: null },
   { dia: 'Lunes', abre: 8, cierra: 20 },

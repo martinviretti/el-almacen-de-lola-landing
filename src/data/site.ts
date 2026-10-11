@@ -275,8 +275,9 @@ export const preguntas = [
   },
   {
     p: '¿Tienen productos sin TACC?',
-    r: 'Tenemos opciones. Fijate siempre que el envase tenga el logo oficial "sin TACC" y, si tenés dudas, preguntanos en el local.',
-    pendiente: true,
+    // Criterio: solo se asegura lo envasado con logo oficial. Lo fraccionado en el local
+    // puede tener contacto cruzado con harinas y no se recomienda a personas celíacas.
+    r: 'Sí. Tenemos productos envasados con el logo oficial "Sin TACC". Los que fraccionamos en el local no los recomendamos para personas celíacas, porque pueden tener contacto con harinas. Si tenés dudas, preguntanos y te mostramos las opciones.',
   },
   {
     p: '¿Venden productos orgánicos?',
