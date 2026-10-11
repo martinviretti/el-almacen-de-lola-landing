@@ -40,7 +40,8 @@ export { negocio, horarios, horariosResumen } from './negocio';
 
 /** Video editado del recorrido (sin textos ni personas), servido desde public/. */
 export const videoRecorrido = url('/video/recorrido.mp4');
-/** Versión para celular: cuadro completo 480 × 856 con los textos del reel borrados. */
+/** Versión para celular: cuadro completo del reel ampliado a 720 × 1284, sin los textos y a
+ *  1,5× en vez de 2× (los tramos se escalan por 4/3, ver data-escala-movil). */
 export const videoRecorridoMovil = url('/video/recorrido-movil.mp4');
 
 export interface Parada {

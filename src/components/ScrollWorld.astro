@@ -77,6 +77,7 @@ const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: r
                 data-world-video
                 data-src={videoRecorrido}
                 data-src-movil={videoRecorridoMovil}
+                data-escala-movil={4 / 3}
                 poster={afiche.src}
                 muted
                 playsinline
@@ -335,6 +336,10 @@ const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: r
      la pantalla (sin arco), el texto queda en una tarjeta compacta abajo y cada
      deslizada avanza una parada (ver initPasos en world.ts). */
   @media (max-width: 1023px) {
+    /* El recorrido lo maneja el video, no el scroll: alcanza con una pantalla */
+    :global(html.motion) .world-track {
+      height: 100svh;
+    }
     :global(html.motion) .world-stage {
       touch-action: none;
     }

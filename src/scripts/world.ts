@@ -7,8 +7,10 @@ gsap.registerPlugin(ScrollTrigger, Observer);
 // Línea de tiempo del recorrido (1 unidad por parada):
 //   0 → 1   la fachada: pausa, y la cámara entra por la puerta al arco.
 //   i → i+1 parada i: el video recorre su tramo; el texto cambia en el borde.
-// El scroll del track (ver ScrollWorld.astro) se reparte entre esas unidades.
-// En celular, además, cada deslizada avanza exactamente una parada (initPasos).
+//
+// Escritorio: el scroll del track mueve la línea de tiempo y el video sigue al scroll.
+// Celular: el video se REPRODUCE (fluido, decodificado por hardware) y la línea de
+// tiempo lo sigue a él. Una deslizada arranca el recorrido entero (initMovil).
 export function initWorld(world: HTMLElement) {
   const movil = window.matchMedia('(max-width: 1023px)').matches;
   const track = world.querySelector<HTMLElement>('.world-track')!;
@@ -38,29 +40,37 @@ export function initWorld(world: HTMLElement) {
       r.classList.toggle('is-done', k < i);
     });
   };
+  const paradaEn = (t: number) => (t < 0.85 ? 0 : Math.min(n - 1, Math.floor(t + 0.1)));
   setActive(0);
 
-  const scrub = video ? createScrubber(video, videoLayer, movil) : null;
+  const scrub = video && !movil ? createScrubber(video, videoLayer) : null;
 
   const tl = gsap.timeline({
     defaults: { ease: 'none' },
-    scrollTrigger: {
-      trigger: track,
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: 0.6,
-      // "En el recorrido" incluye la fachada: desde el inicio hasta que se suelta el escenario.
-      onLeave: () => document.documentElement.classList.remove('en-recorrido'),
-      onEnterBack: () => document.documentElement.classList.add('en-recorrido'),
-      onUpdate: (self) => {
-        const t = self.progress * tl.duration();
-        setActive(t < 0.85 ? 0 : Math.min(n - 1, Math.floor(t + 0.1)));
-      },
-    },
+    paused: movil,
+    onUpdate: movil ? () => setActive(paradaEn(tl.time())) : undefined,
+    scrollTrigger: movil
+      ? undefined
+      : {
+          trigger: track,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 0.6,
+          onUpdate: (self) => setActive(paradaEn(self.progress * tl.duration())),
+        },
   });
 
+  // "En el recorrido" (incluye la fachada): mientras el escenario ocupa la pantalla.
+  ScrollTrigger.create({
+    trigger: track,
+    start: 'top top',
+    end: movil ? 'bottom center' : 'bottom bottom',
+    onLeave: () => document.documentElement.classList.remove('en-recorrido'),
+    onEnterBack: () => document.documentElement.classList.add('en-recorrido'),
+  });
   // Al cargar, ScrollTrigger todavía no midió: se decide con la posición real del track.
-  document.documentElement.classList.toggle('en-recorrido', track.getBoundingClientRect().bottom > window.innerHeight);
+  const r = track.getBoundingClientRect();
+  document.documentElement.classList.toggle('en-recorrido', movil ? r.bottom > window.innerHeight / 2 : r.bottom > window.innerHeight);
 
   if (hint) tl.to(hint, { autoAlpha: 0, y: -16, duration: 0.2 }, 0);
   if (bg) tl.to(bg, { yPercent: -12, duration: n }, 0);
@@ -123,81 +133,159 @@ export function initWorld(world: HTMLElement) {
   // Las fotos cargan perezosas: recalcular cuando terminen.
   window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
 
-  if (movil) initPasos(world.querySelector<HTMLElement>('.world-stage')!, tl, n);
+  if (movil) initMovil(world.querySelector<HTMLElement>('.world-stage')!, track, tl, stops, video, videoLayer);
 }
 
-// Celular: el escenario no scrollea solo (touch-action: none).
-// - Desde la fachada, una deslizada arranca el recorrido automático: la cámara camina
-//   por todas las paradas (con una pausa para leer cada texto) y termina en la frase
-//   principal. Una deslizada durante el recorrido lo frena en la parada siguiente.
-// - Si se vuelve al recorrido, cada deslizada avanza o retrocede una sola parada.
-function initPasos(stage: HTMLElement, tl: gsap.core.Timeline, n: number) {
-  const st = tl.scrollTrigger!;
-  // Punto de lectura de cada parada: el texto ya entró y el video recorrió casi todo su tramo.
-  const marcas = Array.from({ length: n }, (_, i) => (i === 0 ? 0 : i + 0.7));
-  const yDe = (t: number) => st.start + (t / tl.duration()) * (st.end - st.start);
-  // El track termina (end) cuando su borde inferior toca el de la pantalla: la sección
-  // siguiente (la frase principal) arranca una pantalla más abajo.
-  const salida = () => st.end + window.innerHeight;
-  let animando = false;
-  let automatico = false;
-  let frenar = false;
-  let arranque = 0;
+// ---------------------------------------------------------------------------
+// Celular: experiencia tipo historia. El escenario ocupa una sola pantalla y no
+// scrollea (touch-action: none).
+//  - En la portada, una deslizada arranca el recorrido: la cámara entra por la puerta
+//    y el video se reproduce entero; textos y barra lo siguen. Al terminar, la página
+//    baja sola hasta la frase principal.
+//  - Durante el recorrido: deslizar hacia arriba lo saltea hasta el final; hacia abajo
+//    vuelve a la portada.
+//  - Con el recorrido terminado: deslizar hacia abajo sobre el escenario vuelve a la
+//    portada para verlo de nuevo.
+function initMovil(
+  stage: HTMLElement,
+  track: HTMLElement,
+  tl: gsap.core.Timeline,
+  stops: HTMLElement[],
+  video: HTMLVideoElement | null,
+  layer: HTMLElement | null,
+) {
+  const n = stops.length;
+  // El video de celular va a otra velocidad que el de escritorio: los tramos se escalan.
+  const escala = Number(video?.dataset.escalaMovil ?? 1);
+  const tramos = stops.map((s) => s.dataset.tramo?.split(',').map((x) => Number(x) * escala) ?? [0, 0]);
 
-  const actual = () => {
-    const y = window.scrollY;
-    if (y > yDe(marcas[n - 1]) + 4) return y >= st.end - 2 ? n : n - 1;
-    const t = ((y - st.start) / (st.end - st.start)) * tl.duration();
-    return marcas.reduce((mejor, m, i) => (Math.abs(m - t) < Math.abs(marcas[mejor] - t) ? i : mejor), 0);
+  // Tiempo del video → tiempo de la línea: el tramo de la parada i ocupa [i - 0.1, i + 0.9].
+  const aLinea = (vt: number) => {
+    for (let i = 1; i < n; i++) {
+      const [a, b] = tramos[i];
+      if (vt <= b || i === n - 1) return i - 0.1 + Math.min(1, Math.max(0, (vt - a) / (b - a)));
+    }
+    return tl.duration();
   };
 
+  let listo = false;
+  const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+  if (video && !conn?.saveData && video.dataset.srcMovil) {
+    video.preload = 'auto';
+    video.src = video.dataset.srcMovil;
+    video.addEventListener(
+      'loadeddata',
+      () => {
+        listo = true;
+        layer?.classList.add('is-ready');
+      },
+      { once: true },
+    );
+    video.load();
+  }
+
+  type Estado = 'inicio' | 'recorriendo' | 'fin';
+  let estado: Estado = 'inicio';
+  let arranque = 0;
+  let raf = 0;
+  let cortar: (() => void) | null = null;
+
+  const salida = () => track.getBoundingClientRect().bottom + window.scrollY;
   const scrollA = (y: number, duration: number) =>
     new Promise<void>((resolve) =>
       window.lenis ? window.lenis.scrollTo(y, { duration, lock: true, force: true, onComplete: () => resolve() }) : resolve(),
     );
-  const esperar = (ms: number) => new Promise((r) => window.setTimeout(r, ms));
+  const tweenA = (t: number, duration: number, ease = 'power1.inOut') =>
+    new Promise<void>((resolve) => {
+      tl.tweenTo(t, { duration, ease, onComplete: () => resolve() });
+    });
 
-  const recorridoAutomatico = async () => {
-    automatico = animando = true;
-    frenar = false;
+  // Mientras el video se reproduce, la línea de tiempo copia su posición en cada cuadro.
+  const seguirVideo = () => {
+    if (!video) return;
+    tl.time(aLinea(video.currentTime));
+    if (!video.paused && !video.ended) raf = requestAnimationFrame(seguirVideo);
+  };
+
+  const detenerVideo = () => {
+    cancelAnimationFrame(raf);
+    video?.pause();
+  };
+
+  const recorrer = async () => {
+    estado = 'recorriendo';
     arranque = Date.now();
-    for (let i = 1; i < n && !frenar; i++) {
-      await scrollA(yDe(marcas[i]), i === 1 ? 2.6 : 2.2);
-      if (!frenar) await esperar(1200);
+    let cortado = false;
+    const corte = new Promise<void>((resolve) => (cortar = () => ((cortado = true), resolve())));
+
+    await Promise.race([tweenA(0.9, 1.8), corte]);
+    if (cortado) return;
+
+    if (listo && video) {
+      video.currentTime = tramos[1][0];
+      await video.play().catch(() => {});
+      raf = requestAnimationFrame(seguirVideo);
+      const fin = new Promise<void>((resolve) => video.addEventListener('ended', () => resolve(), { once: true }));
+      await Promise.race([fin, corte]);
+    } else {
+      // Sin video: los fotogramas se suceden con el mismo ritmo.
+      for (let i = 2; i < n && !cortado; i++) await Promise.race([tweenA(i + 0.6, 3), corte]);
     }
-    if (!frenar) await scrollA(salida(), 1.4);
-    automatico = animando = false;
+    if (cortado) return;
+    await terminar();
   };
 
-  const ir = (destino: number) => {
-    if (animando || destino < 0) return;
-    const desde = actual();
-    if (destino === desde && destino < n) return;
-    if (desde === 0 && destino === 1) {
-      recorridoAutomatico();
-      return;
-    }
-    animando = true;
-    const y = destino >= n ? salida() : yDe(marcas[destino]);
-    scrollA(y, 1.3).then(() => window.setTimeout(() => (animando = false), 120));
+  const terminar = async () => {
+    cortar = null;
+    detenerVideo();
+    estado = 'fin';
+    await tweenA(tl.duration(), 0.4, 'none');
+    await scrollA(salida(), 1.3);
   };
 
-  // Una misma deslizada dispara varios eventos seguidos: solo frena una deslizada nueva.
-  const pedirFreno = () => {
-    if (Date.now() - arranque > 900) frenar = true;
+  const volver = async () => {
+    cortar?.();
+    cortar = null;
+    detenerVideo();
+    estado = 'inicio';
+    await scrollA(0, 0.9);
+    await tweenA(0, 1.1);
+    if (video) video.currentTime = 0;
   };
+
+  // Una misma deslizada dispara varios eventos seguidos: se ignoran los del arranque.
+  const reciente = () => Date.now() - arranque < 900;
 
   Observer.create({
     target: stage,
     type: 'touch',
     tolerance: 12,
-    onUp: () => (automatico ? pedirFreno() : ir(actual() + 1)),
-    onDown: () => (automatico ? pedirFreno() : ir(actual() - 1)),
+    onUp: () => {
+      if (estado === 'inicio' && window.scrollY < 10) recorrer();
+      else if (estado === 'recorriendo' && !reciente()) {
+        cortar?.();
+        terminar();
+      } else if (estado === 'fin') scrollA(salida(), 0.9);
+    },
+    onDown: () => {
+      if (estado === 'recorriendo' && reciente()) return;
+      if (estado !== 'inicio') volver();
+    },
   });
+
+  // iOS no pinta fotogramas de un video que nunca se reprodujo: play y pausa al primer toque.
+  window.addEventListener(
+    'touchstart',
+    () => {
+      if (video && estado === 'inicio') video.play().then(() => estado === 'inicio' && video.pause()).catch(() => {});
+    },
+    { once: true, passive: true },
+  );
 }
 
-// Mueve el video a un tiempo dado sin saturar al decodificador: un seek por frame.
-function createScrubber(video: HTMLVideoElement, layer: HTMLElement | null, movil: boolean) {
+// ---------------------------------------------------------------------------
+// Escritorio: mueve el video a un tiempo dado sin saturar al decodificador (un seek por cuadro).
+function createScrubber(video: HTMLVideoElement, layer: HTMLElement | null) {
   let ready = false;
   let target = 0;
   let raf = 0;
@@ -217,9 +305,7 @@ function createScrubber(video: HTMLVideoElement, layer: HTMLElement | null, movi
   // Se descarga entero como blob: así los saltos hacia atrás y adelante son instantáneos.
   const cargar = async () => {
     try {
-      // En celular, el cuadro completo (sin recorte) para llenar la pantalla.
-      const src = (movil && video.dataset.srcMovil) || video.dataset.src!;
-      const res = await fetch(src);
+      const res = await fetch(video.dataset.src!);
       if (!res.ok) throw new Error(String(res.status));
       video.src = URL.createObjectURL(await res.blob());
     } catch {
@@ -239,12 +325,6 @@ function createScrubber(video: HTMLVideoElement, layer: HTMLElement | null, movi
 
   if (document.readyState === 'complete') cargar();
   else window.addEventListener('load', cargar, { once: true });
-
-  // iOS no pinta fotogramas de un video que nunca se reprodujo: play y pausa al primer toque.
-  const desbloquear = () => {
-    video.play().then(() => video.pause()).catch(() => {});
-  };
-  window.addEventListener('touchstart', desbloquear, { once: true, passive: true });
 
   return { seek };
 }
