@@ -1,0 +1,317 @@
+---
+// Recorrido del celular, tipo historias: fotos reales en alta a pantalla completa,
+// una parada por deslizada, con un acercamiento lento en la foto y el cartel que
+// aparece en cada parada (ver scripts/recorrido-movil.ts). Sin video.
+// En escritorio no se muestra (ahí está ScrollWorld). Sin JS o con movimiento
+// reducido, las paradas quedan como una lista normal.
+import { Image } from 'astro:assets';
+import fachada from '../assets/local/fachada.jpg';
+import { recorridoMovil } from '../data/site';
+
+const ultima = recorridoMovil.length - 1;
+---
+
+<section id="recorrido-movil" class="rm" data-rm aria-label="Recorrido por el almacén">
+  <div class="rm-stage" data-rm-stage>
+    <article class="rm-parada rm-portada" data-rm-parada="0">
+      <div class="rm-foto">
+        <Image
+          src={fachada}
+          alt="Fachada de El Almacén de Lola, con el cartel y la vidriera iluminada"
+          widths={[960, 1600, 2560]}
+          sizes="100vw"
+          quality={80}
+          loading="eager"
+          fetchpriority="high"
+          class="rm-img"
+          style="object-position:35% 50%"
+          data-rm-img
+        />
+        <div class="rm-velo" aria-hidden="true"></div>
+      </div>
+      <div class="rm-portada-texto" data-rm-texto>
+        <p class="rm-kicker" data-rm-pieza>Tu almacén natural en Victoria</p>
+        <h1 class="titulo-degrade text-4xl font-bold tracking-tight" data-rm-pieza>
+          Lo rico de <br />
+          elegir natural
+        </h1>
+        <p class="rm-hint" data-rm-hint>
+          <span aria-hidden="true">↓</span> Deslizá para empezar
+        </p>
+      </div>
+    </article>
+
+    {
+      recorridoMovil.map((p, i) => (
+        <article class="rm-parada" data-rm-parada={i + 1} data-zoom={p.zoom} inert>
+          <div class="rm-foto">
+            <Image
+              src={p.foto}
+              alt={p.alt}
+              widths={[640, 1080, 1600].filter((w) => w <= p.foto.width)}
+              sizes="100vw"
+              quality={82}
+              loading={i === 0 ? 'eager' : 'lazy'}
+              class="rm-img"
+              style={`object-position:${p.encuadre};transform-origin:${p.foco}`}
+              data-rm-img
+            />
+          </div>
+          <div class="rm-tarjeta" data-rm-texto>
+            <p class="rm-kicker" data-rm-pieza>
+              <span class="tabular-nums">{String(i + 1).padStart(2, '0')}</span> · {p.etiqueta}
+            </p>
+            <h2 class="rm-titulo" data-rm-pieza>{p.titulo}</h2>
+            <p class="rm-linea" data-rm-pieza>{p.linea}</p>
+            {i === ultima && (
+              <p class="rm-seguir" data-rm-pieza>
+                Seguí bajando <span aria-hidden="true">↓</span>
+              </p>
+            )}
+          </div>
+        </article>
+      ))
+    }
+
+    <div class="rm-progreso" data-rm-progreso>
+      {
+        recorridoMovil.map((p, i) => (
+          <button type="button" class="rm-segmento" data-rm-ir={i + 1} aria-label={`Ir a ${p.etiqueta}`}>
+            <span></span>
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="rm-teclado">
+      <button type="button" data-rm-anterior>Parada anterior</button>
+      <button type="button" data-rm-siguiente>Parada siguiente</button>
+    </div>
+    <p class="sr-only" aria-live="polite" data-rm-anuncio></p>
+  </div>
+</section>
+
+<style>
+  /* Solo celular y tablet */
+  .rm {
+    display: none;
+  }
+  @media (max-width: 1023px) {
+    .rm {
+      display: block;
+    }
+  }
+
+  /* ---------- Base: lista apilada (sin JS o con movimiento reducido) ---------- */
+  .rm-stage {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 96px 20px 48px;
+  }
+  .rm-foto {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    border-radius: 24px;
+    background: var(--color-menta);
+  }
+  .rm-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .rm-tarjeta,
+  .rm-portada-texto {
+    margin-top: 16px;
+  }
+  .rm-kicker {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 600;
+    color: var(--color-marca);
+  }
+  .rm-titulo {
+    margin-top: 4px;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--color-profundo);
+    text-wrap: balance;
+  }
+  .rm-linea {
+    margin-top: 4px;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--color-texto-2);
+  }
+  .rm-seguir,
+  .rm-hint {
+    margin-top: 12px;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    color: var(--color-marca);
+  }
+  .rm-progreso,
+  .rm-hint,
+  .rm-seguir,
+  .rm-velo {
+    display: none;
+  }
+  .rm-teclado {
+    display: none;
+  }
+
+  /* ---------- Con movimiento: escenario de una pantalla, paradas superpuestas ---------- */
+  :global(html.motion) .rm-stage {
+    position: relative;
+    display: block;
+    height: 100svh;
+    padding: 0;
+    overflow: hidden;
+    touch-action: none;
+    overscroll-behavior: none;
+    background: var(--color-crema);
+  }
+  :global(html.motion) .rm-parada {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+  }
+  :global(html.motion) .rm-parada:first-child {
+    opacity: 1;
+    visibility: visible;
+  }
+  :global(html.motion) .rm-foto {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+    border-radius: 0;
+    will-change: transform;
+  }
+  :global(html.motion) .rm-img {
+    will-change: transform;
+  }
+
+  /* Portada: fachada suave y el título al centro */
+  :global(html.motion) .rm-portada {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  :global(html.motion) .rm-portada .rm-img {
+    filter: blur(3px) saturate(0.8);
+  }
+  :global(html.motion) .rm-velo {
+    display: block;
+    position: absolute;
+    inset: 0;
+    background: rgb(251 248 242 / 0.35);
+  }
+  :global(html.motion) .rm-portada-texto {
+    position: relative;
+    margin: 0;
+    width: min(340px, calc(100% - 40px));
+    padding: 24px 20px;
+    border-radius: 24px;
+    text-align: center;
+    background: rgb(251 248 242 / 0.9);
+    box-shadow: 0 16px 40px -16px rgb(33 76 59 / 0.45);
+    backdrop-filter: blur(12px);
+  }
+  :global(html.motion) .rm-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 16px;
+  }
+  :global(html.motion) .rm-hint span {
+    animation: rebote 1.4s var(--ease-fluid) infinite;
+  }
+
+  /* Cartel de cada parada, abajo */
+  :global(html.motion) .rm-tarjeta {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: calc(24px + env(safe-area-inset-bottom));
+    margin: 0;
+    padding: 16px 18px;
+    border-radius: 20px;
+    background: rgb(251 248 242 / 0.92);
+    box-shadow: 0 16px 40px -16px rgb(33 76 59 / 0.45);
+    backdrop-filter: blur(12px);
+  }
+  :global(html.motion) .rm-seguir {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  /* Progreso tipo historias: no es un temporizador, se llena al avanzar */
+  :global(html.motion) .rm-progreso {
+    position: absolute;
+    top: 76px;
+    left: 20px;
+    right: 20px;
+    z-index: 3;
+    display: flex;
+    gap: 4px;
+  }
+  .rm-segmento {
+    flex: 1;
+    padding: 8px 0;
+  }
+  .rm-segmento span {
+    display: block;
+    height: 3px;
+    border-radius: 9999px;
+    background: rgb(255 255 255 / 0.5);
+    box-shadow: 0 0 6px rgb(0 0 0 / 0.15);
+    transition: background-color 300ms var(--ease-fluid);
+  }
+  .rm-segmento.is-llena span {
+    background: #fff;
+  }
+
+  /* Botones reales para teclado y lectores de pantalla: visibles solo al enfocarlos */
+  :global(html.motion) .rm-teclado {
+    display: block;
+  }
+  .rm-teclado button {
+    position: absolute;
+    z-index: 4;
+    bottom: 8px;
+    padding: 8px 12px;
+    border-radius: 9999px;
+    background: var(--color-profundo);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    clip-path: inset(50%);
+  }
+  .rm-teclado button:focus-visible {
+    clip-path: none;
+  }
+  .rm-teclado button:first-child {
+    left: 16px;
+  }
+  .rm-teclado button:last-child {
+    right: 16px;
+  }
+
+  @keyframes rebote {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(6px);
+    }
+  }
+</style>

@@ -29,7 +29,7 @@ npm run preview   # sirve dist/ para probar el build final
 | Fotos del local | `src/assets/local/` (Astro las convierte a WebP en el build) |
 | Fotogramas del recorrido | `src/assets/recorrido/` |
 | Imágenes ilustrativas | `src/assets/categorias/` y `src/assets/carrusel/` |
-| Video del recorrido | `public/video/recorrido.mp4` |
+| Video del recorrido (solo escritorio) | `public/video/recorrido.mp4` |
 | Colores y tipografía | `src/styles/global.css` → bloque `@theme` |
 | Animación del recorrido | `src/scripts/world.ts` |
 | Imagen para compartir en redes | `public/og.jpg` (1200 × 630) |
@@ -48,9 +48,7 @@ Para sumar un ícono: elegirlo en [phosphoricons.com](https://phosphoricons.com)
 
 El video se descarga entero como blob después de que carga la página: así ir para atrás y para adelante es instantáneo. Mientras carga, si falla, o con "ahorro de datos" activado, se ven los fotogramas de cada parada. En iOS se hace play y pausa al primer toque para que Safari pinte los cuadros.
 
-**En celular** (menos de 1024 px) la experiencia es tipo historia y no depende del scroll: el escenario ocupa una sola pantalla, cada parada se ve a pantalla completa con una tarjeta compacta abajo, y la portada muestra solo el título centrado. Una deslizada arranca el recorrido: la cámara entra por la puerta y el video **se reproduce** (no se rebobina con el scroll, así va fluido); la línea de tiempo copia la posición del video para cambiar textos y barra. Al terminar, la página baja sola a la frase principal. Deslizar hacia arriba durante el recorrido lo saltea; hacia abajo vuelve a la portada (`initMovil` en `world.ts`).
-
-El video de celular es `public/video/recorrido-movil.mp4`: los mismos tramos, con el cuadro completo del reel, los textos borrados con `delogo`, ampliado a 720 × 1284 con lanczos y nitidez, a 1,5× y 30 cuadros por segundo. Como va a otra velocidad que el de escritorio, los tramos se escalan por 4/3 (`data-escala-movil`).
+**En celular** (menos de 1024 px) el recorrido es otro componente, `RecorridoMovil.astro` + `scripts/recorrido-movil.ts`, tipo historias y **sin video**: fotos reales en alta a pantalla completa, una parada por deslizada (también se avanza tocando la foto o la barra de arriba). Cada foto entra con un fundido y se acerca muy lento; el cartel aparece por partes. Desde la última parada, la deslizada baja a la frase principal. Las paradas están en `recorridoMovil` de `site.ts` (texto, foto, encuadre y zoom).
 
 Sin JavaScript o con "reducir movimiento" activado, todo se muestra como una lista normal con los fotogramas, sin animaciones.
 

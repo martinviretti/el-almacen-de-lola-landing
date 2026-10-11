@@ -2,6 +2,7 @@ import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { initWorld } from './world';
+import { initRecorridoMovil } from './recorrido-movil';
 import { initMusica } from './musica';
 
 declare global {
@@ -36,9 +37,12 @@ const reveal = new IntersectionObserver(
 );
 document.querySelectorAll('[data-reveal]').forEach((el) => reveal.observe(el));
 
-// Recorrido por el almacén.
+// Recorrido por el almacén: en escritorio atado al scroll, en celular tipo historias.
+const esMovil = window.matchMedia('(max-width: 1023px)').matches;
 const world = document.querySelector<HTMLElement>('[data-world]');
-if (world && motion) initWorld(world);
+if (world && motion && !esMovil) initWorld(world);
+const recorridoMovil = document.querySelector<HTMLElement>('[data-rm]');
+if (recorridoMovil && motion && esMovil) initRecorridoMovil(recorridoMovil);
 
 // Frase principal: cada palabra se ilumina una a una, en orden de lectura.
 document.querySelectorAll<HTMLElement>('[data-words]').forEach((block) => {

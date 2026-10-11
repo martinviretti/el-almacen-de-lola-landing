@@ -40,9 +40,6 @@ export { negocio, horarios, horariosResumen } from './negocio';
 
 /** Video editado del recorrido (sin textos ni personas), servido desde public/. */
 export const videoRecorrido = url('/video/recorrido.mp4');
-/** Versión para celular: cuadro completo del reel ampliado a 720 × 1284, sin los textos y a
- *  1,5× en vez de 2× (los tramos se escalan por 4/3, ver data-escala-movil). */
-export const videoRecorridoMovil = url('/video/recorrido-movil.mp4');
 
 export interface Parada {
   id: string;
@@ -109,7 +106,7 @@ export const recorrido: Parada[] = [
   {
     id: 'heladeras',
     etiqueta: 'Heladeras',
-    titulo: 'Frío y congelados',
+    titulo: 'Para resolver la semana',
     texto: 'Yogures, leches vegetales y congelados para resolver la semana.',
     foto: parada5,
     alt: 'Heladeras y freezers vidriados con productos refrigerados y congelados',
@@ -123,6 +120,76 @@ export const recorrido: Parada[] = [
     foto: parada6,
     alt: 'Estantes de madera con bolsas de frutos secos y legumbres a granel',
     video: [18.6, 21.85],
+  },
+];
+
+export interface ParadaMovil {
+  etiqueta: string;
+  titulo: string;
+  /** Una sola línea corta (12 palabras o menos). */
+  linea: string;
+  foto: ImageMetadata;
+  alt: string;
+  /** Encuadre de la foto en pantalla vertical (object-position). */
+  encuadre: string;
+  /** Hacia dónde se acerca el zoom lento. */
+  foco: string;
+  /** Zoom final del acercamiento lento. */
+  zoom: number;
+}
+
+// Recorrido del celular: fotos reales en alta, una parada por deslizada (sin video).
+// Heladeras queda dentro de Góndolas: en la foto del pasillo se ven a un costado.
+export const recorridoMovil: ParadaMovil[] = [
+  {
+    etiqueta: 'La entrada',
+    titulo: 'Pasá, que te estábamos esperando',
+    linea: 'Un almacén luminoso sobre la avenida, en pleno Victoria.',
+    foto: fachada,
+    alt: 'Puerta de vidrio y vidriera iluminada de El Almacén de Lola',
+    encuadre: '35% 50%',
+    foco: '25% 65%',
+    zoom: 1.2,
+  },
+  {
+    etiqueta: 'Góndolas',
+    titulo: 'Góndolas de punta a punta',
+    linea: 'Despensa natural, heladeras y congelados para resolver la semana.',
+    foto: pasillo,
+    alt: 'Pasillo del almacén con góndolas de madera a ambos lados y heladeras',
+    encuadre: '50% 50%',
+    foco: '50% 55%',
+    zoom: 1.08,
+  },
+  {
+    etiqueta: 'Granel',
+    titulo: 'Frutos secos para todos los gustos',
+    linea: 'Frutos secos, semillas y mezclas fraccionadas, listas para llevar.',
+    foto: granelLamparas,
+    alt: 'Lámparas blancas colgantes sobre vitrinas de frutos secos y estantes de madera',
+    encuadre: '50% 50%',
+    foco: '50% 70%',
+    zoom: 1.08,
+  },
+  {
+    etiqueta: 'El mostrador',
+    titulo: 'Te ayudamos a elegir',
+    linea: 'Preguntanos lo que necesites: nos encanta ayudarte.',
+    foto: mostrador,
+    alt: 'Mesa de madera con frutos secos fraccionados frente al mostrador',
+    encuadre: '65% 50%',
+    foco: '60% 50%',
+    zoom: 1.06,
+  },
+  {
+    etiqueta: 'Despensa',
+    titulo: 'Y mucho más para descubrir',
+    linea: 'Recorré con tiempo: siempre hay algo rico para probar.',
+    foto: exhibidores,
+    alt: 'Exhibidores con yerbas, tés, barritas y snacks',
+    encuadre: '100% 50%',
+    foco: '80% 50%',
+    zoom: 1.06,
   },
 ];
 

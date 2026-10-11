@@ -1,0 +1,72 @@
+---
+// Botones flotantes de contacto: Instagram (el canal que hoy responde) y WhatsApp.
+// WhatsApp sin número cargado abre la app con el mensaje listo para elegir el chat;
+// con número (src/data/negocio.ts), va directo al chat del almacén.
+import instagram from '@phosphor-icons/core/assets/fill/instagram-logo-fill.svg?raw';
+import whatsapp from '@phosphor-icons/core/assets/fill/whatsapp-logo-fill.svg?raw';
+import { negocio } from '../data/negocio';
+
+const icono = (svg: string) => svg.replace('<svg ', '<svg class="size-6" aria-hidden="true" focusable="false" ');
+const hrefWhatsApp = `https://wa.me/${negocio.whatsapp}?text=${encodeURIComponent(negocio.whatsappMensaje)}`;
+---
+
+<div class="flotantes fixed right-4 bottom-4 z-40 flex flex-col gap-3 lg:right-6 lg:bottom-6">
+  <a
+    href={negocio.instagram}
+    target="_blank"
+    rel="noopener"
+    aria-label={`Novedades en Instagram, ${negocio.instagramUsuario}`}
+    title={`Novedades en Instagram · ${negocio.instagramUsuario}`}
+    class="flotante bg-[#D62976]"
+  >
+    <Fragment set:html={icono(instagram)} />
+  </a>
+  <a
+    href={hrefWhatsApp}
+    target="_blank"
+    rel="noopener"
+    aria-label="Escribinos por WhatsApp"
+    title="Escribinos por WhatsApp"
+    class="flotante bg-[#25D366]"
+  >
+    <Fragment set:html={icono(whatsapp)} />
+  </a>
+</div>
+
+<style>
+  .flotante {
+    display: flex;
+    width: 52px;
+    height: 52px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    color: #fff;
+    box-shadow: 0 12px 32px -8px rgb(0 0 0 / 0.35);
+    transition: transform 700ms var(--ease-fluid);
+  }
+  .flotante:hover {
+    transform: scale(1.05);
+  }
+  .flotante:active {
+    transform: scale(0.95);
+  }
+
+  /* En el recorrido del celular suben arriba a la derecha para no tapar el cartel */
+  @media (max-width: 1023px) {
+    .flotantes {
+      transition:
+        top 700ms var(--ease-fluid),
+        bottom 700ms var(--ease-fluid);
+    }
+    :global(html.en-recorrido) .flotantes {
+      top: 104px;
+      bottom: auto;
+      gap: 8px;
+    }
+    :global(html.en-recorrido) .flotante {
+      width: 44px;
+      height: 44px;
+    }
+  }
+</style>

@@ -5,7 +5,7 @@
 // si el video no está disponible, y en la versión sin animación (lista apilada).
 import { Image, getImage } from 'astro:assets';
 import Icon from './Icon.astro';
-import { negocio, recorrido, videoRecorrido, videoRecorridoMovil } from '../data/site';
+import { negocio, recorrido, videoRecorrido } from '../data/site';
 
 const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: recorrido[1].foto.width });
 ---
@@ -76,8 +76,6 @@ const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: r
               <video
                 data-world-video
                 data-src={videoRecorrido}
-                data-src-movil={videoRecorridoMovil}
-                data-escala-movil={4 / 3}
                 poster={afiche.src}
                 muted
                 playsinline
@@ -332,114 +330,10 @@ const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: r
     display: none;
   }
 
-  /* Celular y tablet: experiencia propia, tipo historias. Cada parada ocupa toda
-     la pantalla (sin arco), el texto queda en una tarjeta compacta abajo y cada
-     deslizada avanza una parada (ver initPasos en world.ts). */
+  /* En celular el recorrido es otro componente (RecorridoMovil.astro) */
   @media (max-width: 1023px) {
-    /* El recorrido lo maneja el video, no el scroll: alcanza con una pantalla */
-    :global(html.motion) .world-track {
-      height: 100svh;
-    }
-    :global(html.motion) .world-stage {
-      touch-action: none;
-    }
-    :global(html.motion) .world-stops {
-      padding: 0;
-    }
-    :global(html.motion) .stop,
-    :global(html.motion) .stop-hero {
-      grid-template-rows: minmax(0, 1fr);
-      padding: 0;
-    }
-    :global(html.motion) .stop .stop-copy,
-    :global(html.motion) .stop .stop-media {
-      grid-area: 1 / 1;
-    }
-    :global(html.motion) .stop .stop-media,
-    :global(html.motion) .stop-hero .stop-media {
-      position: relative;
-      inset: auto;
-      width: 100%;
-      height: 100%;
-      max-width: none;
-      justify-self: stretch;
-      align-self: stretch;
-      border-radius: 0;
-      box-shadow: none;
-    }
-    :global(html.motion) .stop-video.is-entered .stop-media {
-      box-shadow: none;
-    }
-    :global(html.motion) .stop-copy,
-    :global(html.motion) .stop-hero .stop-copy {
-      align-self: end;
-      margin: 0 12px calc(12px + env(safe-area-inset-bottom));
-      padding: 14px 16px;
-      border-radius: 18px;
-      background: rgb(251 248 242 / 0.9);
-      box-shadow: 0 12px 32px -12px rgb(33 76 59 / 0.45);
-      backdrop-filter: blur(12px);
-    }
-    /* Tarjeta mínima: etiqueta y título; la bajada queda para escritorio */
-    :global(html.motion) .stop:not(.stop-hero) .stop-copy > p:not(:first-child) {
+    #recorrido {
       display: none;
-    }
-    :global(html.motion) .stop:not(.stop-hero) .stop-copy > p:first-child {
-      margin-bottom: 2px;
-      font-size: 0.75rem;
-      line-height: 1rem;
-    }
-    :global(html.motion) .stop:not(.stop-hero) .stop-copy h2 {
-      font-size: 1.5rem;
-      line-height: 2rem;
-    }
-    :global(html.motion) .stop-hero .stop-copy h1 {
-      font-size: 1.875rem;
-      line-height: 2.25rem;
-    }
-    :global(html.motion) .stop-hero .stop-copy > p:first-child {
-      margin-bottom: 4px;
-      font-size: 0.75rem;
-      line-height: 1rem;
-    }
-    :global(html.motion) .hero-sub {
-      margin-top: 6px;
-      font-size: 0.875rem;
-      line-height: 1.25rem;
-    }
-    :global(html.motion) .hero-seguidores {
-      display: none;
-    }
-    :global(html.motion) .world-hint {
-      margin-top: 16px;
-      font-size: 0.875rem;
-      justify-content: center;
-    }
-    /* Portada: solo el título al centro de la pantalla y la invitación a deslizar */
-    :global(html.motion) .stop-hero .stop-copy {
-      align-self: center;
-      justify-self: center;
-      max-width: 340px;
-      padding: 24px 20px;
-      text-align: center;
-    }
-    :global(html.motion) .stop-hero .hero-sub,
-    :global(html.motion) .stop-hero .hero-seguidores {
-      display: none;
-    }
-    :global(html.motion) .stop-hero .stop-copy h1 {
-      font-size: 2.25rem;
-      line-height: 2.5rem;
-    }
-    :global(html.motion) .stop-video .stop-copy {
-      display: none;
-    }
-    /* Barra de progreso arriba, debajo del nav */
-    :global(html.motion) .world-rail {
-      top: 80px;
-      bottom: auto;
-      left: 20px;
-      right: 20px;
     }
   }
 
