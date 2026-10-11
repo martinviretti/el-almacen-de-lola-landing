@@ -1,6 +1,7 @@
 ---
 // Fotos reales del interior en mosaico: la grande manda, las otras acompañan.
 // Sin etiquetas encima: las fotos hablan solas (los créditos quedan en site.ts).
+// Solo escritorio: en celular el recorrido ya muestra estas mismas fotos.
 import { Image } from 'astro:assets';
 import { galeria } from '../data/site';
 
@@ -14,7 +15,7 @@ const formas = [
 
 {
   galeria.length > 0 && (
-    <section id="el-almacen" aria-labelledby="galeria-titulo" class="px-5 py-24 lg:px-10 lg:py-32">
+    <section id="el-almacen" aria-labelledby="galeria-titulo" class="hidden px-5 py-24 lg:block lg:px-10 lg:py-32">
       <div class="mx-auto max-w-[1200px]">
         <div class="max-w-[680px]" data-reveal>
           <p class="mb-3 text-sm font-semibold text-marca">El almacén</p>

@@ -36,6 +36,13 @@ import mesaNatural from '../assets/carrusel/carrusel-01-mesa-natural.jpg';
 import desayuno from '../assets/carrusel/carrusel-02-desayuno.jpg';
 import huerta from '../assets/carrusel/carrusel-03-huerta.jpg';
 
+// Portadas de las historias destacadas del Instagram del local.
+import igSorteos from '../assets/instagram/sorteos.jpg';
+import igRecetas from '../assets/instagram/recetas.jpg';
+import igProductos from '../assets/instagram/productos.jpg';
+import igOrganico from '../assets/instagram/organico.jpg';
+import igVerduras from '../assets/instagram/verduras.jpg';
+
 export { negocio, horarios, horariosResumen } from './negocio';
 
 /** Video editado del recorrido (sin textos ni personas), servido desde public/. */
@@ -235,6 +242,15 @@ export const galeria: Array<{ foto: ImageMetadata; alt: string; texto: string; c
     texto: 'Snacks para llevar',
     credito: 'Miriam Marto',
   },
+];
+
+// Historias destacadas reales de @lolasaludable: cada una abre esa historia en Instagram.
+export const destacadas = [
+  { nombre: 'Productos', foto: igProductos, url: 'https://www.instagram.com/stories/highlights/17882971570988914/' },
+  { nombre: 'Recetas', foto: igRecetas, url: 'https://www.instagram.com/stories/highlights/17885580514854912/' },
+  { nombre: '¿Es orgánico?', foto: igOrganico, url: 'https://www.instagram.com/stories/highlights/18118607608169522/' },
+  { nombre: 'Bolsón', foto: igVerduras, url: 'https://www.instagram.com/stories/highlights/17865704171165712/' },
+  { nombre: 'Sorteos', foto: igSorteos, url: 'https://www.instagram.com/stories/highlights/17905912606818650/' },
 ];
 
 // Escenas ilustrativas para la franja "Del almacén a tu mesa".

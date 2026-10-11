@@ -75,7 +75,7 @@ const links = [
       links.map((l, i) => (
         <li class="overflow-hidden">
           <a
-            href={l.href}
+            href={l.href === '#el-almacen' ? '#recorrido-movil' : l.href}
             data-menu-link
             style={`transition-delay:${100 + i * 50}ms`}
             class="block translate-y-12 py-2 text-4xl font-semibold text-profundo opacity-0 transition-[transform,opacity] duration-700 ease-fluid"
