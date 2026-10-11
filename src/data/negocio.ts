@@ -6,6 +6,10 @@ export const negocio = {
   tagline: 'Alimentos saludables',
   instagram: 'https://www.instagram.com/lolasaludable/',
   instagramUsuario: '@lolasaludable',
+  // PENDIENTE: número de WhatsApp con código de país, sin + ni espacios (ej. 5491112345678).
+  // Vacío: el botón abre WhatsApp con el mensaje listo para elegir el chat.
+  whatsapp: '',
+  whatsappMensaje: 'Hola Lola, quería hacerles una consulta.',
   seguidores: '1.747', // relevado el 10/10/2026
   direccion: 'Av. Presidente Perón 3099',
   localidad: 'Victoria, San Fernando',

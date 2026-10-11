@@ -22,28 +22,16 @@ const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: r
               <div class="stop-copy" data-stop-copy>
                 {i === 0 ? (
                   <>
-                    <p class="mb-4 inline-flex items-center gap-2 rounded-full bg-white px-3 py-2 text-sm font-semibold text-profundo ring-1 ring-profundo/10">
-                      <span class="relative flex size-2">
-                        <span data-estado-ping class="absolute inline-flex size-full rounded-full bg-marca opacity-60"></span>
-                        <span data-estado-punto class="relative inline-flex size-2 rounded-full bg-marca"></span>
-                      </span>
-                      <span data-estado>Abrimos de lunes a sábado</span>
-                    </p>
+                    <p class="mb-4 text-sm font-semibold text-marca">Tu almacén natural en Victoria</p>
                     <h1 class="titulo-degrade text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
                       Lo rico de <br />
                       elegir natural
                     </h1>
                     <p class="hero-sub mt-4 text-base text-texto-2 sm:text-lg">{parada.texto}</p>
-                    <div class="mt-6 flex flex-wrap items-center gap-4">
-                      <a href={negocio.mapsDestino} target="_blank" rel="noopener" class="boton boton-principal">
-                        <Icon name="navigation-arrow" class="size-5" />
-                        Cómo llegar al almacén
-                      </a>
-                      <p class="hidden text-sm text-texto-2 sm:block">
-                        <strong class="font-semibold text-profundo">{negocio.seguidores}</strong> nos siguen en Instagram
-                      </p>
-                    </div>
-                    <p data-scroll-hint class="world-hint mt-6 hidden items-center gap-2 text-sm font-semibold text-marca lg:flex">
+                    <p class="mt-4 text-sm text-texto-2">
+                      <strong class="font-semibold text-profundo">{negocio.seguidores}</strong> personas ya nos siguen en Instagram
+                    </p>
+                    <p data-scroll-hint class="world-hint mt-6 flex items-center gap-2 text-sm font-semibold text-marca">
                       <Icon name="arrow-down" class="size-4 animate-bounce" />
                       Deslizá para entrar al almacén
                     </p>
@@ -341,11 +329,48 @@ const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: r
     display: none;
   }
 
+  /* Celular y tablet: el arco ocupa casi toda la pantalla y el texto va encima,
+     en una tarjeta abajo. Queda una franja inferior para la barra y WhatsApp. */
+  @media (max-width: 1023px) {
+    :global(html.motion) .world-stops {
+      padding: 0 12px;
+    }
+    :global(html.motion) .stop:not(.stop-hero) {
+      grid-template-rows: minmax(0, 1fr);
+      padding: 80px 0 84px;
+    }
+    :global(html.motion) .stop:not(.stop-hero) .stop-copy,
+    :global(html.motion) .stop:not(.stop-hero) .stop-media {
+      grid-area: 1 / 1;
+    }
+    :global(html.motion) .stop:not(.stop-hero) .stop-media {
+      width: 100%;
+      justify-self: stretch;
+    }
+    :global(html.motion) .stop:not(.stop-hero) .stop-copy {
+      align-self: end;
+      margin: 0 8px 8px;
+      padding: 20px;
+      border-radius: 20px;
+      background: rgb(251 248 242 / 0.92);
+      box-shadow: 0 16px 40px -16px rgb(33 76 59 / 0.4);
+      backdrop-filter: blur(12px);
+    }
+    :global(html.motion) .stop-video .stop-copy {
+      display: none;
+    }
+    :global(html.motion) .stop-hero {
+      padding-bottom: 84px;
+    }
+    :global(html.motion) .world-rail {
+      left: 24px;
+      right: 96px;
+      bottom: 40px;
+    }
+  }
+
   /* Celulares bajitos: el hero pierde la bajada para que entre todo */
   @media (max-width: 1023px) and (max-height: 720px) {
-    :global(html.motion) .stop {
-      grid-template-rows: 216px minmax(0, 1fr);
-    }
     :global(html.motion) .hero-sub {
       display: none;
     }

@@ -23,7 +23,7 @@ Las 11 fotos de categorías y las 3 de la franja "Del almacén a tu mesa" son **
 - **Categorías** marcadas `pendiente: true`: productos orgánicos y bolsón de verduras (¿se sigue haciendo?). → `categorias`
 - **Textos del recorrido**: son propuestas. En particular "mezclas fraccionadas" (granel) y "Yogures, leches vegetales y congelados" (heladeras).
 - **Seguidores de Instagram**: 1.747 al 10/10/2026. Actualizarlo cada tanto o sacarlo.
-- **WhatsApp / teléfono**: no hay. Si se suma, va como botón en el hero y en Visitanos.
+- **Número de WhatsApp**: el botón flotante ya está, pero sin número (abre WhatsApp con el mensaje listo y la persona elige el chat). Cargarlo en `src/data/negocio.ts` → `whatsapp`, con código de país y sin espacios (ej. `5491112345678`).
 
 ## Mejoras opcionales
 

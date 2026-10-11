@@ -5,10 +5,7 @@ import fachada from '../assets/local/fachada.jpg';
 import { negocio, horarios } from '../data/site';
 
 // Lunes primero, domingo al final.
-const semana = [...horarios.slice(1), horarios[0]].map((h) => ({
-  ...h,
-  indice: horarios.indexOf(h),
-}));
+const semana = [...horarios.slice(1), horarios[0]];
 ---
 
 <section id="visitanos" class="bg-menta-suave px-5 py-24 lg:px-10 lg:py-32">
@@ -34,19 +31,11 @@ const semana = [...horarios.slice(1), horarios[0]].map((h) => ({
           <Icon name="clock" class="size-6" />
         </span>
         <div class="w-full max-w-[400px]">
-          <p class="text-lg font-semibold text-profundo">
-            <span class="inline-flex items-center gap-2">
-              <span class="relative flex size-2">
-                <span data-estado-ping class="absolute inline-flex size-full rounded-full bg-marca opacity-60"></span>
-                <span data-estado-punto class="relative inline-flex size-2 rounded-full bg-marca"></span>
-              </span>
-              <span data-estado>Horarios</span>
-            </span>
-          </p>
+          <p class="text-lg font-semibold text-profundo">Horarios</p>
           <dl class="mt-3 divide-y divide-profundo/10 rounded-2xl bg-white px-4">
             {
               semana.map((h) => (
-                <div data-hoy={h.indice} class="dia flex justify-between gap-4 py-2 text-sm">
+                <div class="flex justify-between gap-4 py-2 text-sm">
                   <dt class="text-texto-2">{h.dia}</dt>
                   <dd class="font-semibold text-profundo tabular-nums">
                     {h.abre === null ? 'Cerrado' : `${h.abre} a ${h.cierra} h`}
@@ -97,17 +86,6 @@ const semana = [...horarios.slice(1), horarios[0]].map((h) => ({
   </div>
 </section>
 
-<style>
-  .dia[data-es-hoy] dt,
-  .dia[data-es-hoy] dd {
-    color: var(--color-profundo);
-    font-weight: 700;
-  }
-  .dia[data-es-hoy] dt::after {
-    content: ' · hoy';
-    color: var(--color-marca);
-  }
-</style>
 
 <script>
   import { negocio } from '../data/negocio';

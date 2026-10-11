@@ -2,7 +2,6 @@ import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { initWorld } from './world';
-import { initEstado } from './estado';
 import { initMusica } from './musica';
 
 declare global {
@@ -106,5 +105,4 @@ if (motion) {
   });
 }
 
-initEstado();
 initMusica();

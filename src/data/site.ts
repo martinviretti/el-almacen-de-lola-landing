@@ -61,7 +61,7 @@ export const recorrido: Parada[] = [
     id: 'afuera',
     etiqueta: 'La vereda',
     titulo: 'Lo rico de elegir natural',
-    texto: 'Frutos secos, yerbas, leches vegetales, panificados y mucho más. Te esperamos en Victoria de lunes a sábado.',
+    texto: 'Comer mejor empieza cerca de casa. En Lola te ayudamos a encontrar lo que te hace bien, con la calidez de un almacén de barrio.',
     foto: fachada,
     alt: 'Fachada de El Almacén de Lola: cartel con el logo, vidriera iluminada con góndolas de madera y plantas en la entrada',
     // La puerta de vidrio del almacén (la de madera es del edificio).
