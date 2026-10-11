@@ -2,17 +2,43 @@
 // son propuestas que la marca tiene que confirmar antes de publicar (ver PENDIENTES.md).
 
 import type { ImageMetadata } from 'astro';
-// Selección revisada por dirección de arte (ver PENDIENTES.md). Cuando lleguen las
-// versiones mejoradas o fotos nuevas, alcanza con cambiar el archivo importado.
-import exterior from '../assets/fotos/local-exterior.jpg';
-import pedidos from '../assets/fotos/equipo-pedidos.jpg';
-import panificados from '../assets/fotos/publicacion-09.jpg';
-import barritas from '../assets/fotos/barritas-frutos-secos.jpg';
-import infusiones from '../assets/fotos/publicacion-05.jpg';
-import proteina from '../assets/fotos/publicacion-04.jpg';
-import mermeladas from '../assets/fotos/publicacion-08.jpg';
+
+// Fotos reales del local. Las interiores vienen de Google Maps (ver `credito`):
+// hace falta permiso de sus autoras antes de publicar.
+import fachada from '../assets/local/fachada.jpg';
+import mostrador from '../assets/local/mostrador.jpg';
+import pasillo from '../assets/local/pasillo.jpg';
+import granelLamparas from '../assets/local/granel-lamparas.jpg';
+import exhibidores from '../assets/local/exhibidores.jpg';
+
+// Fotogramas del video del recorrido: afiches mientras carga y versión sin animación.
+import parada1 from '../assets/recorrido/parada-1.jpg';
+import parada2 from '../assets/recorrido/parada-2.jpg';
+import parada3 from '../assets/recorrido/parada-3.jpg';
+import parada4 from '../assets/recorrido/parada-4.jpg';
+import parada5 from '../assets/recorrido/parada-5.jpg';
+import parada6 from '../assets/recorrido/parada-6.jpg';
+
+// Imágenes ilustrativas: no muestran el local ni el surtido exacto.
+import catYerbas from '../assets/categorias/01-yerbas-infusiones.jpg';
+import catLeches from '../assets/categorias/02-leches-vegetales.jpg';
+import catYogures from '../assets/categorias/03-yogures.jpg';
+import catFrutosSecos from '../assets/categorias/04-frutos-secos-semillas.jpg';
+import catBarritas from '../assets/categorias/05-barritas-proteinas.jpg';
+import catCongelados from '../assets/categorias/06-congelados.jpg';
+import catPanificados from '../assets/categorias/07-panificados.jpg';
+import catDulces from '../assets/categorias/08-dulces-untables.jpg';
+import catChocolates from '../assets/categorias/09-chocolates-snacks.jpg';
+import catOrganicos from '../assets/categorias/10-productos-organicos.jpg';
+import catBolson from '../assets/categorias/11-bolson-verduras.jpg';
+import mesaNatural from '../assets/carrusel/carrusel-01-mesa-natural.jpg';
+import desayuno from '../assets/carrusel/carrusel-02-desayuno.jpg';
+import huerta from '../assets/carrusel/carrusel-03-huerta.jpg';
 
 export { negocio, horarios, horariosResumen } from './negocio';
+
+/** Video editado del recorrido (sin textos ni personas), servido desde public/. */
+export const videoRecorrido = '/video/recorrido.mp4';
 
 export interface Parada {
   id: string;
@@ -23,88 +49,129 @@ export interface Parada {
   alt: string;
   /** Punto de la foto hacia el que hace zoom la cámara al pasar a la siguiente parada. */
   foco?: string;
+  /** Tramo del video [inicio, fin] en segundos que se recorre con el scroll en esta parada. */
+  video?: [number, number];
 }
 
-// El recorrido del scroll: arranca en la vereda y entra al almacén.
+// El recorrido: la fachada en pantalla completa y, al bajar, la cámara entra por la
+// puerta y camina por el local siguiendo el video.
 export const recorrido: Parada[] = [
   {
     id: 'afuera',
     etiqueta: 'La vereda',
     titulo: 'Lo rico de elegir natural',
     texto: 'Frutos secos, yerbas, leches vegetales, panificados y mucho más. Te esperamos en Victoria de lunes a sábado.',
-    foto: exterior,
-    alt: 'Fachada de El Almacén de Lola: vidriera con hojas verdes pintadas, lámparas colgantes y góndolas de madera',
-    // La cámara entra por la vidriera, a la altura de las lámparas y el "Lola" pintado.
-    foco: '50% 45%',
+    foto: fachada,
+    alt: 'Fachada de El Almacén de Lola: cartel con el logo, vidriera iluminada con góndolas de madera y plantas en la entrada',
+    // La puerta de vidrio del almacén (la de madera es del edificio).
+    foco: '27% 64%',
   },
   {
-    id: 'pedidos',
-    etiqueta: 'Adentro',
-    titulo: 'Cada pedido, armado a mano',
-    texto: 'Desde las 8 de la mañana ya estamos preparando los pedidos del día, uno por uno.',
-    foto: pedidos,
-    alt: 'Integrante del equipo con delantal preparando pedidos en el mostrador, con góndolas de madera atrás',
+    id: 'entrada',
+    etiqueta: 'La entrada',
+    titulo: 'Pasá, que te estábamos esperando',
+    texto: 'Un almacén luminoso sobre la avenida, en pleno Victoria.',
+    foto: parada1,
+    alt: 'Vista desde la vereda hacia la entrada vidriada del almacén',
+    video: [0, 4.2],
   },
   {
-    id: 'panificados',
-    etiqueta: 'Panificados',
-    titulo: 'Panificados para toda la semana',
-    texto: 'Panes y budines para el desayuno y la merienda, con el sello de Lola.',
-    foto: panificados,
-    alt: 'Panes y budines envueltos sobre una mesa de madera, uno con el sticker de Lola',
+    id: 'gondolas',
+    etiqueta: 'Góndolas',
+    titulo: 'Góndolas de punta a punta',
+    texto: 'Galletitas, harinas, snacks y todo lo de la despensa natural, ordenado para que encuentres rápido.',
+    foto: parada2,
+    alt: 'Estanterías de madera llenas de paquetes de galletitas, harinas y snacks',
+    video: [4.2, 7.6],
   },
   {
-    id: 'frutos-secos',
-    etiqueta: 'Frutos secos',
-    titulo: 'Frutos secos para darte un gusto',
-    texto: 'Almendras, castañas, nueces y pistachos, solos o en barritas con chocolate.',
-    foto: barritas,
-    alt: 'Barritas de chocolate cubiertas con almendras, castañas, pistachos y nueces',
+    id: 'granel',
+    etiqueta: 'Granel',
+    titulo: 'Frutos secos bajo las lámparas',
+    texto: 'Frutos secos, semillas y mezclas fraccionadas, listas para llevar.',
+    foto: parada3,
+    alt: 'Centro del local con lámparas colgantes y mesas de frutos secos fraccionados',
+    video: [7.6, 10.8],
   },
   {
-    id: 'infusiones',
-    etiqueta: 'Infusiones',
-    titulo: 'Yerbas e infusiones para cada momento',
-    texto: 'Para el mate de la mañana, el té de la tarde o algo calentito antes de dormir.',
-    foto: infusiones,
-    alt: 'Cajas de infusiones ilustradas con flores y hojas, apiladas en un estante de madera',
+    id: 'mostrador',
+    etiqueta: 'El mostrador',
+    titulo: 'Te ayudamos a elegir',
+    texto: 'Si buscás algo puntual o no sabés por dónde empezar, preguntanos en el mostrador.',
+    foto: parada4,
+    alt: 'Mostrador de madera con estantes de frascos y productos detrás',
+    video: [10.8, 13.4],
   },
   {
-    id: 'proteina',
-    etiqueta: 'Para entrenar',
-    titulo: 'Para entrenar y para la merienda',
-    texto: 'Pastas de maní, opciones con proteína y barritas listas para llevar.',
-    foto: proteina,
-    alt: 'Frascos de pasta de maní con proteína ordenados en un estante de madera',
+    id: 'heladeras',
+    etiqueta: 'Heladeras',
+    titulo: 'Frío y congelados',
+    texto: 'Yogures, leches vegetales y congelados para resolver la semana.',
+    foto: parada5,
+    alt: 'Heladeras y freezers vidriados con productos refrigerados y congelados',
+    video: [13.4, 18.6],
   },
   {
     id: 'despensa',
     etiqueta: 'Despensa',
-    titulo: 'Una despensa con cosas ricas',
-    texto: 'Mermeladas, conservas y frascos para completar la alacena de casa.',
-    foto: mermeladas,
-    alt: 'Dos estantes de madera llenos de frascos de mermelada con tapas rosas',
+    titulo: 'Y mucho más para descubrir',
+    texto: 'Recorré las góndolas con tiempo: siempre hay algo rico para probar.',
+    foto: parada6,
+    alt: 'Estantes de madera con bolsas de frutos secos y legumbres a granel',
+    video: [18.6, 21.85],
   },
 ];
 
 // Categorías mencionadas por el equipo del local (las marcadas `pendiente` no están confirmadas).
+// Las fotos son ilustrativas: la grilla lo aclara al pie.
 export const categorias = [
-  { icono: 'tea-bag', nombre: 'Yerbas e infusiones', detalle: 'Mate, té y hierbas' },
-  { icono: 'drop', nombre: 'Leches vegetales', detalle: 'Almendra, coco, avena y más' },
-  { icono: 'bowl-food', nombre: 'Yogures', detalle: 'Opciones vegetales y tradicionales' },
-  { icono: 'nut', nombre: 'Frutos secos y semillas', detalle: 'Almendras, nueces, mezclas' },
-  { icono: 'barbell', nombre: 'Barritas y proteínas', detalle: 'Para entrenar o para llevar' },
-  { icono: 'snowflake', nombre: 'Congelados', detalle: 'Listos para resolver la semana' },
-  { icono: 'bread', nombre: 'Panificados', detalle: 'Budines, panes y galletitas' },
-  { icono: 'jar-label', nombre: 'Dulces y untables', detalle: 'Mermeladas, pastas de maní' },
-  { icono: 'cookie', nombre: 'Chocolates y snacks', detalle: 'Para darte un gusto' },
-  { icono: 'leaf', nombre: 'Productos orgánicos', detalle: 'Te ayudamos a reconocerlos', pendiente: true },
-  { icono: 'carrot', nombre: 'Bolsón de verduras', detalle: 'Encargalo por Instagram', pendiente: true },
+  { foto: catYerbas, nombre: 'Yerbas e infusiones', detalle: 'Mate, té y hierbas' },
+  { foto: catLeches, nombre: 'Leches vegetales', detalle: 'Almendra, coco, avena y más' },
+  { foto: catYogures, nombre: 'Yogures', detalle: 'Opciones vegetales y tradicionales' },
+  { foto: catFrutosSecos, nombre: 'Frutos secos y semillas', detalle: 'Almendras, nueces, mezclas' },
+  { foto: catBarritas, nombre: 'Barritas y proteínas', detalle: 'Para entrenar o para llevar' },
+  { foto: catCongelados, nombre: 'Congelados', detalle: 'Listos para resolver la semana' },
+  { foto: catPanificados, nombre: 'Panificados', detalle: 'Budines, panes y galletitas' },
+  { foto: catDulces, nombre: 'Dulces y untables', detalle: 'Mermeladas, pastas de maní' },
+  { foto: catChocolates, nombre: 'Chocolates y snacks', detalle: 'Para darte un gusto' },
+  { foto: catOrganicos, nombre: 'Productos orgánicos', detalle: 'Te ayudamos a reconocerlos', pendiente: true },
+  { foto: catBolson, nombre: 'Bolsón de verduras', detalle: 'Encargalo por Instagram', pendiente: true },
 ];
 
-// Galería oculta hasta tener fotos del local con nivel (interior amplio, góndolas,
-// granel, mostrador). Si queda vacía, la sección no se muestra.
-export const galeria: Array<{ foto: ImageMetadata; alt: string; texto: string }> = [];
+// Fotos reales del interior. `credito`: autora de la foto en Google Maps.
+export const galeria: Array<{ foto: ImageMetadata; alt: string; texto: string; credito?: string }> = [
+  {
+    foto: mostrador,
+    alt: 'Interior del almacén: mesa de madera con frutos secos fraccionados, lámparas colgantes y heladeras al fondo',
+    texto: 'La mesa de granel',
+    credito: 'Miriam Marto',
+  },
+  {
+    foto: granelLamparas,
+    alt: 'Lámparas blancas colgantes sobre vitrinas y estantes de madera',
+    texto: 'Lámparas y madera',
+    credito: 'Julia Marquez',
+  },
+  {
+    foto: pasillo,
+    alt: 'Pasillo del almacén con góndolas a ambos lados y piso de madera',
+    texto: 'El pasillo',
+    credito: 'Julia Marquez',
+  },
+  {
+    foto: exhibidores,
+    alt: 'Exhibidores con barritas, snacks y productos sin sellos',
+    texto: 'Snacks para llevar',
+    credito: 'Miriam Marto',
+  },
+];
+
+// Escenas ilustrativas para la franja "Del almacén a tu mesa".
+export const carrusel = [
+  { foto: mesaNatural, alt: 'Mesa de madera con frutos secos, pan de masa madre, frutos rojos y leche' },
+  { foto: desayuno, alt: 'Desayuno con tostadas con mermelada, yogur con avena y leche' },
+  { foto: huerta, alt: 'Verduras frescas de huerta sobre una mesa de madera' },
+];
 
 export const tagline =
   'Comer mejor no tendría que ser complicado. Por eso juntamos lo rico y lo natural en un solo lugar, cerca de casa.';

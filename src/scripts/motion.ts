@@ -69,4 +69,17 @@ if (motion) {
   });
 }
 
+// Franja "Del almacén a tu mesa": se desliza de costado mientras pasa por la pantalla.
+if (motion) {
+  document.querySelectorAll<HTMLElement>('[data-carrusel]').forEach((section) => {
+    const track = section.querySelector<HTMLElement>('[data-carrusel-track]');
+    if (!track) return;
+    gsap.to(track, {
+      x: () => -Math.max(0, track.scrollWidth - window.innerWidth),
+      ease: 'none',
+      scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: true, invalidateOnRefresh: true },
+    });
+  });
+}
+
 initEstado();

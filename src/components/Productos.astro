@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
-import { categorias, galeria, negocio } from '../data/site';
+import { categorias, negocio } from '../data/site';
 ---
 
 <section id="productos" class="px-5 py-24 lg:px-10 lg:py-32">
@@ -20,60 +20,47 @@ import { categorias, galeria, negocio } from '../data/site';
           <li
             data-reveal
             style={`--delay:${(i % 4) * 80}ms`}
-            class="group rounded-3xl bg-white p-4 ring-1 ring-profundo/8 transition-transform duration-700 ease-fluid hover:-translate-y-1 lg:p-6"
+            class="group rounded-3xl bg-white p-2 ring-1 ring-profundo/8 transition-transform duration-700 ease-fluid hover:-translate-y-1"
           >
-            <span class="flex size-12 items-center justify-center rounded-2xl bg-menta-suave text-profundo transition-colors duration-700 ease-fluid group-hover:bg-menta">
-              <Icon name={c.icono} class="size-6" />
-            </span>
-            <h3 class="mt-4 text-base font-semibold text-profundo lg:text-lg">{c.nombre}</h3>
-            <p class="mt-1 text-sm text-texto-2">{c.detalle}</p>
+            <div class="relative aspect-[4/5] overflow-hidden rounded-2xl bg-menta">
+              <Image
+                src={c.foto}
+                alt=""
+                widths={[320, 480, 640]}
+                sizes="(min-width: 1024px) 280px, (min-width: 640px) 33vw, 50vw"
+                quality={80}
+                loading="lazy"
+                class="absolute inset-0 size-full object-cover transition-transform duration-700 ease-fluid group-hover:scale-105"
+              />
+            </div>
+            <div class="px-2 pt-3 pb-2">
+              <h3 class="text-base font-semibold text-profundo lg:text-lg">{c.nombre}</h3>
+              <p class="mt-1 text-sm text-texto-2">{c.detalle}</p>
+            </div>
           </li>
         ))
       }
       <li
         data-reveal
         style="--delay:240ms"
-        class="flex flex-col justify-between rounded-3xl bg-profundo p-4 text-white lg:p-6"
+        class="flex flex-col justify-between gap-6 rounded-3xl bg-profundo p-6 text-white"
       >
-        <p class="text-base font-semibold lg:text-lg">¿Buscás algo que no está en la lista?</p>
-        <a
-          href={negocio.instagram}
-          target="_blank"
-          rel="noopener"
-          class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-menta underline-offset-4 hover:underline"
-        >
-          Preguntanos por Instagram
-          <Icon name="arrow-up-right" class="size-4" />
-        </a>
+        <Icon name="storefront" class="size-10 text-menta" />
+        <div>
+          <p class="text-lg font-semibold">¿Buscás algo que no está en la lista?</p>
+          <a
+            href={negocio.instagram}
+            target="_blank"
+            rel="noopener"
+            class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-menta underline-offset-4 hover:underline"
+          >
+            Preguntanos por Instagram
+            <Icon name="arrow-up-right" class="size-4" />
+          </a>
+        </div>
       </li>
     </ul>
 
-    {galeria.length > 0 && (
-    <div class="mt-16 grid grid-cols-2 gap-3 lg:mt-24 lg:grid-cols-4 lg:gap-4">
-      {
-        galeria.map((g, i) => (
-          <figure
-            data-reveal
-            style={`--delay:${i * 80}ms`}
-            class:list={['group', i % 2 === 1 && 'lg:mt-16']}
-          >
-            <div class="grano relative aspect-[3/4] overflow-hidden rounded-3xl bg-menta">
-              <Image
-                src={g.foto}
-                alt={g.alt}
-                widths={[g.foto.width]}
-                sizes="(min-width: 1024px) 25vw, 50vw"
-                quality={86}
-                loading="lazy"
-                data-parallax
-                class="absolute inset-x-0 -top-[6%] h-[112%] w-full object-cover"
-              />
-            </div>
-            <figcaption class="mt-3 text-sm font-semibold text-texto-2">{g.texto}</figcaption>
-          </figure>
-        ))
-      }
-    </div>
-    )}
+    <p class="mt-6 text-sm text-texto-2">Imágenes ilustrativas. Los productos y las marcas disponibles pueden variar.</p>
   </div>
 </section>

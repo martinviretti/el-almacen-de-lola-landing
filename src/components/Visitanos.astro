@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
-import exterior from '../assets/fotos/local-exterior.jpg';
+import fachada from '../assets/local/fachada.jpg';
 import { negocio, horarios } from '../data/site';
 
 // Lunes primero, domingo al final.
@@ -70,19 +70,19 @@ const semana = [...horarios.slice(1), horarios[0]].map((h) => ({
       </div>
     </div>
 
-    <div data-reveal style="--delay:120ms" class="grid gap-4 sm:grid-cols-[2fr_3fr] lg:grid-cols-1 xl:grid-cols-[2fr_3fr]">
-      <div class="grano relative hidden aspect-[3/4] overflow-hidden rounded-3xl bg-menta sm:block lg:hidden xl:block">
+    <div data-reveal style="--delay:120ms" class="grid gap-4">
+      <div class="relative aspect-[16/9] overflow-hidden rounded-3xl bg-menta">
         <Image
-          src={exterior}
-          alt="Vidriera de El Almacén de Lola vista desde la vereda"
-          widths={[exterior.width]}
-          sizes="25vw"
+          src={fachada}
+          alt="Fachada de El Almacén de Lola sobre Av. Presidente Perón"
+          widths={[640, 960, 1280]}
+          sizes="(min-width: 1024px) 560px, 100vw"
           loading="lazy"
           class="absolute inset-0 size-full object-cover"
         />
       </div>
 
-      <div class="relative min-h-[400px] overflow-hidden rounded-3xl bg-white ring-1 ring-profundo/10" data-mapa>
+      <div class="relative min-h-[280px] overflow-hidden rounded-3xl bg-white ring-1 ring-profundo/10" data-mapa>
         <div class="fondo-hojas absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center" data-mapa-placeholder>
           <span class="flex size-16 items-center justify-center rounded-full bg-white text-profundo shadow-[0_8px_32px_rgb(33_76_59/0.12)]">
             <Icon name="map-pin" class="size-8" />

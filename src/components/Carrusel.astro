@@ -1,0 +1,51 @@
+---
+// Franja horizontal de escenas ilustrativas que se desliza con el scroll.
+// Sin animaciones queda como una fila con scroll lateral.
+import { Image } from 'astro:assets';
+import { carrusel } from '../data/site';
+---
+
+<section aria-labelledby="carrusel-titulo" class="overflow-hidden py-24 lg:py-32" data-carrusel>
+  <div class="mx-auto max-w-[1200px] px-5 lg:px-10" data-reveal>
+    <p class="mb-3 text-sm font-semibold text-marca">Del almacén a tu mesa</p>
+    <h2 id="carrusel-titulo" class="max-w-[680px] text-4xl font-bold tracking-tight text-profundo lg:text-5xl">
+      Lo natural también <br />
+      se disfruta en casa
+    </h2>
+  </div>
+
+  <div class="carrusel-viewport mt-12 lg:mt-16">
+    <ul class="carrusel-track flex gap-4 px-5 lg:gap-6 lg:px-10" data-carrusel-track>
+      {
+        carrusel.map((c) => (
+          <li class="relative aspect-[16/9] w-[85vw] shrink-0 overflow-hidden rounded-3xl bg-menta lg:w-[60vw]">
+            <Image
+              src={c.foto}
+              alt={c.alt}
+              widths={[640, 1280, 2048]}
+              sizes="(min-width: 1024px) 60vw, 85vw"
+              quality={80}
+              loading="lazy"
+              class="absolute inset-0 size-full object-cover"
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <p class="mx-auto mt-6 max-w-[1200px] px-5 text-sm text-texto-2 lg:px-10">Imágenes ilustrativas.</p>
+</section>
+
+<style>
+  :global(html:not(.motion)) .carrusel-viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  :global(html:not(.motion)) .carrusel-track > li {
+    scroll-snap-align: center;
+  }
+  :global(html.motion) .carrusel-track {
+    will-change: transform;
+  }
+</style>

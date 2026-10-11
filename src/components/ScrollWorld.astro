@@ -1,11 +1,13 @@
 ---
-// Recorrido "scroll world" sin video: la cámara arranca en la vereda, entra por la
-// puerta y avanza por el almacén. Cada parada es una foto real que se revela con
-// el scroll. Todas las paradas comparten la misma celda de la grilla, así que sin
-// animaciones (o sin JS) se apilan solas como una lista normal.
-import { Image } from 'astro:assets';
+// Recorrido "scroll world": la fachada ocupa toda la pantalla; al bajar, la cámara
+// entra por la puerta y el video del local avanza con el scroll dentro del arco.
+// Cada parada tiene además su fotograma como afiche: se ve mientras carga el video,
+// si el video no está disponible, y en la versión sin animación (lista apilada).
+import { Image, getImage } from 'astro:assets';
 import Icon from './Icon.astro';
-import { negocio, recorrido } from '../data/site';
+import { negocio, recorrido, videoRecorrido } from '../data/site';
+
+const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: recorrido[1].foto.width });
 ---
 
 <section id="recorrido" data-world aria-label="Recorrido por el almacén" style={`--paradas:${recorrido.length}`}>
@@ -16,32 +18,32 @@ import { negocio, recorrido } from '../data/site';
       <ol class="world-stops">
         {
           recorrido.map((parada, i) => (
-            <li class="stop" data-stop={i} id={i === 0 ? 'top' : undefined}>
+            <li class:list={['stop', i === 0 && 'stop-hero']} data-stop={i} data-tramo={parada.video?.join(',')} id={i === 0 ? 'top' : undefined}>
               <div class="stop-copy" data-stop-copy>
                 {i === 0 ? (
                   <>
-                    <p class="mb-4 inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm font-semibold text-profundo ring-1 ring-profundo/10">
+                    <p class="mb-4 inline-flex items-center gap-2 rounded-full bg-white px-3 py-2 text-sm font-semibold text-profundo ring-1 ring-profundo/10">
                       <span class="relative flex size-2">
                         <span data-estado-ping class="absolute inline-flex size-full rounded-full bg-marca opacity-60"></span>
                         <span data-estado-punto class="relative inline-flex size-2 rounded-full bg-marca"></span>
                       </span>
                       <span data-estado>Abrimos de lunes a sábado</span>
                     </p>
-                    <h1 class="titulo-degrade text-4xl font-bold tracking-tight sm:text-5xl lg:text-7xl">
+                    <h1 class="titulo-degrade text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
                       Lo rico de <br />
                       elegir natural
                     </h1>
-                    <p class="hero-sub mt-4 max-w-[680px] text-base text-texto-2 sm:text-lg lg:mt-6">{parada.texto}</p>
-                    <div class="mt-6 flex flex-wrap items-center gap-4 lg:mt-8">
+                    <p class="hero-sub mt-4 text-base text-texto-2 sm:text-lg">{parada.texto}</p>
+                    <div class="mt-6 flex flex-wrap items-center gap-4">
                       <a href={negocio.mapsDestino} target="_blank" rel="noopener" class="boton boton-principal">
                         <Icon name="navigation-arrow" class="size-5" />
                         Cómo llegar al almacén
                       </a>
                       <p class="hidden text-sm text-texto-2 sm:block">
-                        <strong class="font-semibold text-profundo">{negocio.seguidores}</strong> personas nos siguen en Instagram
+                        <strong class="font-semibold text-profundo">{negocio.seguidores}</strong> nos siguen en Instagram
                       </p>
                     </div>
-                    <p data-scroll-hint class="world-hint mt-8 hidden items-center gap-2 text-sm font-semibold text-marca lg:flex">
+                    <p data-scroll-hint class="world-hint mt-6 hidden items-center gap-2 text-sm font-semibold text-marca lg:flex">
                       <Icon name="arrow-down" class="size-4 animate-bounce" />
                       Deslizá para entrar al almacén
                     </p>
@@ -57,25 +59,44 @@ import { negocio, recorrido } from '../data/site';
                 )}
               </div>
 
-              <div class="stop-media grano" data-stop-media>
+              <div class:list={['stop-media', i > 0 && 'grano']} data-stop-media>
                 <div class="stop-reveal" data-stop-reveal>
                   <Image
                     src={parada.foto}
                     alt={parada.alt}
-                    widths={[parada.foto.width]}
-                    sizes="(min-width: 1024px) 40vw, 90vw"
-                    quality={86}
+                    widths={i === 0 ? [960, 1600, 2560] : [parada.foto.width]}
+                    sizes={i === 0 ? '100vw' : '(min-width: 1024px) 40vw, 90vw'}
+                    quality={i === 0 ? 80 : 86}
                     loading={i < 2 ? 'eager' : 'lazy'}
                     fetchpriority={i === 0 ? 'high' : 'auto'}
                     class="stop-img"
-                    style={parada.foco ? `object-position:${parada.foco};transform-origin:${parada.foco}` : undefined}
+                    style={parada.foco ? `transform-origin:${parada.foco}` : undefined}
                     data-stop-img
                   />
+                  {i === 0 && <div class="hero-velo" data-hero-velo aria-hidden="true"></div>}
                 </div>
               </div>
             </li>
           ))
         }
+
+        <li class="stop stop-video" aria-hidden="true" data-video-layer>
+          <div class="stop-copy"></div>
+          <div class="stop-media grano">
+            <div class="stop-reveal" data-video-reveal>
+              <video
+                data-world-video
+                data-src={videoRecorrido}
+                poster={afiche.src}
+                muted
+                playsinline
+                disablepictureinpicture
+                preload="none"
+                class="stop-img"
+              ></video>
+            </div>
+          </div>
+        </li>
       </ol>
 
       <div class="world-rail" aria-hidden="true">
@@ -127,6 +148,11 @@ import { negocio, recorrido } from '../data/site';
     background: var(--color-menta);
     box-shadow: 0 32px 64px -24px rgb(33 76 59 / 0.35);
   }
+  .stop-hero .stop-media {
+    aspect-ratio: 16 / 9;
+    max-width: none;
+    border-radius: 24px;
+  }
   .stop-reveal {
     position: absolute;
     inset: 0;
@@ -136,9 +162,8 @@ import { negocio, recorrido } from '../data/site';
     height: 100%;
     object-fit: cover;
   }
-  .world-rail {
-    display: none;
-  }
+  .stop-video,
+  .world-rail,
   :global(html:not(.motion)) .world-hint {
     display: none;
   }
@@ -155,7 +180,7 @@ import { negocio, recorrido } from '../data/site';
 
   /* ---------- Con movimiento: escenario fijo y paradas superpuestas ---------- */
   :global(html.motion) .world-track {
-    /* 100svh del escenario + 90svh de scroll por cada cambio de parada + pausa final */
+    /* 100svh del escenario + 90svh de scroll por cada parada + pausa final */
     height: calc(100svh + (var(--paradas) - 1) * 90svh + 40svh);
   }
   :global(html.motion) .world-stage {
@@ -169,6 +194,8 @@ import { negocio, recorrido } from '../data/site';
     will-change: transform;
   }
   :global(html.motion) .world-stops {
+    /* static: la fachada absoluta toma de referencia el escenario a todo el ancho */
+    position: static;
     display: grid;
     height: 100%;
     padding: 0 20px;
@@ -184,6 +211,8 @@ import { negocio, recorrido } from '../data/site';
     pointer-events: none;
   }
   :global(html.motion) .stop-copy {
+    position: relative;
+    z-index: 1;
     align-self: end;
     will-change: transform, opacity, filter;
   }
@@ -202,15 +231,81 @@ import { negocio, recorrido } from '../data/site';
   :global(html.motion) .stop-reveal {
     will-change: clip-path;
   }
-  :global(html.motion) .stop:not(:first-child) .stop-reveal {
-    clip-path: inset(100% 0% 0% 0%);
+  :global(html.motion) .stop-img {
+    will-change: transform;
   }
+
+  /* Hero: la fachada a pantalla completa y el texto en una tarjeta encima */
+  :global(html.motion) .stop-hero {
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+  :global(html.motion) .stop-hero .stop-media {
+    /* Enmarcada: deja aire arriba para el nav, así no tapa el logo del cartel */
+    position: absolute;
+    inset: 80px 12px 12px;
+    width: auto;
+    height: auto;
+    max-width: none;
+    aspect-ratio: auto;
+    border-radius: 24px;
+    box-shadow: 0 32px 64px -32px rgb(33 76 59 / 0.45);
+    background: var(--color-crema);
+    /* Sin esto, la alineación centrada del grid la achica a 0x0 por ser absoluta */
+    justify-self: stretch;
+    align-self: stretch;
+    will-change: opacity;
+  }
+  :global(html.motion) .stop-hero .stop-img {
+    object-position: 46% 50%;
+    /* Fachada en segundo plano: suave para que la tarjeta se lea. Se enfoca al entrar. */
+    filter: blur(3px) saturate(0.75);
+  }
+  :global(html.motion) .hero-velo {
+    position: absolute;
+    inset: 0;
+    background: rgb(251 248 242 / 0.4);
+    pointer-events: none;
+  }
+  :global(html.motion) .stop-hero .stop-copy {
+    grid-row: 2;
+    align-self: end;
+    padding: 24px;
+    border-radius: 24px;
+    background: rgb(251 248 242 / 0.9);
+    box-shadow: 0 24px 64px -24px rgb(33 76 59 / 0.45);
+    backdrop-filter: blur(16px);
+  }
+
+  /* Paradas con fotograma: arrancan ocultas y se cruzan con opacidad */
   :global(html.motion) .stop:not(:first-child) .stop-media {
     box-shadow: none;
     background: transparent;
   }
-  :global(html.motion) .stop-img {
-    will-change: transform;
+  :global(html.motion) .stop:nth-child(n + 3):not(.stop-video) .stop-media {
+    opacity: 0;
+  }
+  :global(html.motion) .stop:nth-child(2) .stop-reveal,
+  :global(html.motion) .stop-video .stop-reveal {
+    clip-path: circle(0% at 50% 50%);
+  }
+
+  /* Capa del video: encima de todas las paradas, visible cuando ya cargó */
+  :global(html.motion) .stop-video {
+    display: grid;
+  }
+  :global(html.motion) .stop-video .stop-media {
+    background: transparent;
+    box-shadow: none;
+    opacity: 0;
+    transition:
+      opacity 700ms var(--ease-fluid),
+      box-shadow 700ms var(--ease-fluid);
+  }
+  :global(html.motion) .stop-video.is-ready .stop-media {
+    opacity: 1;
+  }
+  :global(html.motion) .stop-video.is-entered .stop-media {
+    box-shadow: 0 32px 64px -24px rgb(33 76 59 / 0.35);
   }
 
   :global(html.motion) .world-rail {
@@ -220,6 +315,13 @@ import { negocio, recorrido } from '../data/site';
     bottom: 24px;
     display: flex;
     gap: 4px;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 700ms var(--ease-fluid);
+  }
+  /* La barra de progreso aparece recién adentro del almacén, no sobre la fachada */
+  :global(html.motion) [data-world].is-inside .world-rail {
+    opacity: 1;
   }
   .rail-item {
     flex: 1;
@@ -239,7 +341,7 @@ import { negocio, recorrido } from '../data/site';
     display: none;
   }
 
-  /* Celulares bajitos: el hero pierde la bajada para que la foto conserve espacio */
+  /* Celulares bajitos: el hero pierde la bajada para que entre todo */
   @media (max-width: 1023px) and (max-height: 720px) {
     :global(html.motion) .stop {
       grid-template-rows: 216px minmax(0, 1fr);
@@ -266,6 +368,22 @@ import { negocio, recorrido } from '../data/site';
     :global(html.motion) .stop-media {
       height: min(100%, 760px);
       align-self: center;
+    }
+    :global(html.motion) .stop-hero .stop-media {
+      inset: 88px 24px 24px;
+      height: auto;
+      border-radius: 32px;
+    }
+    :global(html.motion) .stop-hero .stop-img {
+      object-position: 50% 50%;
+    }
+    /* La tarjeta va a la derecha, sobre la puerta del edificio: deja ver vidriera y cartel */
+    :global(html.motion) .stop-hero .stop-copy {
+      grid-row: 1;
+      grid-column: 2;
+      justify-self: end;
+      max-width: 520px;
+      padding: 40px;
     }
     :global(html.motion) .world-rail {
       left: 50%;

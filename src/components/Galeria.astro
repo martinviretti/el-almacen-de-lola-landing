@@ -1,0 +1,54 @@
+---
+// Fotos reales del interior en mosaico: la grande manda, las otras acompañan.
+import { Image } from 'astro:assets';
+import { galeria } from '../data/site';
+
+const formas = [
+  'col-span-2 row-span-2', // mesa de granel
+  'row-span-2', // lámparas, foto alta
+  '', // pasillo
+  '', // exhibidores
+];
+---
+
+{
+  galeria.length > 0 && (
+    <section id="el-almacen" aria-labelledby="galeria-titulo" class="px-5 py-24 lg:px-10 lg:py-32">
+      <div class="mx-auto max-w-[1200px]">
+        <div class="max-w-[680px]" data-reveal>
+          <p class="mb-3 text-sm font-semibold text-marca">El almacén</p>
+          <h2 id="galeria-titulo" class="text-4xl font-bold tracking-tight text-profundo lg:text-5xl">
+            Un lugar lindo <br />
+            para hacer las compras
+          </h2>
+          <p class="mt-4 text-lg text-texto-2">Madera, luz cálida y góndolas ordenadas para que elegir sea un placer.</p>
+        </div>
+
+        <div class="mt-12 grid auto-rows-[200px] grid-cols-2 gap-3 sm:auto-rows-[260px] lg:mt-16 lg:auto-rows-[280px] lg:grid-cols-4 lg:gap-4">
+          {galeria.map((g, i) => (
+            <figure
+              data-reveal
+              style={`--delay:${i * 80}ms`}
+              class:list={['group relative overflow-hidden rounded-3xl bg-menta', formas[i]]}
+            >
+              <Image
+                src={g.foto}
+                alt={g.alt}
+                widths={[480, 800, 1200].filter((w) => w <= g.foto.width)}
+                sizes={i === 0 ? '(min-width: 1024px) 600px, 100vw' : '(min-width: 1024px) 300px, 50vw'}
+                quality={82}
+                loading="lazy"
+                data-parallax
+                class="absolute inset-x-0 -top-[6%] h-[112%] w-full object-cover transition-transform duration-700 ease-fluid group-hover:scale-105"
+              />
+              <figcaption class="absolute inset-x-3 bottom-3 flex items-end justify-between gap-2">
+                <span class="rounded-full bg-white/90 px-3 py-1 text-sm font-semibold text-profundo backdrop-blur">{g.texto}</span>
+                {g.credito && <span class="rounded-full bg-black/40 px-2 py-1 text-xs text-white backdrop-blur">Foto: {g.credito}</span>}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
