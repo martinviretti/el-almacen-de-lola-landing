@@ -12,6 +12,16 @@ import pasillo from '../assets/local/pasillo.jpg';
 import granelLamparas from '../assets/local/granel-lamparas.jpg';
 import exhibidores from '../assets/local/exhibidores.jpg';
 
+// Fotos del Instagram del almacén (publicaciones propias) para la galería.
+import galMesaChocolates from '../assets/galeria/mesa-chocolates.jpg';
+import galProductosExhibicion from '../assets/galeria/productos-exhibicion.jpg';
+import galPublicacion04 from '../assets/galeria/publicacion-04.jpg';
+import galPublicacion05 from '../assets/galeria/publicacion-05.jpg';
+import galPublicacion06 from '../assets/galeria/publicacion-06.jpg';
+import galPublicacion08 from '../assets/galeria/publicacion-08.jpg';
+import galPublicacion09 from '../assets/galeria/publicacion-09.jpg';
+import galPublicacion10 from '../assets/galeria/publicacion-10.jpg';
+
 // Fotogramas del video del recorrido: afiches mientras carga y versión sin animación.
 import parada1 from '../assets/recorrido/parada-1.jpg';
 import parada2 from '../assets/recorrido/parada-2.jpg';
@@ -213,32 +223,20 @@ export const categorias = [
   { foto: catOrganicos, nombre: 'Productos orgánicos', detalle: 'Te ayudamos a reconocerlos', pendiente: true },
 ];
 
-// Fotos reales del interior. `credito`: autora de la foto en Google Maps.
-export const galeria: Array<{ foto: ImageMetadata; alt: string; texto: string; credito?: string }> = [
-  {
-    foto: mostrador,
-    alt: 'Interior del almacén: mesa de madera con frutos secos fraccionados, lámparas colgantes y heladeras al fondo',
-    texto: 'La mesa de granel',
-    credito: 'Miriam Marto',
-  },
-  {
-    foto: granelLamparas,
-    alt: 'Lámparas blancas colgantes sobre vitrinas y estantes de madera',
-    texto: 'Lámparas y madera',
-    credito: 'Julia Marquez',
-  },
-  {
-    foto: pasillo,
-    alt: 'Pasillo del almacén con góndolas a ambos lados y piso de madera',
-    texto: 'El pasillo',
-    credito: 'Julia Marquez',
-  },
-  {
-    foto: exhibidores,
-    alt: 'Exhibidores con barritas, snacks y productos sin sellos',
-    texto: 'Snacks para llevar',
-    credito: 'Miriam Marto',
-  },
+// Fotos reales del local para la galería deslizable. `credito`: autora de la foto en
+// Google Maps; las que no tienen crédito son del Instagram del propio almacén.
+export const galeria: Array<{ foto: ImageMetadata; alt: string; credito?: string }> = [
+  { foto: galMesaChocolates, alt: 'Mesa de madera con budines, chocolates orgánicos y frutos secos, con lámparas y heladeras al fondo' },
+  { foto: galPublicacion05, alt: 'Cajas de té en hebras sobre un estante de madera' },
+  { foto: galPublicacion04, alt: 'Pastas de maní y proteínas en frascos sobre un estante de madera' },
+  { foto: galPublicacion09, alt: 'Budines y panificados envasados sobre la mesa del almacén' },
+  { foto: pasillo, alt: 'Pasillo del almacén con góndolas a ambos lados y piso de madera', credito: 'Julia Marquez' },
+  { foto: galPublicacion08, alt: 'Estantes de madera con frascos de mermeladas y dulces' },
+  { foto: galPublicacion06, alt: 'Paquete de galletitas de chocolate sostenido frente a la mesa de granel' },
+  { foto: granelLamparas, alt: 'Lámparas blancas colgantes sobre vitrinas y estantes de madera', credito: 'Julia Marquez' },
+  { foto: galProductosExhibicion, alt: 'Exhibidor de madera con productos y carteles informativos' },
+  { foto: galPublicacion10, alt: 'Tabletas de chocolate con manteca de cacao en la góndola' },
+  { foto: exhibidores, alt: 'Exhibidores con barritas, snacks y productos sin sellos', credito: 'Miriam Marto' },
 ];
 
 // Historias destacadas reales de @lolasaludable: cada una abre esa historia en Instagram.

@@ -1,22 +1,15 @@
 ---
-// Fotos reales del interior en mosaico: la grande manda, las otras acompañan.
-// Sin etiquetas encima: las fotos hablan solas (los créditos quedan en site.ts).
-// Solo escritorio: en celular el recorrido ya muestra estas mismas fotos.
+// Fotos reales del local en una fila deslizable: con el dedo en el celular y con
+// las flechas (o el trackpad) en la computadora. Sin etiquetas encima.
 import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
 import { galeria } from '../data/site';
-
-const formas = [
-  'col-span-2 row-span-2', // mesa de granel
-  'row-span-2', // lámparas, foto alta
-  '', // pasillo
-  '', // exhibidores
-];
 ---
 
 {
   galeria.length > 0 && (
-    <section id="el-almacen" aria-labelledby="galeria-titulo" class="hidden px-5 py-24 lg:block lg:px-10 lg:py-32">
-      <div class="mx-auto max-w-[1200px]">
+    <section id="el-almacen" aria-labelledby="galeria-titulo" class="overflow-hidden py-24 lg:py-32" data-galeria>
+      <div class="mx-auto flex max-w-[1200px] items-end justify-between gap-6 px-5 lg:px-10">
         <div class="max-w-[680px]" data-reveal>
           <p class="mb-3 text-sm font-semibold text-marca">El almacén</p>
           <h2 id="galeria-titulo" class="text-4xl font-bold tracking-tight text-profundo lg:text-5xl">
@@ -25,28 +18,113 @@ const formas = [
           </h2>
           <p class="mt-4 text-lg text-texto-2">Madera, luz cálida y góndolas ordenadas para que elegir sea un placer.</p>
         </div>
-
-        <div class="mt-12 grid auto-rows-[200px] grid-cols-2 gap-3 sm:auto-rows-[260px] lg:mt-16 lg:auto-rows-[280px] lg:grid-cols-4 lg:gap-4">
-          {galeria.map((g, i) => (
-            <figure
-              data-reveal
-              style={`--delay:${i * 80}ms`}
-              class:list={['group relative overflow-hidden rounded-3xl bg-menta', formas[i]]}
-            >
-              <Image
-                src={g.foto}
-                alt={g.alt}
-                widths={[480, 800, 1200].filter((w) => w <= g.foto.width)}
-                sizes={i === 0 ? '(min-width: 1024px) 600px, 100vw' : '(min-width: 1024px) 300px, 50vw'}
-                quality={82}
-                loading="lazy"
-                data-parallax
-                class="absolute inset-x-0 -top-[6%] h-[112%] w-full object-cover transition-transform duration-700 ease-fluid group-hover:scale-105"
-              />
-            </figure>
-          ))}
+        <div class="hidden shrink-0 gap-2 lg:flex">
+          <button type="button" class="galeria-flecha" data-galeria-ir="-1" aria-label="Fotos anteriores">
+            <Icon name="arrow-left" class="size-5" />
+          </button>
+          <button type="button" class="galeria-flecha" data-galeria-ir="1" aria-label="Fotos siguientes">
+            <Icon name="arrow-left" class="size-5 rotate-180" />
+          </button>
         </div>
       </div>
+
+      <ul class="galeria-fila mt-10 lg:mt-14" data-galeria-fila aria-label="Fotos del almacén">
+        {galeria.map((g, i) => (
+          <li class="galeria-foto">
+            <Image
+              src={g.foto}
+              alt={g.alt}
+              widths={[400, 640, 900].filter((w) => w <= g.foto.width).concat(g.foto.width < 400 ? [g.foto.width] : [])}
+              sizes="(min-width: 1024px) 340px, 76vw"
+              quality={82}
+              loading={i < 3 ? 'eager' : 'lazy'}
+              class="size-full object-cover transition-transform duration-700 ease-fluid hover:scale-105"
+            />
+          </li>
+        ))}
+      </ul>
+      <p class="mx-auto mt-4 max-w-[1200px] px-5 text-sm text-texto-2 lg:hidden">Deslizá para ver más →</p>
     </section>
   )
 }
+
+<style>
+  .galeria-fila {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 20px;
+    padding-inline: 20px;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .galeria-fila::-webkit-scrollbar {
+    display: none;
+  }
+  .galeria-foto {
+    position: relative;
+    flex: 0 0 76vw;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: 24px;
+    background: var(--color-menta);
+    scroll-snap-align: start;
+  }
+  @media (min-width: 1024px) {
+    .galeria-fila {
+      gap: 16px;
+      /* La primera foto arranca alineada con el título (contenedor de 1200 px). */
+      padding-inline: max(40px, calc((100vw - 1200px) / 2 + 40px));
+      scroll-padding-inline: max(40px, calc((100vw - 1200px) / 2 + 40px));
+    }
+    .galeria-foto {
+      flex-basis: 340px;
+    }
+  }
+
+  .galeria-flecha {
+    display: flex;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1px solid var(--color-arena);
+    background: #fff;
+    color: var(--color-profundo);
+    transition:
+      transform 700ms var(--ease-fluid),
+      opacity 300ms;
+  }
+  .galeria-flecha:hover {
+    transform: scale(1.05);
+  }
+  .galeria-flecha:disabled {
+    opacity: 0.35;
+    transform: none;
+  }
+</style>
+
+<script>
+  // Flechas de escritorio: avanzan de a una "pantalla" de fotos y se apagan en los extremos.
+  document.querySelectorAll<HTMLElement>('[data-galeria]').forEach((sec) => {
+    const fila = sec.querySelector<HTMLElement>('[data-galeria-fila]')!;
+    const flechas = [...sec.querySelectorAll<HTMLButtonElement>('[data-galeria-ir]')];
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const actualizar = () => {
+      const max = fila.scrollWidth - fila.clientWidth - 2;
+      flechas[0].disabled = fila.scrollLeft <= 2;
+      flechas[1].disabled = fila.scrollLeft >= max;
+    };
+    flechas.forEach((b) =>
+      b.addEventListener('click', () => {
+        const paso = Math.max(fila.clientWidth * 0.8, 340);
+        fila.scrollBy({ left: Number(b.dataset.galeriaIr) * paso, behavior: reduce ? 'auto' : 'smooth' });
+      }),
+    );
+    fila.addEventListener('scroll', actualizar, { passive: true });
+    window.addEventListener('resize', actualizar);
+    actualizar();
+  });
+</script>

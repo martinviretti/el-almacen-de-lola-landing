@@ -1,41 +1,27 @@
 ---
-// Bloque de marca + Instagram: el logo de Lola y sus historias destacadas reales.
-// En celular reemplaza a la galería (que repetía las fotos del recorrido).
+// Franja chica de Instagram: logo, usuario y un botón. Sin las burbujas de destacadas.
 import { Image } from 'astro:assets';
 import logo from '../assets/logo-lola-circulo.png';
 import Icon from './Icon.astro';
-import { negocio, destacadas } from '../data/site';
+import { negocio } from '../data/site';
 ---
 
-<section id="instagram" aria-labelledby="ig-titulo" class="px-5 py-24 lg:px-10 lg:py-32">
-  <div class="mx-auto max-w-[1200px] rounded-[32px] bg-menta-suave px-6 py-12 text-center lg:px-16 lg:py-16" data-reveal>
-    <Image src={logo} alt="Logo de El Almacén de Lola" width={96} height={96} class="mx-auto size-24 rounded-full ring-4 ring-white" />
-    <p class="mt-4 text-sm font-semibold text-marca">{negocio.instagramUsuario}</p>
-    <h2 id="ig-titulo" class="mt-2 text-3xl font-bold tracking-tight text-profundo lg:text-5xl">
-      Lo nuevo, <br class="lg:hidden" />primero en Instagram
-    </h2>
-    <p class="mx-auto mt-4 max-w-[520px] text-base text-texto-2 lg:text-lg">
-      Productos que llegan, recetas, sorteos y todo lo que pasa en el almacén.
-    </p>
-
-    <ul class="mx-auto mt-10 flex max-w-[640px] flex-wrap justify-center gap-x-[10px] gap-y-4 lg:gap-8">
-      {
-        destacadas.map((d) => (
-          <li class="w-[52px] shrink-0 lg:w-20">
-            <a href={d.url} target="_blank" rel="noopener" class="group flex flex-col items-center gap-2" aria-label={`Ver la historia destacada ${d.nombre} en Instagram`}>
-              <span class="rounded-full p-[3px] ring-2 ring-marca transition-transform duration-700 ease-fluid group-hover:scale-105 group-active:scale-95">
-                <Image src={d.foto} alt="" width={150} height={150} class="size-11 rounded-full lg:size-[68px]" loading="lazy" />
-              </span>
-              <span class="text-center text-xs leading-tight font-semibold text-profundo">{d.nombre}</span>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-
-    <a href={negocio.instagram} target="_blank" rel="noopener" class="boton boton-principal mt-10">
+<section id="instagram" aria-labelledby="ig-titulo" class="px-5 py-10 lg:px-10 lg:py-14">
+  <a
+    href={negocio.instagram}
+    target="_blank"
+    rel="noopener"
+    class="group mx-auto flex max-w-[1200px] items-center gap-4 rounded-full border border-arena bg-white py-3 pr-3 pl-3 transition-colors duration-700 ease-fluid hover:border-marca lg:gap-5 lg:py-4 lg:pr-4 lg:pl-4"
+    data-reveal
+  >
+    <Image src={logo} alt="" width={64} height={64} class="size-12 shrink-0 rounded-full lg:size-14" />
+    <span class="min-w-0 flex-1">
+      <span id="ig-titulo" class="block truncate text-base font-bold text-profundo lg:text-lg">{negocio.instagramUsuario}</span>
+      <span class="block truncate text-sm text-texto-2">Novedades<span class="hidden sm:inline">, recetas y sorteos</span></span>
+    </span>
+    <span class="flex shrink-0 items-center gap-2 rounded-full bg-profundo px-4 py-3 text-sm font-semibold text-white transition-transform duration-700 ease-fluid group-hover:scale-105 lg:px-6">
       <Icon name="instagram-logo" class="size-5" />
-      Novedades en Instagram
-    </a>
-  </div>
+      Seguinos
+    </span>
+  </a>
 </section>
