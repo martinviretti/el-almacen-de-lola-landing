@@ -268,6 +268,11 @@ export const marcas: Array<{ nombre: string; logo: ImageMetadata }> = [
   { nombre: 'Roapipó', logo: marcaRoapipo },
 ];
 
+// Opiniones destacadas de Google para "Visitanos" (se muestran hasta 4). PENDIENTE: cargarlas
+// con el texto TAL CUAL está en Google y solo el nombre y la inicial del apellido de quien la
+// escribió. No inventar ni retocar opiniones. Si queda vacío, se ve solo la calificación.
+export const resenas: Array<{ texto: string; autor: string; estrellas: 1 | 2 | 3 | 4 | 5 }> = [];
+
 export const tagline =
   'Comer mejor no tendría que ser complicado. Por eso juntamos lo rico y lo natural en un solo lugar, cerca de casa.';
 

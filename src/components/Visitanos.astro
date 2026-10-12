@@ -1,184 +1,198 @@
 ---
-import { Image } from 'astro:assets';
+// Visitanos, en dos filas:
+// 1) Dónde y cuándo (dirección, Cómo llegar, horarios) | el mapa.
+// 2) Medios de pago | Google (calificación, opiniones destacadas y cómo dejar una).
 import Icon from './Icon.astro';
 import IconoMarca from './IconoMarca.astro';
-// Foto real del frente (sin retoque con IA), para que se reconozca el local al llegar.
-import fachada from '../assets/fotos/02-fachada-real.webp';
-import { negocio, horarios, horariosResumen } from '../data/site';
+import { negocio, horarios, horariosResumen, resenas } from '../data/site';
 
 // Lunes primero, domingo al final.
 const semana = [...horarios.slice(1), horarios[0]];
+// Ancho de la capa de estrellas llenas (4,3 → 86 %).
+const calificacion = Number(negocio.googleCalificacion.replace(',', '.'));
+const llenas = `${Math.round((calificacion / 5) * 100)}%`;
+const estrella = 'M12 2.5l2.9 6.06 6.6.8-4.87 4.57 1.25 6.57L12 17.3l-5.88 3.2 1.25-6.57L2.5 9.36l6.6-.8z';
 ---
 
 <section id="visitanos" class="bg-menta-suave px-5 py-24 lg:px-10 lg:py-32">
-  <div class="mx-auto grid max-w-[1200px] gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
+  <div class="mx-auto max-w-[1200px]">
     <div data-reveal>
       <p class="mb-3 text-sm font-semibold text-marca-texto">Visitanos</p>
-      <h2 class="text-4xl font-bold tracking-tight text-profundo lg:text-5xl">
-        Te esperamos <br class="hidden sm:block" />en Victoria
-      </h2>
+      <h2 class="text-4xl font-bold tracking-tight text-profundo lg:text-5xl">Te esperamos en Victoria</h2>
+    </div>
 
-      <div class="mt-8 flex items-start gap-4">
-        <span class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-white text-profundo">
-          <Icon name="map-pin" class="size-6" />
-        </span>
-        <div>
-          <p class="text-lg font-semibold text-profundo">{negocio.direccion}</p>
-          <p class="text-base text-texto-2">{negocio.localidad}, {negocio.provincia}</p>
-          {/* En celular "Cómo llegar" va pegado a la dirección: es lo primero que se busca acá */}
-          <a href={negocio.mapsDestino} target="_blank" rel="noopener" class="boton boton-principal mt-3 lg:hidden">
+    {/* Fila 1: dónde y cuándo + mapa */}
+    <div class="mt-10 grid gap-4 lg:mt-12 lg:grid-cols-2 lg:gap-6">
+      <div class="rounded-3xl bg-white p-6 lg:p-8" data-reveal>
+        <div class="flex items-start gap-4">
+          <span class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-menta-suave text-profundo">
+            <Icon name="map-pin" class="size-6" />
+          </span>
+          <div>
+            <p class="text-lg font-semibold text-profundo">{negocio.direccion}</p>
+            <p class="text-base text-texto-2">{negocio.localidad}, {negocio.provincia}</p>
+          </div>
+        </div>
+        <div class="mt-5 flex flex-wrap gap-3">
+          <a href={negocio.mapsDestino} target="_blank" rel="noopener" class="boton boton-principal">
             <Icon name="navigation-arrow" class="size-5" />
             Cómo llegar
           </a>
+          <a href={negocio.instagramMensaje} target="_blank" rel="noopener" class="boton boton-secundario">
+            <IconoMarca name="instagram" class="size-5" />
+            Escribinos
+          </a>
         </div>
-      </div>
 
-      <div class="mt-6 flex items-start gap-4">
-        <span class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-white text-profundo">
-          <Icon name="clock" class="size-6" />
-        </span>
-        <div class="w-full max-w-[400px]">
-          <p class="text-lg font-semibold text-profundo">Horarios</p>
-          {/* Celular: resumen en 3 líneas y la semana completa plegada */}
-          <dl class="mt-2 text-sm lg:hidden">
-            {
-              horariosResumen.map((h) => (
-                <div class="flex gap-2">
-                  <dt class="text-texto-2">{h.dias}:</dt>
-                  <dd class="font-semibold text-profundo">{h.horas}</dd>
-                </div>
-              ))
-            }
-          </dl>
-          <details class="horarios-detalle mt-2 lg:hidden">
-            <summary class="cursor-pointer text-sm font-semibold text-marca-texto">Ver todos los días</summary>
-            <dl class="mt-3 divide-y divide-profundo/10 rounded-2xl bg-white px-4">
+        <div class="mt-8 flex items-start gap-4">
+          <span class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-menta-suave text-profundo">
+            <Icon name="clock" class="size-6" />
+          </span>
+          <div class="w-full">
+            <p class="text-lg font-semibold text-profundo">Horarios</p>
+            {/* Celular: resumen en 3 líneas y la semana completa plegada */}
+            <dl class="mt-2 text-sm lg:hidden">
               {
-                semana.map((h) => (
-                  <div class="flex justify-between gap-4 py-2 text-sm">
-                    <dt class="text-texto-2">{h.dia}</dt>
-                    <dd class="font-semibold text-profundo tabular-nums">
-                      {h.abre === null ? 'Cerrado' : `${h.abre} a ${h.cierra} h`}
-                    </dd>
+                horariosResumen.map((h) => (
+                  <div class="flex gap-2">
+                    <dt class="text-texto-2">{h.dias}:</dt>
+                    <dd class="font-semibold text-profundo">{h.horas}</dd>
                   </div>
                 ))
               }
             </dl>
-          </details>
-          <dl class="mt-3 hidden divide-y divide-profundo/10 rounded-2xl bg-white px-4 lg:block">
-            {
-              semana.map((h) => (
-                <div class="flex justify-between gap-4 py-2 text-sm">
-                  <dt class="text-texto-2">{h.dia}</dt>
-                  <dd class="font-semibold text-profundo tabular-nums">
-                    {h.abre === null ? 'Cerrado' : `${h.abre} a ${h.cierra} h`}
-                  </dd>
-                </div>
-              ))
-            }
-          </dl>
+            <details class="mt-2 lg:hidden">
+              <summary class="cursor-pointer text-sm font-semibold text-marca-texto">Ver todos los días</summary>
+              <dl class="mt-2 divide-y divide-profundo/10">
+                {
+                  semana.map((h) => (
+                    <div class="flex justify-between gap-4 py-2 text-sm">
+                      <dt class="text-texto-2">{h.dia}</dt>
+                      <dd class="font-semibold text-profundo tabular-nums">{h.abre === null ? 'Cerrado' : `${h.abre} a ${h.cierra} h`}</dd>
+                    </div>
+                  ))
+                }
+              </dl>
+            </details>
+            <dl class="mt-2 hidden divide-y divide-profundo/10 lg:block">
+              {
+                semana.map((h) => (
+                  <div class="flex justify-between gap-4 py-2 text-sm">
+                    <dt class="text-texto-2">{h.dia}</dt>
+                    <dd class="font-semibold text-profundo tabular-nums">{h.abre === null ? 'Cerrado' : `${h.abre} a ${h.cierra} h`}</dd>
+                  </div>
+                ))
+              }
+            </dl>
+          </div>
         </div>
       </div>
 
-      <div class="mt-6 flex items-start gap-4">
-        <span class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-white text-profundo">
-          <Icon name="wallet" class="size-6" />
-        </span>
-        <div class="w-full max-w-[400px]">
-          <p class="text-lg font-semibold text-profundo">Medios de pago</p>
-          {/* Tres tarjetas iguales: ícono arriba, nombre abajo. Mercado Pago con su logo. */}
-          <ul class="mt-3 grid grid-cols-3 gap-2">
-            {
-              negocio.pagos.map((p) => (
-                <li class="flex flex-col items-center gap-2 rounded-2xl bg-white px-2 py-4 text-center">
-                  {p.id === 'mercadopago' ? (
-                    <IconoMarca name="mercadopago" class="size-8" />
-                  ) : (
-                    <Icon name={p.id === 'efectivo' ? 'money' : 'credit-card'} class="size-8 text-profundo" />
-                  )}
-                  <span class="text-sm leading-tight font-semibold text-profundo">{p.nombre}</span>
-                </li>
-              ))
-            }
-          </ul>
-          <p class="mt-2 text-sm font-semibold text-marca-texto">{negocio.pagosNota}</p>
-        </div>
-      </div>
-
-      <div class="mt-6 flex items-start gap-4">
-        <span class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-white text-profundo">
-          <Icon name="star" class="size-6" />
-        </span>
-        <div>
-          <p class="text-lg font-semibold text-profundo">{negocio.googleCalificacion} en Google</p>
-          <p class="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm font-semibold">
-            <a href={negocio.googleFicha} target="_blank" rel="noopener" class="text-marca-texto underline-offset-4 hover:underline">
-              Ver las opiniones
-            </a>
-            <a href={negocio.googleOpinar} target="_blank" rel="noopener" class="text-marca-texto underline-offset-4 hover:underline">
-              Dejanos la tuya
-            </a>
-          </p>
-        </div>
-      </div>
-
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href={negocio.mapsDestino} target="_blank" rel="noopener" class="boton boton-principal">
-          <Icon name="navigation-arrow" class="size-5" />
-          Cómo llegar
-        </a>
-        <a href={negocio.instagram} target="_blank" rel="noopener" class="boton boton-secundario">
-          <IconoMarca name="instagram" class="size-5" />
-          {negocio.instagramUsuario}
-        </a>
+      {/* El navegador lo carga recién cuando la persona llega a esta parte (loading="lazy") */}
+      <div class="relative min-h-[320px] overflow-hidden rounded-3xl bg-white ring-1 ring-profundo/10" data-reveal style="--delay:120ms">
+        <iframe
+          src={negocio.mapsEmbed}
+          title={`Mapa con la ubicación de ${negocio.nombre}`}
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="absolute inset-0 size-full border-0"></iframe>
       </div>
     </div>
 
-    <div data-reveal style="--delay:120ms" class="grid gap-4">
-      <div class="relative aspect-[16/9] overflow-hidden rounded-3xl bg-menta">
-        <Image
-          src={fachada}
-          alt="Frente de La Almacén de Lola sobre Av. Presidente Perón, con el cartel y la vidriera"
-          widths={[640, 960, 1280]}
-          sizes="(min-width: 1024px) 560px, 100vw"
-          loading="lazy"
-          class="absolute inset-0 size-full object-cover"
-        />
+    {/* Fila 2: medios de pago + Google */}
+    <div class="mt-4 grid gap-4 lg:mt-6 lg:grid-cols-[2fr_3fr] lg:gap-6">
+      <div class="rounded-3xl bg-white p-6 lg:p-8" data-reveal>
+        <p class="text-lg font-semibold text-profundo">Medios de pago</p>
+        <ul class="mt-4 grid grid-cols-3 gap-2">
+          {
+            negocio.pagos.map((p) => (
+              <li class="flex flex-col items-center gap-2 rounded-2xl bg-menta-suave px-2 py-4 text-center">
+                {p.id === 'mercadopago' ? (
+                  <IconoMarca name="mercadopago" class="size-8" />
+                ) : (
+                  <Icon name={p.id === 'efectivo' ? 'money' : 'credit-card'} class="size-8 text-profundo" />
+                )}
+                <span class="text-sm leading-tight font-semibold text-profundo">{p.nombre}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-3 text-sm font-semibold text-marca-texto">{negocio.pagosNota}</p>
       </div>
 
-      <div class="relative min-h-[280px] overflow-hidden rounded-3xl bg-white ring-1 ring-profundo/10" data-mapa>
-        <div class="fondo-hojas absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center" data-mapa-placeholder>
-          <span class="flex size-16 items-center justify-center rounded-full bg-white text-profundo shadow-[0_8px_32px_rgb(33_76_59/0.12)]">
-            <Icon name="map-pin" class="size-8" />
-          </span>
-          <p class="max-w-[280px] text-sm text-texto-2">
-            El mapa se carga desde Google Maps solo si lo pedís.
-          </p>
-          <button type="button" data-mapa-cargar class="boton boton-secundario">Ver el mapa</button>
+      <div class="rounded-3xl bg-white p-6 lg:p-8" data-reveal style="--delay:120ms">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-4">
+            <p class="text-5xl font-bold tracking-tight text-profundo tabular-nums">{negocio.googleCalificacion}</p>
+            <div>
+              {/* Estrellas: abajo 5 grises, arriba 5 doradas recortadas según la calificación */}
+              <span class="estrellas" role="img" aria-label={`${negocio.googleCalificacion} de 5 estrellas`}>
+                <span class="estrellas-capa text-arena" aria-hidden="true">
+                  {[0, 1, 2, 3, 4].map(() => <svg viewBox="0 0 24 24" class="size-6" fill="currentColor"><path d={estrella} /></svg>)}
+                </span>
+                <span class="estrellas-capa estrellas-llenas" style={`width:${llenas}`} aria-hidden="true">
+                  {[0, 1, 2, 3, 4].map(() => <svg viewBox="0 0 24 24" class="size-6 shrink-0" fill="currentColor"><path d={estrella} /></svg>)}
+                </span>
+              </span>
+              <p class="mt-1 text-sm text-texto-2">Calificación en Google</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <a href={negocio.googleFicha} target="_blank" rel="noopener" class="boton boton-secundario boton-chico">Ver opiniones</a>
+            <a href={negocio.googleOpinar} target="_blank" rel="noopener" class="boton boton-principal boton-chico">Dejanos la tuya</a>
+          </div>
         </div>
+
+        {
+          resenas.length > 0 && (
+            <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+              {resenas.slice(0, 4).map((r) => (
+                <li class="rounded-2xl bg-menta-suave p-4">
+                  <span class="estrellas-fijas" role="img" aria-label={`${r.estrellas} de 5 estrellas`}>
+                    {[0, 1, 2, 3, 4].map((k) => (
+                      <svg viewBox="0 0 24 24" class:list={['size-4', k < r.estrellas ? 'estrella-llena' : 'text-arena']} fill="currentColor" aria-hidden="true">
+                        <path d={estrella} />
+                      </svg>
+                    ))}
+                  </span>
+                  <p class="mt-2 text-sm leading-relaxed text-texto">“{r.texto}”</p>
+                  <p class="mt-2 text-xs font-semibold text-texto-2">{r.autor} · en Google</p>
+                </li>
+              ))}
+            </ul>
+          )
+        }
       </div>
     </div>
   </div>
 </section>
 
-
-<script>
-  import { negocio } from '../data/negocio';
-
-  // Fachada del mapa: no se conecta a Google hasta que la persona toca el botón.
-  document.querySelector('[data-mapa-cargar]')?.addEventListener('click', () => {
-    const contenedor = document.querySelector<HTMLElement>('[data-mapa]');
-    if (!contenedor) return;
-    const iframe = document.createElement('iframe');
-    iframe.src = negocio.mapsEmbed;
-    iframe.title = `Mapa con la ubicación de ${negocio.nombre}`;
-    iframe.loading = 'lazy';
-    iframe.referrerPolicy = 'no-referrer-when-downgrade';
-    iframe.className = 'absolute inset-0 size-full border-0';
-    contenedor.querySelector('[data-mapa-placeholder]')?.remove();
-    contenedor.append(iframe);
-    // El botón que se tocó desaparece: el foco pasa al mapa para no perderse.
-    iframe.tabIndex = -1;
-    iframe.focus();
-  });
-</script>
+<style>
+  .estrellas {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
+  }
+  .estrellas-capa {
+    display: inline-flex;
+    gap: 2px;
+  }
+  .estrellas-llenas {
+    position: absolute;
+    inset: 0 auto 0 0;
+    overflow: hidden;
+    color: #f5b301;
+  }
+  .estrellas-fijas {
+    display: inline-flex;
+    gap: 2px;
+  }
+  .estrella-llena {
+    color: #f5b301;
+  }
+  .boton-chico {
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+</style>

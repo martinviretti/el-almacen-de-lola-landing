@@ -31,6 +31,10 @@ Desde el 12/10/2026 **todas las fotos de la web son del local** (kit fotográfic
 - **Teléfono de la ficha** (011 15-5764-7235): confirmar que es del local y si tiene WhatsApp. Si sí, cargarlo en `negocio.ts` → `whatsapp` como `5491157647235`.
 - **Calificación** (`googleCalificacion`, 4,3 al 12/10/2026): actualizarla cada tanto. No se pone en los datos estructurados (Google no acepta calificaciones propias del negocio).
 
+## Opiniones de Google
+
+- La tarjeta de Google en "Visitanos" muestra la calificación (`googleCalificacion` en `negocio.ts`) y tiene lugar para **hasta 4 opiniones destacadas** (`resenas` en `site.ts`). Hoy está vacía: pasar 3 o 4 opiniones reales, copiadas tal cual de Google, con nombre e inicial del apellido y las estrellas. No inventarlas ni retocarlas.
+
 ## Mejoras opcionales
 
 - **Video en mejor calidad**: el reel viene a 480 × 856. Si la encargada tiene el video original del celular, se puede rehacer el recorrido en HD con los mismos tramos.
