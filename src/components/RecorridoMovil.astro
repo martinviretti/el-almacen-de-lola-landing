@@ -6,7 +6,7 @@
 // reducido, las paradas quedan como una lista normal.
 import { Image } from 'astro:assets';
 import fachada from '../assets/fotos/01-fachada-hero.webp';
-import { recorridoMovil } from '../data/site';
+import { recorridoMovil, negocio } from '../data/site';
 
 const ultima = recorridoMovil.length - 1;
 ---
@@ -30,11 +30,17 @@ const ultima = recorridoMovil.length - 1;
         <div class="rm-velo" aria-hidden="true"></div>
       </div>
       <div class="rm-portada-texto" data-rm-texto>
-        <p class="rm-kicker" data-rm-pieza>Tu almacén natural en Victoria</p>
+        <p class="rm-kicker" data-rm-pieza>Dietética y almacén natural en Victoria</p>
         <h1 class="titulo-degrade text-4xl font-bold tracking-tight" data-rm-pieza>
           Lo rico de <br />
           elegir natural
         </h1>
+        {/* Lo que busca quien llega desde Instagram: dónde queda, qué días y cómo hablar */}
+        <p class="rm-datos" data-rm-pieza>{negocio.direccionCorta} · Lunes a sábado</p>
+        <div class="rm-acciones" data-rm-pieza>
+          <a href={negocio.mapsDestino} target="_blank" rel="noopener" class="rm-accion rm-accion-principal">Cómo llegar</a>
+          <a href={negocio.instagramMensaje} target="_blank" rel="noopener" class="rm-accion">Escribinos</a>
+        </div>
         <p class="rm-hint" data-rm-hint>
           <span aria-hidden="true">↓</span> Deslizá para empezar
         </p>
@@ -64,9 +70,17 @@ const ultima = recorridoMovil.length - 1;
             <h2 class="rm-titulo" data-rm-pieza>{p.titulo}</h2>
             <p class="rm-linea" data-rm-pieza>{p.linea}</p>
             {i === ultima && (
-              <p class="rm-seguir" data-rm-pieza>
-                Seguí bajando <span aria-hidden="true">↓</span>
-              </p>
+              <div class="rm-acciones rm-acciones-final" data-rm-pieza>
+                <a href={negocio.mapsDestino} target="_blank" rel="noopener" class="rm-accion rm-accion-principal">
+                  Cómo llegar
+                </a>
+                <a href={negocio.instagramMensaje} target="_blank" rel="noopener" class="rm-accion">
+                  Preguntanos
+                </a>
+                <button type="button" class="rm-accion rm-accion-salir" data-rm-salir>
+                  Seguí mirando <span aria-hidden="true">↓</span>
+                </button>
+              </div>
             )}
           </div>
         </article>
@@ -82,6 +96,8 @@ const ultima = recorridoMovil.length - 1;
         ))
       }
     </div>
+
+    <button type="button" class="rm-saltar" data-rm-saltar>Saltar recorrido <span aria-hidden="true">↓</span></button>
 
     <div class="rm-teclado">
       <button type="button" data-rm-anterior>Parada anterior</button>
@@ -154,10 +170,47 @@ const ultima = recorridoMovil.length - 1;
     font-weight: 600;
     color: var(--color-marca-texto);
   }
+  .rm-datos {
+    margin-top: 10px;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    color: var(--color-profundo);
+  }
+  .rm-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .rm-acciones-final {
+    justify-content: flex-start;
+  }
+  .rm-accion {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 40px;
+    padding: 0 16px;
+    border-radius: 9999px;
+    border: 1px solid rgb(33 76 59 / 0.2);
+    background: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-profundo);
+  }
+  .rm-accion-principal {
+    border-color: var(--color-profundo);
+    background: var(--color-profundo);
+    color: #fff;
+  }
   .rm-progreso,
   .rm-hint,
   .rm-seguir,
-  .rm-velo {
+  .rm-velo,
+  .rm-saltar,
+  .rm-accion-salir {
     display: none;
   }
   .rm-teclado {
@@ -246,11 +299,25 @@ const ultima = recorridoMovil.length - 1;
     box-shadow: 0 16px 40px -16px rgb(33 76 59 / 0.45);
     backdrop-filter: blur(12px);
   }
-  :global(html.motion) .rm-seguir {
-    display: block;
-    margin-top: 8px;
+  :global(html.motion) .rm-accion-salir {
+    display: inline-flex;
+  }
+
+  /* Salida rápida para quien no quiere ver todo el recorrido */
+  :global(html.motion) .rm-saltar {
+    position: absolute;
+    top: 104px;
+    left: 20px;
+    z-index: 3;
+    display: inline-flex;
+    gap: 4px;
+    padding: 8px 14px;
+    border-radius: 9999px;
+    background: rgb(33 76 59 / 0.78);
+    color: #fff;
     font-size: 0.75rem;
-    line-height: 1rem;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
   }
 
   /* Progreso tipo historias: no es un temporizador, se llena al avanzar */

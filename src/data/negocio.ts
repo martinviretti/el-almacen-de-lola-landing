@@ -8,6 +8,8 @@ export const negocio = {
   tagline: 'Alimentos saludables',
   instagram: 'https://www.instagram.com/lolasaludable/',
   instagramUsuario: '@lolasaludable',
+  // Abre directo el chat de Instagram con el local (ig.me redirige a instagram.com/m/…).
+  instagramMensaje: 'https://ig.me/m/lolasaludable',
   // PENDIENTE: número de WhatsApp con código de país, sin + ni espacios (ej. 5491112345678).
   // Vacío: el botón abre WhatsApp con el mensaje listo para elegir el chat.
   whatsapp: '',
@@ -15,6 +17,7 @@ export const negocio = {
   // Redondeado hacia abajo para que no quede viejo enseguida (eran 1.747 el 10/10/2026).
   seguidores: 'Más de 1.700',
   direccion: 'Av. Presidente Perón 3099',
+  direccionCorta: 'Av. Perón 3099',
   localidad: 'Victoria, San Fernando',
   provincia: 'Buenos Aires',
   codigoPostal: 'B1644',

@@ -128,14 +128,18 @@ export function initRecorridoMovil(root: HTMLElement) {
     },
   });
 
-  // Tocar la foto avanza (no los botones ni el cartel). Si el escenario quedó a medias
-  // en pantalla, el toque primero lo encuadra.
+  // Tocar la foto avanza; como en las historias de Instagram, el tercio izquierdo vuelve
+  // atrás (no cuentan los botones ni el cartel). Si el escenario quedó a medias en
+  // pantalla, el toque primero lo encuadra.
   stage.addEventListener('click', (e) => {
     const t = e.target as HTMLElement;
     if (t.closest('button, a, [data-rm-texto]')) return;
-    if (!encuadrado()) scrollA(arriba(), 0.6);
+    if (!encuadrado()) return void scrollA(arriba(), 0.6);
+    if (e.clientX < stage.clientWidth / 3 && actual > 0) retroceder();
     else avanzar();
   });
+  // "Saltar recorrido" y "Seguí mirando": bajan directo al resto de la página.
+  root.querySelectorAll('[data-rm-saltar], [data-rm-salir]').forEach((b) => b.addEventListener('click', () => salir()));
   segmentos.forEach((s) => s.addEventListener('click', () => ir(Number(s.dataset.rmIr))));
   root.querySelector('[data-rm-anterior]')?.addEventListener('click', retroceder);
   root.querySelector('[data-rm-siguiente]')?.addEventListener('click', avanzar);
