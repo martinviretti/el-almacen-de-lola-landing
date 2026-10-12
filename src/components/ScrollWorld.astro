@@ -88,6 +88,10 @@ const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: r
         </li>
       </ol>
 
+      <button type="button" class="world-saltar" data-world-saltar>
+        Saltar recorrido <span aria-hidden="true">↓</span>
+      </button>
+
       <div class="world-rail" aria-hidden="true">
         {
           recorrido.map((parada, i) => (
@@ -102,7 +106,40 @@ const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: r
   </div>
 </section>
 
+<script>
+  // "Saltar recorrido": baja directo a lo que sigue después del recorrido.
+  document.querySelector('[data-world-saltar]')?.addEventListener('click', () => {
+    const s = document.getElementById('recorrido')!;
+    const y = s.getBoundingClientRect().bottom + window.scrollY;
+    if (window.lenis) window.lenis.scrollTo(y, { duration: 1.2 });
+    else window.scrollTo({ top: y, behavior: 'smooth' });
+  });
+</script>
+
 <style>
+  .world-saltar {
+    display: none;
+  }
+  :global(html.motion) .world-saltar {
+    position: absolute;
+    left: 40px;
+    bottom: 96px; /* arriba de la barra de paradas */
+    z-index: 6;
+    display: inline-flex;
+    gap: 6px;
+    padding: 10px 18px;
+    border-radius: 9999px;
+    background: rgb(33 76 59 / 0.8);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+    transition: transform 700ms var(--ease-fluid);
+  }
+  :global(html.motion) .world-saltar:hover {
+    transform: scale(1.04);
+  }
+
   /* ---------- Base: lista apilada (sin JS o con movimiento reducido) ---------- */
   .world-stage {
     position: relative;
@@ -169,8 +206,8 @@ const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: r
 
   /* ---------- Con movimiento: escenario fijo y paradas superpuestas ---------- */
   :global(html.motion) .world-track {
-    /* 100svh del escenario + 90svh de scroll por cada parada + pausa final */
-    height: calc(100svh + (var(--paradas) - 1) * 90svh + 40svh);
+    /* 100svh del escenario + 45svh de scroll por cada parada + pausa final (antes 90svh: se hacía largo) */
+    height: calc(100svh + (var(--paradas) - 1) * 45svh + 30svh);
   }
   :global(html.motion) .world-stage {
     position: sticky;

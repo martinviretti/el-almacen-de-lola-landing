@@ -32,6 +32,24 @@ const hrefWhatsApp = `https://wa.me/${negocio.whatsapp}?text=${encodeURIComponen
   </a>
 </div>
 
+<script>
+  const flotantes = document.querySelector<HTMLElement>('.flotantes');
+  if (flotantes && matchMedia('(max-width: 1023px)').matches) {
+    let espera = 0;
+    addEventListener(
+      'scroll',
+      () => {
+        // En el recorrido del celular no hay scroll de página: quedan fijos arriba.
+        if (document.documentElement.classList.contains('en-recorrido')) return;
+        flotantes.classList.add('is-oculto');
+        clearTimeout(espera);
+        espera = window.setTimeout(() => flotantes.classList.remove('is-oculto'), 900);
+      },
+      { passive: true },
+    );
+  }
+</script>
+
 <style>
   .flotante {
     display: flex;
@@ -60,7 +78,12 @@ const hrefWhatsApp = `https://wa.me/${negocio.whatsapp}?text=${encodeURIComponen
     .flotantes {
       transition:
         top 700ms var(--ease-fluid),
-        bottom 700ms var(--ease-fluid);
+        bottom 700ms var(--ease-fluid),
+        translate 500ms var(--ease-fluid);
+    }
+    /* Mientras se scrollea se corren a un costado para no tapar texto; vuelven al frenar */
+    .flotantes.is-oculto {
+      translate: calc(100% + 24px) 0;
     }
     :global(html.en-recorrido) .flotantes {
       top: 104px;

@@ -7,7 +7,8 @@ import { url } from '../lib/url';
 // Fotos reales del local (kit fotográfico del 12/10/2026, retoque de luz y color sin
 // agregar ni quitar objetos). Las "-movil" son recortes 3:4. Pasillo, granel, mostrador y
 // exhibidores salen de fotos que subieron clientas a Google Maps (ver `credito` y PENDIENTES.md).
-import fachada from '../assets/fotos/01-fachada-hero.webp';
+// Portada: foto real del frente (la versión retocada con IA borraba la franja "DIETÉTICA").
+import fachada from '../assets/fotos/02-fachada-real.webp';
 import fotoPasillo from '../assets/fotos/04-pasillo.webp';
 import fotoMostrador from '../assets/fotos/06-mostrador.webp';
 import fotoVistaGeneral from '../assets/fotos/07-vista-general.webp';
@@ -26,6 +27,9 @@ import m13Heladeras from '../assets/fotos/13-heladeras-movil.webp';
 import m14GranelEstantes from '../assets/fotos/14-granel-estantes-movil.webp';
 import m15Aceites from '../assets/fotos/15-aceites-movil.webp';
 import m16Snacks from '../assets/fotos/16-snacks-movil.webp';
+// Fotos del celular del local (12/10/2026), sin retoque: heladera de yogures y freezer.
+import fotoYogures from '../assets/fotos/momento-yogures.jpg';
+import fotoCongelados from '../assets/fotos/momento-congelados.jpg';
 
 // Logos de marcas (de los sitios oficiales de cada una).
 import marcaNatier from '../assets/marcas/natier.png';
@@ -43,18 +47,6 @@ import parada3 from '../assets/recorrido/parada-3.jpg';
 import parada4 from '../assets/recorrido/parada-4.jpg';
 import parada5 from '../assets/recorrido/parada-5.jpg';
 import parada6 from '../assets/recorrido/parada-6.jpg';
-
-// Imágenes ilustrativas: no muestran el local ni el surtido exacto.
-import catYerbas from '../assets/categorias/01-yerbas-infusiones.jpg';
-import catLeches from '../assets/categorias/02-leches-vegetales.jpg';
-import catYogures from '../assets/categorias/03-yogures.jpg';
-import catFrutosSecos from '../assets/categorias/04-frutos-secos-semillas.jpg';
-import catBarritas from '../assets/categorias/05-barritas-proteinas.jpg';
-import catCongelados from '../assets/categorias/06-congelados.jpg';
-import catChocolates from '../assets/categorias/09-chocolates-snacks.jpg';
-import catOrganicos from '../assets/categorias/10-productos-organicos.jpg';
-import mesaNatural from '../assets/carrusel/carrusel-01-mesa-natural.jpg';
-import desayuno from '../assets/carrusel/carrusel-02-desayuno.jpg';
 
 export { negocio, horarios, horariosResumen } from './negocio';
 
@@ -85,7 +77,7 @@ export const recorrido: Parada[] = [
     foto: fachada,
     alt: 'Fachada de La Almacén de Lola: cartel con el logo, vidriera iluminada con góndolas de madera y plantas en la entrada',
     // La puerta de vidrio de la almacén (la de madera es del edificio).
-    foco: '27% 64%',
+    foco: '36% 72%',
   },
   {
     id: 'entrada',
@@ -127,7 +119,7 @@ export const recorrido: Parada[] = [
     id: 'heladeras',
     etiqueta: 'Heladeras',
     titulo: 'Para resolver la semana',
-    texto: 'Yogures, leches vegetales y congelados para resolver la semana.',
+    texto: 'Yogures, leches vegetales y congelados, siempre a mano en las heladeras.',
     foto: parada5,
     alt: 'Heladeras y freezers vidriados con productos refrigerados y congelados',
     video: [13.4, 18.6],
@@ -213,25 +205,23 @@ export const recorridoMovil: ParadaMovil[] = [
   },
 ];
 
-// Productos contados por momento del día (no por rubro): las fotos son ilustrativas,
-// así que el sentido lo da el momento. `rubros` deja a la vista lo que hay de verdad.
-// Las marcadas `pendiente` no están confirmadas (ver PENDIENTES.md).
+// Productos contados por momento del día (no por rubro), con fotos reales del local.
+// `rubros` deja a la vista lo que hay de verdad.
 export const momentos: Array<{
   foto: ImageMetadata;
   cuando: string;
   titulo: string;
   linea: string;
   rubros: string;
-  pendiente?: boolean;
 }> = [
-  { foto: catYogures, cuando: 'Por la mañana', titulo: 'Un desayuno que arranca bien', linea: 'Yogures, panes y untables para empezar el día.', rubros: 'Yogures · Panificados · Untables' },
-  { foto: catYerbas, cuando: 'A cualquier hora', titulo: 'Un mate, siempre', linea: 'Yerbas, hierbas y tés para la ronda de la tarde.', rubros: 'Yerbas · Infusiones' },
-  { foto: catLeches, cuando: 'En el café', titulo: 'Con la leche que elijas', linea: 'Almendra, avena, coco y más, para el café o la licuada.', rubros: 'Leches vegetales' },
-  { foto: catFrutosSecos, cuando: 'A media mañana', titulo: 'Algo rico para picar', linea: 'Frutos secos y semillas fraccionados: llevás lo que necesitás.', rubros: 'Frutos secos · Semillas · Mezclas' },
-  { foto: catBarritas, cuando: 'Después de entrenar', titulo: 'Energía para seguir', linea: 'Barritas y proteínas que entran en cualquier mochila.', rubros: 'Barritas · Proteínas' },
-  { foto: catChocolates, cuando: 'A las cinco', titulo: 'Un gustito', linea: 'Chocolates y snacks para el antojo de la tarde.', rubros: 'Chocolates · Snacks · Dulces' },
-  { foto: catCongelados, cuando: 'A la noche', titulo: 'La cena, resuelta', linea: 'Congelados para esas noches sin ganas de cocinar.', rubros: 'Congelados' },
-  { foto: catOrganicos, cuando: 'Cuando quieras', titulo: 'De la tierra, sin vueltas', linea: 'Productos orgánicos certificados. Te ayudamos a reconocerlos.', rubros: 'Orgánicos', pendiente: true },
+  { foto: fotoYogures, cuando: 'Por la mañana', titulo: 'Un desayuno que arranca bien', linea: 'Yogures, leches vegetales y untables para empezar el día.', rubros: 'Yogures · Leches vegetales · Untables' },
+  { foto: m10Infusiones, cuando: 'A cualquier hora', titulo: 'Un mate, siempre', linea: 'Yerbas, hierbas y tés para la ronda de la tarde.', rubros: 'Yerbas · Infusiones' },
+  { foto: m13Heladeras, cuando: 'Para refrescarte', titulo: 'Algo fresco para tomar', linea: 'Kéfir, jugos exprimidos y bebidas frías en la heladera.', rubros: 'Kéfir · Jugos · Bebidas' },
+  { foto: m14GranelEstantes, cuando: 'A media mañana', titulo: 'Algo rico para picar', linea: 'Frutos secos y semillas fraccionados: llevás lo que necesitás.', rubros: 'Frutos secos · Semillas · Mezclas' },
+  { foto: m12Exhibidores, cuando: 'Después de entrenar', titulo: 'Energía para seguir', linea: 'Barritas y proteínas que entran en cualquier mochila.', rubros: 'Barritas · Proteínas' },
+  { foto: m16Snacks, cuando: 'A las cinco', titulo: 'Un gustito', linea: 'Chocolates, golosinas y snacks para el antojo de la tarde.', rubros: 'Chocolates · Snacks · Dulces' },
+  { foto: fotoCongelados, cuando: 'A la noche', titulo: 'La cena, resuelta', linea: 'Hamburguesas vegetales, tartas y congelados para las noches sin ganas de cocinar.', rubros: 'Congelados' },
+  { foto: m15Aceites, cuando: 'Al cocinar', titulo: 'Para cocinar rico', linea: 'Aceites, especias, harinas y legumbres para la cocina de todos los días.', rubros: 'Aceites · Especias · Harinas · Legumbres' },
 ];
 
 // Galería deslizable: fotos reales del local en 3:4. `credito`: autora de la foto original
@@ -252,12 +242,6 @@ export const galeria: Array<{ foto: ImageMetadata; alt: string; credito?: string
   { foto: m08Despensa, alt: 'Estanterías con harinas, azúcares y productos fraccionados' },
   { foto: m16Snacks, alt: 'Snacks, mezclas y golosinas en exhibidores transparentes' },
   { foto: m02FachadaReal, alt: 'Frente de la almacén con el cartel de Lola y la vidriera' },
-];
-
-// Escenas ilustrativas para la franja "De la almacén a tu mesa".
-export const carrusel = [
-  { foto: mesaNatural, alt: 'Mesa de madera con frutos secos, pan de masa madre, frutos rojos y leche' },
-  { foto: desayuno, alt: 'Desayuno con tostadas con mermelada, yogur con avena y leche' },
 ];
 
 // Sellos que el cliente busca en el envase. Son íconos propios, no los logos oficiales:

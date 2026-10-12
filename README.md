@@ -30,7 +30,6 @@ npm run preview   # sirve dist/ para probar el build final
 | Logos oficiales de Instagram, WhatsApp y Mercado Pago | `src/components/IconoMarca.astro` (trazos del paquete `simple-icons`) |
 | Logos de marcas | `src/assets/marcas/` (PNG con fondo transparente, bajados del sitio oficial de cada marca) |
 | Fotogramas del recorrido | `src/assets/recorrido/` |
-| Imágenes ilustrativas | `src/assets/categorias/` y `src/assets/carrusel/` |
 | Video del recorrido (solo escritorio) | `public/video/recorrido.mp4` |
 | Colores y tipografía | `src/styles/global.css` → bloque `@theme` |
 | Animación del recorrido | `src/scripts/world.ts` |
@@ -76,4 +75,4 @@ $env:SITE_URL = "https://dominio.com.ar"; $env:BASE_PATH = "/"; npm run build
 
 ## Origen de los materiales
 
-Logo y datos salen del perfil público [@lolasaludable](https://www.instagram.com/lolasaludable/), relevado el 10/10/2026. El video es un reel del local. Las fotos interiores son de Google Maps (ver créditos y permisos en PENDIENTES.md). Las imágenes de categorías y de la franja final son ilustrativas.
+Logo y datos salen del perfil público [@lolasaludable](https://www.instagram.com/lolasaludable/), relevado el 10/10/2026. El video es un reel del local. Todas las fotos son del local: kit fotográfico del 12/10/2026 y fotos del celular de la encargada; cuatro salen de fotos de clientas en Google Maps (ver permisos en PENDIENTES.md).

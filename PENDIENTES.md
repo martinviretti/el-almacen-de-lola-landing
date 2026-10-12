@@ -11,14 +11,14 @@ Todo lo de esta lista es propuesta o dato sin confirmar. Validarlo con la encarg
 | 3 | **Video del recorrido** | Sale del reel propio del local. Se usaron solo los tramos sin personas y sin texto, pero conviene que la dueña lo apruebe. La galería también usa 7 cuadros de ese video (`src/assets/galeria/video-*.jpg`) y 8 fotos de publicaciones del Instagram del local. | `public/video/recorrido.mp4` |
 | 4 | **Dominio** | Hoy en GitHub Pages (`martinviretti.github.io/el-almacen-de-lola-landing`). Con dominio propio: build con `SITE_URL` y `BASE_PATH=/`, y dar de alta el sitio en Google Search Console mandando `sitemap-index.xml` (en una subcarpeta los buscadores no leen `robots.txt`). | `astro.config.mjs` → `SITE` / `BASE` |
 
-## Imágenes ilustrativas
+## Fotos
 
-Las 8 fotos de "Algo rico para cada momento" y las 2 de la franja "De la almacén a tu mesa" son **generadas**: no muestran el local ni el surtido real. La web ya no lo aclara al pie (se sacó el aviso el 12/10/2026, a pedido de Martín): reemplazarlas por fotos propias cuando estén. No usarlas en el recorrido ni en la galería del local.
+Desde el 12/10/2026 **todas las fotos de la web son del local** (kit fotográfico + fotos del celular de la encargada). Ya no hay imágenes generadas con IA: se sacó la franja "De la almacén a tu mesa" y las tarjetas de "Algo rico para cada momento" usan fotos reales. Las originales y las viejas quedan en `../fotos-lola/`.
 
 ## Datos a confirmar
 
 - **Preguntas frecuentes** marcadas `pendiente: true`: consulta por Instagram, orgánicos. → `src/data/site.ts` → `preguntas`
-- **Productos por momento del día** (`momentos`): el copy es una propuesta; confirmar que cada momento coincida con lo que venden. Marcado `pendiente`: orgánicos certificados.
+- **Productos por momento del día** (`momentos`): confirmar que cada momento coincida con lo que venden (en especial "Algo fresco para tomar": kéfir, jugos, bebidas; y "Para cocinar rico": aceites, especias, harinas, legumbres). Se sacó la tarjeta de orgánicos certificados porque no estaba confirmado.
 - **Textos del recorrido**: son propuestas. En particular "mezclas fraccionadas" (granel) y "Yogures, leches vegetales y congelados" (heladeras).
 - **Marcas**: la franja muestra los logos oficiales (bajados de cada sitio) de Natier, Kapac, Entrenuts, Smams, Cachafaz, Kraus y Roapipó. Entrenuts aparece en las fotos del local; las demás hay que confirmarlas con la encargada → `src/data/site.ts` → `marcas`. Sin logo ubicable: Felices las Vacas, Cereal Mix, Ades, Hierbas del Oasis y Trefo (estas dos también aparecen en las fotos). Para sumarlas: guardar el logo (PNG transparente) en `src/assets/marcas/` e importarlo.
 - **Sellos**: Sin TACC, vegano, orgánico, sin lactosa, sin azúcar agregada e integral, con íconos propios (no los logos oficiales: el de Sin TACC solo puede ir en envases certificados). Sacar los que no apliquen → `sellos`.
