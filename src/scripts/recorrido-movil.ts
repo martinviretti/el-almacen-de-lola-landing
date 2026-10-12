@@ -28,6 +28,9 @@ export function initRecorridoMovil(root: HTMLElement) {
 
   gsap.set(paradas, { autoAlpha: 0, zIndex: 0 });
   gsap.set(paradas[0], { autoAlpha: 1, zIndex: 1 });
+  // Solo la parada visible queda al alcance del teclado y del lector de pantalla. Se pone
+  // desde acá (no en el HTML) para que sin JS o sin animaciones la lista quede completa.
+  paradas.slice(1).forEach((p) => p.setAttribute('inert', ''));
 
   const acercar = (i: number) => {
     acercamiento?.kill();

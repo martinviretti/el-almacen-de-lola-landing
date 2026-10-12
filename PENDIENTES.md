@@ -8,12 +8,12 @@ Todo lo de esta lista es propuesta o dato sin confirmar. Validarlo con la encarg
 |---|---|---|---|
 | 1 | **Fotos de Google Maps** | Las 4 fotos del interior (`src/assets/local/mostrador`, `granel-lamparas`, `pasillo`, `exhibidores`) las subieron a Google Maps dos clientas: **Miriam Marto** y **Julia Marquez**. Los derechos son de ellas: subirlas a Maps no autoriza a usarlas en otra web. Pedirles permiso por Maps o Instagram, o reemplazarlas por fotos propias de las mismas tomas. La galería no muestra créditos (decisión de diseño); si se pide permiso, conviene ofrecerles mencionarlas. | `src/data/site.ts` → `galeria` y `recorridoMovil` (el recorrido del celular usa estas fotos) |
 | 2 | **Origen de la fachada** | `fachada.jpg` es una versión retocada ("fachada-limpia"). Confirmar de dónde salió la foto original y que se pueda usar. | `src/assets/local/fachada.jpg` |
-| 3 | **Video del recorrido** | Sale del reel propio del local. Se usaron solo los tramos sin personas y sin texto, pero conviene que la dueña lo apruebe. | `public/video/recorrido.mp4` |
-| 4 | **Dominio** | Provisorio: `el-almacen-de-lola.pages.dev`. | `astro.config.mjs` → `SITE` y `public/robots.txt` |
+| 3 | **Video del recorrido** | Sale del reel propio del local. Se usaron solo los tramos sin personas y sin texto, pero conviene que la dueña lo apruebe. La galería también usa 7 cuadros de ese video (`src/assets/galeria/video-*.jpg`) y 8 fotos de publicaciones del Instagram del local. | `public/video/recorrido.mp4` |
+| 4 | **Dominio** | Hoy en GitHub Pages (`martinviretti.github.io/el-almacen-de-lola-landing`). Con dominio propio: build con `SITE_URL` y `BASE_PATH=/`, y dar de alta el sitio en Google Search Console mandando `sitemap-index.xml` (en una subcarpeta los buscadores no leen `robots.txt`). | `astro.config.mjs` → `SITE` / `BASE` |
 
 ## Imágenes ilustrativas
 
-Las 10 fotos de categorías y las 3 de la franja "Del almacén a tu mesa" son **generadas**: no muestran el local ni el surtido real. La web lo aclara al pie de cada bloque ("Imágenes ilustrativas"). No usarlas en el recorrido ni en la galería del local.
+Las 8 fotos de "Algo rico para cada momento" y las 2 de la franja "Del almacén a tu mesa" son **generadas**: no muestran el local ni el surtido real. La web lo aclara al pie de cada bloque ("Imágenes ilustrativas"). No usarlas en el recorrido ni en la galería del local.
 
 ## Datos a confirmar
 
@@ -22,7 +22,7 @@ Las 10 fotos de categorías y las 3 de la franja "Del almacén a tu mesa" son **
 - **Textos del recorrido**: son propuestas. En particular "mezclas fraccionadas" (granel) y "Yogures, leches vegetales y congelados" (heladeras).
 - **Marcas**: la franja muestra los logos oficiales (bajados de cada sitio) de Natier, Kapac, Entrenuts, Smams, Cachafaz, Kraus y Roapipó. Entrenuts aparece en las fotos del local; las demás hay que confirmarlas con la encargada → `src/data/site.ts` → `marcas`. Sin logo ubicable: Felices las Vacas, Cereal Mix, Ades, Hierbas del Oasis y Trefo (estas dos también aparecen en las fotos). Para sumarlas: guardar el logo (PNG transparente) en `src/assets/marcas/` e importarlo.
 - **Sellos**: Sin TACC, vegano, orgánico, sin lactosa, sin azúcar agregada e integral, con íconos propios (no los logos oficiales: el de Sin TACC solo puede ir en envases certificados). Sacar los que no apliquen → `sellos`.
-- **Seguidores de Instagram**: 1.747 al 10/10/2026. Actualizarlo cada tanto o sacarlo.
+- **Seguidores de Instagram**: el hero de escritorio dice "Más de 1.700" (eran 1.747 al 10/10/2026). Subirlo cuando pase un número redondo.
 - **Número de WhatsApp**: el botón flotante ya está, pero sin número (abre WhatsApp con el mensaje listo y la persona elige el chat). Cargarlo en `src/data/negocio.ts` → `whatsapp`, con código de país y sin espacios (ej. `5491112345678`).
 
 ## Mejoras opcionales

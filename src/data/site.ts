@@ -59,13 +59,6 @@ import catChocolates from '../assets/categorias/09-chocolates-snacks.jpg';
 import catOrganicos from '../assets/categorias/10-productos-organicos.jpg';
 import mesaNatural from '../assets/carrusel/carrusel-01-mesa-natural.jpg';
 import desayuno from '../assets/carrusel/carrusel-02-desayuno.jpg';
-import huerta from '../assets/carrusel/carrusel-03-huerta.jpg';
-
-// Portadas de las historias destacadas del Instagram del local.
-import igSorteos from '../assets/instagram/sorteos.jpg';
-import igRecetas from '../assets/instagram/recetas.jpg';
-import igProductos from '../assets/instagram/productos.jpg';
-import igOrganico from '../assets/instagram/organico.jpg';
 
 export { negocio, horarios, horariosResumen } from './negocio';
 
@@ -242,7 +235,7 @@ export const momentos: Array<{
   { foto: catBarritas, cuando: 'Después de entrenar', titulo: 'Energía para seguir', linea: 'Barritas y proteínas que entran en cualquier mochila.', rubros: 'Barritas · Proteínas' },
   { foto: catChocolates, cuando: 'A las cinco', titulo: 'Un gustito', linea: 'Chocolates y snacks para el antojo de la tarde.', rubros: 'Chocolates · Snacks · Dulces' },
   { foto: catCongelados, cuando: 'A la noche', titulo: 'La cena, resuelta', linea: 'Congelados para esas noches sin ganas de cocinar.', rubros: 'Congelados' },
-  { foto: catOrganicos, cuando: 'Todos los días', titulo: 'De la tierra, sin vueltas', linea: 'Productos orgánicos certificados. Te ayudamos a reconocerlos.', rubros: 'Orgánicos', pendiente: true },
+  { foto: catOrganicos, cuando: 'Cuando quieras', titulo: 'De la tierra, sin vueltas', linea: 'Productos orgánicos certificados. Te ayudamos a reconocerlos.', rubros: 'Orgánicos', pendiente: true },
 ];
 
 // Fotos reales del local para la galería deslizable. `credito`: autora de la foto en
@@ -269,19 +262,10 @@ export const galeria: Array<{ foto: ImageMetadata; alt: string; credito?: string
   { foto: exhibidores, alt: 'Exhibidores con barritas, snacks y productos sin sellos', credito: 'Miriam Marto' },
 ];
 
-// Historias destacadas reales de @lolasaludable: cada una abre esa historia en Instagram.
-export const destacadas = [
-  { nombre: 'Productos', foto: igProductos, url: 'https://www.instagram.com/stories/highlights/17882971570988914/' },
-  { nombre: 'Recetas', foto: igRecetas, url: 'https://www.instagram.com/stories/highlights/17885580514854912/' },
-  { nombre: '¿Es orgánico?', foto: igOrganico, url: 'https://www.instagram.com/stories/highlights/18118607608169522/' },
-  { nombre: 'Sorteos', foto: igSorteos, url: 'https://www.instagram.com/stories/highlights/17905912606818650/' },
-];
-
 // Escenas ilustrativas para la franja "Del almacén a tu mesa".
 export const carrusel = [
   { foto: mesaNatural, alt: 'Mesa de madera con frutos secos, pan de masa madre, frutos rojos y leche' },
   { foto: desayuno, alt: 'Desayuno con tostadas con mermelada, yogur con avena y leche' },
-  { foto: huerta, alt: 'Verduras frescas de huerta sobre una mesa de madera' },
 ];
 
 // Sellos que el cliente busca en el envase. Son íconos propios, no los logos oficiales:

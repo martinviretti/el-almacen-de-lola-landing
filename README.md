@@ -1,7 +1,7 @@
 # Landing — El Almacén de Lola
 
 Sitio de presentación del almacén natural de Av. Presidente Perón 3099, Victoria.
-Astro 7 + Tailwind CSS 4 + GSAP ScrollTrigger + Lenis. Salida 100 % estática, lista para Cloudflare Pages.
+Astro 7 + Tailwind CSS 4 + GSAP ScrollTrigger + Lenis. Salida 100 % estática, publicada en GitHub Pages (https://martinviretti.github.io/el-almacen-de-lola-landing/) con el workflow de `.github/workflows/deploy.yml`: cada push a `main` se publica solo.
 
 Antes de publicar, revisar [PENDIENTES.md](PENDIENTES.md).
 
@@ -25,8 +25,9 @@ npm run preview   # sirve dist/ para probar el build final
 | Qué | Archivo |
 |---|---|
 | Nombre, dirección, Instagram, horarios | `src/data/negocio.ts` |
-| Paradas del recorrido, categorías, galería, frase, preguntas | `src/data/site.ts` |
-| Fotos del local | `src/assets/local/` (Astro las convierte a WebP en el build) |
+| Paradas del recorrido, galería, marcas, sellos, productos por momento (`momentos`), frase, preguntas | `src/data/site.ts` |
+| Fotos del local | `src/assets/local/` y `src/assets/galeria/` (Astro las convierte a WebP en el build) |
+| Logos de marcas | `src/assets/marcas/` (PNG con fondo transparente, bajados del sitio oficial de cada marca) |
 | Fotogramas del recorrido | `src/assets/recorrido/` |
 | Imágenes ilustrativas | `src/assets/categorias/` y `src/assets/carrusel/` |
 | Video del recorrido (solo escritorio) | `public/video/recorrido.mp4` |
@@ -46,7 +47,7 @@ Para sumar un ícono: elegirlo en [phosphoricons.com](https://phosphoricons.com)
 1. **Fachada**: foto a pantalla completa con la tarjeta del hero. Al bajar, zoom hacia la puerta y se abre en círculo el arco del interior.
 2. **Recorrido**: dentro del arco, el video avanza con el scroll (cada parada recorre su tramo) y los textos se relevan en cada borde.
 
-El video se descarga entero como blob después de que carga la página: así ir para atrás y para adelante es instantáneo. Mientras carga, si falla, o con "ahorro de datos" activado, se ven los fotogramas de cada parada. En iOS se hace play y pausa al primer toque para que Safari pinte los cuadros.
+El video se descarga entero como blob después de que carga la página: así ir para atrás y para adelante es instantáneo. Mientras carga, si falla, o con "ahorro de datos" activado, se ven los fotogramas de cada parada.
 
 **En celular** (menos de 1024 px) el recorrido es otro componente, `RecorridoMovil.astro` + `scripts/recorrido-movil.ts`, tipo historias y **sin video**: fotos reales en alta a pantalla completa, una parada por deslizada (también se avanza tocando la foto o la barra de arriba). Cada foto entra con un fundido y se acerca muy lento; el cartel aparece por partes. Desde la última parada, la deslizada baja a la frase principal. Las paradas están en `recorridoMovil` de `site.ts` (texto, foto, encuadre y zoom).
 

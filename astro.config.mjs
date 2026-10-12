@@ -13,7 +13,8 @@ export default defineConfig({
   base: BASE,
   output: 'static',
   trailingSlash: 'ignore',
-  build: { format: 'file' },
+  // CSS en línea: es poco (~15 KB) y así no frena el primer pintado en celular.
+  build: { format: 'file', inlineStylesheets: 'always' },
   integrations: [sitemap()],
   vite: { plugins: [tailwindcss()] },
 });

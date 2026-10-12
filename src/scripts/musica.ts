@@ -152,7 +152,6 @@ export function initMusica() {
   const pintar = () =>
     botones.forEach((b) => {
       b.setAttribute('aria-pressed', String(sonando));
-      b.setAttribute('aria-label', sonando ? 'Apagar la música' : 'Poner música ambiental');
     });
 
   const alternar = async () => {

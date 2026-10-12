@@ -10,7 +10,8 @@ export const negocio = {
   // Vacío: el botón abre WhatsApp con el mensaje listo para elegir el chat.
   whatsapp: '',
   whatsappMensaje: 'Hola Lola, quería hacerles una consulta.',
-  seguidores: '1.747', // relevado el 10/10/2026
+  // Redondeado hacia abajo para que no quede viejo enseguida (eran 1.747 el 10/10/2026).
+  seguidores: 'Más de 1.700',
   direccion: 'Av. Presidente Perón 3099',
   localidad: 'Victoria, San Fernando',
   provincia: 'Buenos Aires',

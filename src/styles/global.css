@@ -6,6 +6,8 @@
 
   /* Paleta tomada del logo y del kit de branding de Lola */
   --color-marca: #5a9684;
+  /* Versión más oscura para textos chicos: 5,3:1 sobre crema y 4,9:1 sobre menta suave (WCAG AA). */
+  --color-marca-texto: #447063;
   --color-menta: #c7e7d9;
   --color-menta-suave: #e6f3ee;
   --color-profundo: #214c3b;
@@ -51,10 +53,15 @@
     color: var(--color-profundo);
   }
 
+  /* Foco visible: verde profundo sobre fondos claros, blanco sobre los oscuros. */
   :focus-visible {
-    outline: 2px solid var(--color-marca);
+    outline: 2px solid var(--color-profundo);
     outline-offset: 4px;
     border-radius: 8px;
+  }
+  .bg-profundo :focus-visible,
+  footer :focus-visible {
+    outline-color: #fff;
   }
 }
 
@@ -147,7 +154,8 @@ html:not(.js) [data-reveal] {
 
 /* Frase principal: cada palabra se ilumina en orden de lectura */
 [data-word] {
-  color: rgb(37 57 47 / 0.25);
+  /* Apagada pero legible: 3,2:1 sobre crema (mínimo AA para texto grande). */
+  color: rgb(37 57 47 / 0.56);
   transition: color 700ms var(--ease-fluid);
 }
 [data-word].is-lit {
@@ -159,6 +167,7 @@ html:not(.js) [data-reveal] {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
   [data-reveal] {

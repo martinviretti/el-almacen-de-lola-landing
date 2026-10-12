@@ -18,7 +18,7 @@ const links = [
     class="pointer-events-auto mx-auto flex w-full max-w-max items-center gap-2 rounded-full bg-white/75 p-2 shadow-[0_8px_32px_rgb(33_76_59/0.08)] ring-1 ring-profundo/10 backdrop-blur-xl"
   >
     <a href="#contenido" class="flex items-center gap-2 rounded-full pr-2" aria-label={`${negocio.nombre}, volver al inicio`}>
-      <Image src={logo} alt="" width={40} height={40} class="size-10 rounded-full" loading="eager" />
+      <Image src={logo} alt="" width={40} height={40} densities={[1, 2]} class="size-10 rounded-full" loading="eager" />
       <span class="text-sm font-semibold text-profundo">El Almacén de Lola</span>
     </a>
 
@@ -42,7 +42,7 @@ const links = [
       type="button"
       data-musica
       aria-pressed="false"
-      aria-label="Poner música ambiental"
+      aria-label="Música ambiental"
       title="Música ambiental"
       class="musica relative flex size-10 items-center justify-center rounded-full bg-menta-suave text-profundo transition-colors duration-700 ease-fluid hover:bg-menta active:scale-95"
     >

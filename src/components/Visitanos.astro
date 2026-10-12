@@ -11,7 +11,7 @@ const semana = [...horarios.slice(1), horarios[0]];
 <section id="visitanos" class="bg-menta-suave px-5 py-24 lg:px-10 lg:py-32">
   <div class="mx-auto grid max-w-[1200px] gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
     <div data-reveal>
-      <p class="mb-3 text-sm font-semibold text-marca">Visitanos</p>
+      <p class="mb-3 text-sm font-semibold text-marca-texto">Visitanos</p>
       <h2 class="text-4xl font-bold tracking-tight text-profundo lg:text-5xl">
         Te esperamos <br class="hidden sm:block" />en Victoria
       </h2>
@@ -102,5 +102,8 @@ const semana = [...horarios.slice(1), horarios[0]];
     iframe.className = 'absolute inset-0 size-full border-0';
     contenedor.querySelector('[data-mapa-placeholder]')?.remove();
     contenedor.append(iframe);
+    // El botón que se tocó desaparece: el foco pasa al mapa para no perderse.
+    iframe.tabIndex = -1;
+    iframe.focus();
   });
 </script>

@@ -22,7 +22,7 @@ const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: r
               <div class="stop-copy" data-stop-copy>
                 {i === 0 ? (
                   <>
-                    <p class="mb-4 text-sm font-semibold text-marca">Tu almacén natural en Victoria</p>
+                    <p class="mb-4 text-sm font-semibold text-marca-texto">Tu almacén natural en Victoria</p>
                     <h1 class="titulo-degrade text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
                       Lo rico de <br />
                       elegir natural
@@ -31,7 +31,7 @@ const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: r
                     <p class="hero-seguidores mt-4 text-sm text-texto-2">
                       <strong class="font-semibold text-profundo">{negocio.seguidores}</strong> personas ya nos siguen en Instagram
                     </p>
-                    <p data-scroll-hint class="world-hint mt-6 flex items-center gap-2 text-sm font-semibold text-marca">
+                    <p data-scroll-hint class="world-hint mt-6 flex items-center gap-2 text-sm font-semibold text-marca-texto">
                       <Icon name="arrow-down" class="size-4 animate-bounce" />
                       <span class="lg:hidden">Deslizá para verlo</span>
                       <span class="hidden lg:inline">Deslizá para entrar al almacén</span>
@@ -39,7 +39,7 @@ const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: r
                   </>
                 ) : (
                   <>
-                    <p class="mb-3 text-sm font-semibold text-marca">
+                    <p class="mb-3 text-sm font-semibold text-marca-texto">
                       <span class="tabular-nums">{String(i).padStart(2, '0')}</span> · {parada.etiqueta}
                     </p>
                     <h2 class="text-3xl font-bold tracking-tight text-profundo sm:text-4xl lg:text-6xl">{parada.titulo}</h2>
@@ -56,7 +56,7 @@ const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: r
                     widths={i === 0 ? [960, 1600, 2560] : [parada.foto.width]}
                     sizes={i === 0 ? '100vw' : '(min-width: 1024px) 40vw, 90vw'}
                     quality={i === 0 ? 80 : 86}
-                    loading={i < 2 ? 'eager' : 'lazy'}
+                    loading={i === 0 ? 'eager' : 'lazy'}
                     fetchpriority={i === 0 ? 'high' : 'auto'}
                     class="stop-img"
                     style={parada.foco ? `transform-origin:${parada.foco}` : undefined}

@@ -4,3 +4,7 @@ node_modules/
 .env
 .env.*
 .DS_Store
+
+# Capturas de prueba sueltas en la raíz
+/*.jpg
+/*.png

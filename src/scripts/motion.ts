@@ -63,17 +63,6 @@ document.querySelectorAll<HTMLElement>('[data-words]').forEach((block) => {
   });
 });
 
-// Parallax suave en las fotos de la galería.
-if (motion) {
-  document.querySelectorAll<HTMLElement>('[data-parallax]').forEach((el) => {
-    gsap.fromTo(
-      el,
-      { yPercent: -6 },
-      { yPercent: 6, ease: 'none', scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } },
-    );
-  });
-}
-
 // Franja "Del almacén a tu mesa": se desliza de costado mientras pasa por la pantalla.
 if (motion) {
   document.querySelectorAll<HTMLElement>('[data-carrusel]').forEach((section) => {
@@ -87,7 +76,7 @@ if (motion) {
   });
 }
 
-// Categorías: arrancan desparramadas y llegan a su lugar desde distintos lados con el scroll.
+// Productos (tarjetas por momento del día): arrancan desparramadas y llegan a su lugar desde distintos lados con el scroll.
 if (motion) {
   document.querySelectorAll<HTMLElement>('[data-desorden-grid]').forEach((grid) => {
     const cards = [...grid.querySelectorAll<HTMLElement>('[data-desorden]')];
@@ -102,7 +91,7 @@ if (motion) {
       y: (i) => (azar(i, 2) - 0.3) * (chico ? 320 : 520),
       rotation: (i) => (azar(i, 3) - 0.5) * 48,
       scale: (i) => 0.75 + azar(i, 4) * 0.25,
-      opacity: 0.4,
+      // Sin fundido: las tarjetas llegan siempre legibles (el contraste no depende de la animación).
       ease: 'power3.out',
       stagger: { each: 0.05, from: 'random' },
       scrollTrigger: { trigger: grid, start: 'top 95%', end: 'center 60%', scrub: 0.8 },
