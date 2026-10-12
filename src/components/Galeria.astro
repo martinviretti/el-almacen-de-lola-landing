@@ -1,14 +1,16 @@
 ---
-// Fotos reales del local en una fila deslizable: con el dedo en el celular y con
-// las flechas (o el trackpad) en la computadora. Sin etiquetas encima.
+// Fotos reales del local en una fila que avanza sola y sin fin. Se frena cuando la
+// persona la toca, la desliza o pasa el mouse, y retoma sola a los pocos segundos.
+// Debajo, la franja de marcas. Sin etiquetas sobre las fotos.
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
+import MarcasFranja from './MarcasFranja.astro';
 import { galeria } from '../data/site';
 ---
 
 {
   galeria.length > 0 && (
-    <section id="el-almacen" aria-labelledby="galeria-titulo" class="overflow-hidden py-24 lg:py-32" data-galeria>
+    <section id="el-almacen" aria-labelledby="galeria-titulo" class="overflow-hidden pt-24 pb-10 lg:pt-32 lg:pb-16" data-galeria>
       <div class="mx-auto flex max-w-[1200px] items-end justify-between gap-6 px-5 lg:px-10">
         <div class="max-w-[680px]" data-reveal>
           <p class="mb-3 text-sm font-semibold text-marca">El almacén</p>
@@ -29,21 +31,25 @@ import { galeria } from '../data/site';
       </div>
 
       <ul class="galeria-fila mt-10 lg:mt-14" data-galeria-fila aria-label="Fotos del almacén">
-        {galeria.map((g, i) => (
-          <li class="galeria-foto">
-            <Image
-              src={g.foto}
-              alt={g.alt}
-              widths={[400, 640, 900].filter((w) => w <= g.foto.width).concat(g.foto.width < 400 ? [g.foto.width] : [])}
-              sizes="(min-width: 1024px) 340px, 76vw"
-              quality={82}
-              loading={i < 3 ? 'eager' : 'lazy'}
-              class="size-full object-cover transition-transform duration-700 ease-fluid hover:scale-105"
-            />
-          </li>
-        ))}
+        {[0, 1].map((copia) =>
+          galeria.map((g, i) => (
+            <li class="galeria-foto" aria-hidden={copia === 1 ? 'true' : undefined} data-copia={copia === 1 ? '' : undefined}>
+              <Image
+                src={g.foto}
+                alt={copia === 1 ? '' : g.alt}
+                widths={[400, 640, 900].filter((w) => w <= g.foto.width).concat(g.foto.width < 400 ? [g.foto.width] : [])}
+                sizes="(min-width: 1024px) 300px, 64vw"
+                quality={82}
+                loading={copia === 0 && i < 4 ? 'eager' : 'lazy'}
+                draggable="false"
+                class="size-full object-cover transition-transform duration-700 ease-fluid hover:scale-105"
+              />
+            </li>
+          )),
+        )}
       </ul>
-      <p class="mx-auto mt-4 max-w-[1200px] px-5 text-sm text-texto-2 lg:hidden">Deslizá para ver más →</p>
+
+      <MarcasFranja />
     </section>
   )
 }
@@ -53,8 +59,6 @@ import { galeria } from '../data/site';
     display: flex;
     gap: 12px;
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: 20px;
     padding-inline: 20px;
     overscroll-behavior-x: contain;
     scrollbar-width: none;
@@ -64,22 +68,31 @@ import { galeria } from '../data/site';
   }
   .galeria-foto {
     position: relative;
-    flex: 0 0 76vw;
+    flex: 0 0 64vw;
     aspect-ratio: 3 / 4;
     overflow: hidden;
     border-radius: 24px;
     background: var(--color-menta);
-    scroll-snap-align: start;
+  }
+  /* Ritmo: cada tanto una foto un poco más baja, para que la fila no sea una grilla. */
+  .galeria-foto:nth-child(3n + 2) {
+    aspect-ratio: 4 / 5;
+    align-self: center;
   }
   @media (min-width: 1024px) {
     .galeria-fila {
       gap: 16px;
-      /* La primera foto arranca alineada con el título (contenedor de 1200 px). */
       padding-inline: max(40px, calc((100vw - 1200px) / 2 + 40px));
-      scroll-padding-inline: max(40px, calc((100vw - 1200px) / 2 + 40px));
     }
     .galeria-foto {
-      flex-basis: 340px;
+      flex-basis: 300px;
+    }
+  }
+
+  /* Sin movimiento: una sola tanda, para recorrer a mano. */
+  @media (prefers-reduced-motion: reduce) {
+    .galeria-foto[data-copia] {
+      display: none;
     }
   }
 
@@ -93,38 +106,82 @@ import { galeria } from '../data/site';
     border: 1px solid var(--color-arena);
     background: #fff;
     color: var(--color-profundo);
-    transition:
-      transform 700ms var(--ease-fluid),
-      opacity 300ms;
+    transition: transform 700ms var(--ease-fluid);
   }
   .galeria-flecha:hover {
     transform: scale(1.05);
   }
-  .galeria-flecha:disabled {
-    opacity: 0.35;
-    transform: none;
-  }
 </style>
 
 <script>
-  // Flechas de escritorio: avanzan de a una "pantalla" de fotos y se apagan en los extremos.
+  // Avance automático: se lleva la posición en un número propio (scrollLeft redondea
+  // y a velocidad baja se quedaría quieto). La fila tiene dos tandas iguales: al pasar
+  // la primera, se vuelve atrás exactamente una tanda y el salto no se nota.
   document.querySelectorAll<HTMLElement>('[data-galeria]').forEach((sec) => {
     const fila = sec.querySelector<HTMLElement>('[data-galeria-fila]')!;
     const flechas = [...sec.querySelectorAll<HTMLButtonElement>('[data-galeria-ir]')];
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const actualizar = () => {
-      const max = fila.scrollWidth - fila.clientWidth - 2;
-      flechas[0].disabled = fila.scrollLeft <= 2;
-      flechas[1].disabled = fila.scrollLeft >= max;
+
+    const tanda = () => {
+      const primeraCopia = fila.querySelector<HTMLElement>('[data-copia]');
+      return primeraCopia ? primeraCopia.offsetLeft - (fila.firstElementChild as HTMLElement).offsetLeft : 0;
     };
+    const envolver = (x: number) => {
+      const t = tanda();
+      if (!t) return x;
+      if (x >= t) return x - t;
+      if (x < 0) return x + t;
+      return x;
+    };
+
     flechas.forEach((b) =>
       b.addEventListener('click', () => {
-        const paso = Math.max(fila.clientWidth * 0.8, 340);
-        fila.scrollBy({ left: Number(b.dataset.galeriaIr) * paso, behavior: reduce ? 'auto' : 'smooth' });
+        pausar(1800);
+        const paso = Math.max(fila.clientWidth * 0.6, 316);
+        const dir = Number(b.dataset.galeriaIr);
+        // Hacia atrás desde el principio: primero se salta (sin que se note) a la segunda tanda.
+        if (!reduce && dir < 0 && fila.scrollLeft < paso) fila.scrollLeft += tanda();
+        fila.scrollTo({ left: fila.scrollLeft + dir * paso, behavior: reduce ? 'auto' : 'smooth' });
       }),
     );
-    fila.addEventListener('scroll', actualizar, { passive: true });
-    window.addEventListener('resize', actualizar);
-    actualizar();
+
+    if (reduce) return;
+
+    const velocidad = window.innerWidth < 1024 ? 28 : 36; // px por segundo
+    let pos = fila.scrollLeft;
+    let visible = false;
+    let encima = false;
+    let pausaHasta = 0;
+    let ultimo = 0;
+
+    function pausar(ms: number) {
+      pausaHasta = performance.now() + ms;
+    }
+
+    const paso = (t: number) => {
+      const dt = ultimo ? Math.min((t - ultimo) / 1000, 0.05) : 0;
+      ultimo = t;
+      if (visible && !encima && t > pausaHasta) {
+        // Si la persona movió la fila a mano, se sigue desde donde la dejó.
+        if (Math.abs(fila.scrollLeft - pos) > 2) pos = fila.scrollLeft;
+        pos = envolver(pos + velocidad * dt);
+        fila.scrollLeft = pos;
+      } else {
+        // Quieta o en manos de la persona: solo se mantiene dentro de la primera tanda.
+        const corregida = envolver(fila.scrollLeft);
+        if (corregida !== fila.scrollLeft) fila.scrollLeft = corregida;
+        pos = fila.scrollLeft;
+      }
+      requestAnimationFrame(paso);
+    };
+    requestAnimationFrame(paso);
+
+    new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(fila);
+    fila.addEventListener('pointerenter', (e) => e.pointerType === 'mouse' && (encima = true));
+    fila.addEventListener('pointerleave', () => (encima = false));
+    fila.addEventListener('pointerdown', () => pausar(2500));
+    fila.addEventListener('touchstart', () => pausar(2500), { passive: true });
+    fila.addEventListener('touchmove', () => pausar(2500), { passive: true });
+    fila.addEventListener('wheel', (e) => Math.abs(e.deltaX) > Math.abs(e.deltaY) && pausar(2500), { passive: true });
   });
 </script>

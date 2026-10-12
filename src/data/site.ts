@@ -21,6 +21,15 @@ import galPublicacion06 from '../assets/galeria/publicacion-06.jpg';
 import galPublicacion08 from '../assets/galeria/publicacion-08.jpg';
 import galPublicacion09 from '../assets/galeria/publicacion-09.jpg';
 import galPublicacion10 from '../assets/galeria/publicacion-10.jpg';
+import galFachadaAcceso from '../assets/galeria/fachada-acceso.jpg';
+// Cuadros del video del recorrido (474 × 632).
+import galVideoGondola from '../assets/galeria/video-gondola-luz.jpg';
+import galVideoPaquetes from '../assets/galeria/video-estantes-paquetes.jpg';
+import galVideoLamparas from '../assets/galeria/video-lamparas-mesa.jpg';
+import galVideoMostrador from '../assets/galeria/video-mostrador-estantes.jpg';
+import galVideoGranel from '../assets/galeria/video-granel-estantes.jpg';
+import galVideoCongelados from '../assets/galeria/video-congelados.jpg';
+import galVideoPlanta from '../assets/galeria/video-estante-planta.jpg';
 
 // Logos de marcas (de los sitios oficiales de cada una).
 import marcaNatier from '../assets/marcas/natier.png';
@@ -46,8 +55,6 @@ import catYogures from '../assets/categorias/03-yogures.jpg';
 import catFrutosSecos from '../assets/categorias/04-frutos-secos-semillas.jpg';
 import catBarritas from '../assets/categorias/05-barritas-proteinas.jpg';
 import catCongelados from '../assets/categorias/06-congelados.jpg';
-import catPanificados from '../assets/categorias/07-panificados.jpg';
-import catDulces from '../assets/categorias/08-dulces-untables.jpg';
 import catChocolates from '../assets/categorias/09-chocolates-snacks.jpg';
 import catOrganicos from '../assets/categorias/10-productos-organicos.jpg';
 import mesaNatural from '../assets/carrusel/carrusel-01-mesa-natural.jpg';
@@ -217,33 +224,47 @@ export const recorridoMovil: ParadaMovil[] = [
   },
 ];
 
-// Categorías mencionadas por el equipo del local (las marcadas `pendiente` no están confirmadas).
-// Las fotos son ilustrativas: la grilla lo aclara al pie.
-export const categorias = [
-  { foto: catYerbas, nombre: 'Yerbas e infusiones', detalle: 'Mate, té y hierbas' },
-  { foto: catLeches, nombre: 'Leches vegetales', detalle: 'Almendra, coco, avena y más' },
-  { foto: catYogures, nombre: 'Yogures', detalle: 'Opciones vegetales y tradicionales' },
-  { foto: catFrutosSecos, nombre: 'Frutos secos y semillas', detalle: 'Almendras, nueces, mezclas' },
-  { foto: catBarritas, nombre: 'Barritas y proteínas', detalle: 'Para entrenar o para llevar' },
-  { foto: catCongelados, nombre: 'Congelados', detalle: 'Listos para resolver la semana' },
-  { foto: catPanificados, nombre: 'Panificados', detalle: 'Budines, panes y galletitas' },
-  { foto: catDulces, nombre: 'Dulces y untables', detalle: 'Mermeladas, pastas de maní' },
-  { foto: catChocolates, nombre: 'Chocolates y snacks', detalle: 'Para darte un gusto' },
-  { foto: catOrganicos, nombre: 'Productos orgánicos', detalle: 'Te ayudamos a reconocerlos', pendiente: true },
+// Productos contados por momento del día (no por rubro): las fotos son ilustrativas,
+// así que el sentido lo da el momento. `rubros` deja a la vista lo que hay de verdad.
+// Las marcadas `pendiente` no están confirmadas (ver PENDIENTES.md).
+export const momentos: Array<{
+  foto: ImageMetadata;
+  cuando: string;
+  titulo: string;
+  linea: string;
+  rubros: string;
+  pendiente?: boolean;
+}> = [
+  { foto: catYogures, cuando: 'Por la mañana', titulo: 'Un desayuno que arranca bien', linea: 'Yogures, panes y untables para empezar el día.', rubros: 'Yogures · Panificados · Untables' },
+  { foto: catYerbas, cuando: 'A cualquier hora', titulo: 'Un mate, siempre', linea: 'Yerbas, hierbas y tés para la ronda de la tarde.', rubros: 'Yerbas · Infusiones' },
+  { foto: catLeches, cuando: 'En el café', titulo: 'Con la leche que elijas', linea: 'Almendra, avena, coco y más, para el café o la licuada.', rubros: 'Leches vegetales' },
+  { foto: catFrutosSecos, cuando: 'A media mañana', titulo: 'Algo rico para picar', linea: 'Frutos secos y semillas fraccionados: llevás lo que necesitás.', rubros: 'Frutos secos · Semillas · Mezclas' },
+  { foto: catBarritas, cuando: 'Después de entrenar', titulo: 'Energía para seguir', linea: 'Barritas y proteínas que entran en cualquier mochila.', rubros: 'Barritas · Proteínas' },
+  { foto: catChocolates, cuando: 'A las cinco', titulo: 'Un gustito', linea: 'Chocolates y snacks para el antojo de la tarde.', rubros: 'Chocolates · Snacks · Dulces' },
+  { foto: catCongelados, cuando: 'A la noche', titulo: 'La cena, resuelta', linea: 'Congelados para esas noches sin ganas de cocinar.', rubros: 'Congelados' },
+  { foto: catOrganicos, cuando: 'Todos los días', titulo: 'De la tierra, sin vueltas', linea: 'Productos orgánicos certificados. Te ayudamos a reconocerlos.', rubros: 'Orgánicos', pendiente: true },
 ];
 
 // Fotos reales del local para la galería deslizable. `credito`: autora de la foto en
 // Google Maps; las que no tienen crédito son del Instagram del propio almacén.
 export const galeria: Array<{ foto: ImageMetadata; alt: string; credito?: string }> = [
   { foto: galMesaChocolates, alt: 'Mesa de madera con budines, chocolates orgánicos y frutos secos, con lámparas y heladeras al fondo' },
+  { foto: galVideoGondola, alt: 'Góndola de madera llena de paquetes, con luz cálida y una planta arriba' },
   { foto: galPublicacion05, alt: 'Cajas de té en hebras sobre un estante de madera' },
+  { foto: galVideoLamparas, alt: 'Lámparas colgantes sobre la mesa de granel y las góndolas del fondo' },
   { foto: galPublicacion04, alt: 'Pastas de maní y proteínas en frascos sobre un estante de madera' },
-  { foto: galPublicacion09, alt: 'Budines y panificados envasados sobre la mesa del almacén' },
   { foto: pasillo, alt: 'Pasillo del almacén con góndolas a ambos lados y piso de madera', credito: 'Julia Marquez' },
+  { foto: galVideoGranel, alt: 'Estantes con frutos secos y semillas fraccionados en bolsas' },
+  { foto: galPublicacion09, alt: 'Budines y panificados envasados sobre la mesa del almacén' },
+  { foto: galVideoMostrador, alt: 'Mostrador con estantes de suplementos, snacks y productos naturales' },
   { foto: galPublicacion08, alt: 'Estantes de madera con frascos de mermeladas y dulces' },
+  { foto: galFachadaAcceso, alt: 'Entrada del almacén con revestimiento de madera y plantas en la vereda' },
+  { foto: galVideoPaquetes, alt: 'Estantes con harinas, cereales y premezclas envasadas' },
   { foto: galPublicacion06, alt: 'Paquete de galletitas de chocolate sostenido frente a la mesa de granel' },
   { foto: granelLamparas, alt: 'Lámparas blancas colgantes sobre vitrinas y estantes de madera', credito: 'Julia Marquez' },
+  { foto: galVideoCongelados, alt: 'Heladeras de congelados con puertas de vidrio' },
   { foto: galProductosExhibicion, alt: 'Exhibidor de madera con productos y carteles informativos' },
+  { foto: galVideoPlanta, alt: 'Estante de madera con snacks y una planta al costado' },
   { foto: galPublicacion10, alt: 'Tabletas de chocolate con manteca de cacao en la góndola' },
   { foto: exhibidores, alt: 'Exhibidores con barritas, snacks y productos sin sellos', credito: 'Miriam Marto' },
 ];

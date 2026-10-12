@@ -18,7 +18,7 @@ Las 10 fotos de categorías y las 3 de la franja "Del almacén a tu mesa" son **
 ## Datos a confirmar
 
 - **Preguntas frecuentes** marcadas `pendiente: true`: consulta por Instagram, orgánicos. → `src/data/site.ts` → `preguntas`
-- **Categorías** marcadas `pendiente: true`: productos orgánicos. → `categorias`
+- **Productos por momento del día** (`momentos`): el copy es una propuesta; confirmar que cada momento coincida con lo que venden. Marcado `pendiente`: orgánicos certificados.
 - **Textos del recorrido**: son propuestas. En particular "mezclas fraccionadas" (granel) y "Yogures, leches vegetales y congelados" (heladeras).
 - **Marcas**: la franja muestra los logos oficiales (bajados de cada sitio) de Natier, Kapac, Entrenuts, Smams, Cachafaz, Kraus y Roapipó. Entrenuts aparece en las fotos del local; las demás hay que confirmarlas con la encargada → `src/data/site.ts` → `marcas`. Sin logo ubicable: Felices las Vacas, Cereal Mix, Ades, Hierbas del Oasis y Trefo (estas dos también aparecen en las fotos). Para sumarlas: guardar el logo (PNG transparente) en `src/assets/marcas/` e importarlo.
 - **Sellos**: Sin TACC, vegano, orgánico, sin lactosa, sin azúcar agregada e integral, con íconos propios (no los logos oficiales: el de Sin TACC solo puede ir en envases certificados). Sacar los que no apliquen → `sellos`.
