@@ -5,7 +5,7 @@
 // En escritorio no se muestra (ahí está ScrollWorld). Sin JS o con movimiento
 // reducido, las paradas quedan como una lista normal.
 import { Image } from 'astro:assets';
-import fachada from '../assets/local/fachada.jpg';
+import fachada from '../assets/fotos/01-fachada-hero.webp';
 import { recorridoMovil } from '../data/site';
 
 const ultima = recorridoMovil.length - 1;
@@ -18,7 +18,7 @@ const ultima = recorridoMovil.length - 1;
         <Image
           src={fachada}
           alt="Fachada de El Almacén de Lola, con el cartel y la vidriera iluminada"
-          widths={[960, 1600, 2560]}
+          widths={[960, 1600, 2560].filter((w) => w < fachada.width).concat(fachada.width)}
           sizes="100vw"
           quality={80}
           loading="eager"

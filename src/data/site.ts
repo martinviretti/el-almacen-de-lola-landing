@@ -4,32 +4,28 @@
 import type { ImageMetadata } from 'astro';
 import { url } from '../lib/url';
 
-// Fotos reales del local. Las interiores vienen de Google Maps (ver `credito`):
-// hace falta permiso de sus autoras antes de publicar.
-import fachada from '../assets/local/fachada.jpg';
-import mostrador from '../assets/local/mostrador.jpg';
-import pasillo from '../assets/local/pasillo.jpg';
-import granelLamparas from '../assets/local/granel-lamparas.jpg';
-import exhibidores from '../assets/local/exhibidores.jpg';
-
-// Fotos del Instagram del almacén (publicaciones propias) para la galería.
-import galMesaChocolates from '../assets/galeria/mesa-chocolates.jpg';
-import galProductosExhibicion from '../assets/galeria/productos-exhibicion.jpg';
-import galPublicacion04 from '../assets/galeria/publicacion-04.jpg';
-import galPublicacion05 from '../assets/galeria/publicacion-05.jpg';
-import galPublicacion06 from '../assets/galeria/publicacion-06.jpg';
-import galPublicacion08 from '../assets/galeria/publicacion-08.jpg';
-import galPublicacion09 from '../assets/galeria/publicacion-09.jpg';
-import galPublicacion10 from '../assets/galeria/publicacion-10.jpg';
-import galFachadaAcceso from '../assets/galeria/fachada-acceso.jpg';
-// Cuadros del video del recorrido (474 × 632).
-import galVideoGondola from '../assets/galeria/video-gondola-luz.jpg';
-import galVideoPaquetes from '../assets/galeria/video-estantes-paquetes.jpg';
-import galVideoLamparas from '../assets/galeria/video-lamparas-mesa.jpg';
-import galVideoMostrador from '../assets/galeria/video-mostrador-estantes.jpg';
-import galVideoGranel from '../assets/galeria/video-granel-estantes.jpg';
-import galVideoCongelados from '../assets/galeria/video-congelados.jpg';
-import galVideoPlanta from '../assets/galeria/video-estante-planta.jpg';
+// Fotos reales del local (kit fotográfico del 12/10/2026, retoque de luz y color sin
+// agregar ni quitar objetos). Las "-movil" son recortes 3:4. Pasillo, granel, mostrador y
+// exhibidores salen de fotos que subieron clientas a Google Maps (ver `credito` y PENDIENTES.md).
+import fachada from '../assets/fotos/01-fachada-hero.webp';
+import fotoPasillo from '../assets/fotos/04-pasillo.webp';
+import fotoMostrador from '../assets/fotos/06-mostrador.webp';
+import fotoVistaGeneral from '../assets/fotos/07-vista-general.webp';
+import m02FachadaReal from '../assets/fotos/02-fachada-real-movil.webp';
+import m03Entrada from '../assets/fotos/03-entrada-movil.webp';
+import m04Pasillo from '../assets/fotos/04-pasillo-movil.webp';
+import m05Granel from '../assets/fotos/05-granel-movil.webp';
+import m06Mostrador from '../assets/fotos/06-mostrador-movil.webp';
+import m07VistaGeneral from '../assets/fotos/07-vista-general-movil.webp';
+import m08Despensa from '../assets/fotos/08-despensa-movil.webp';
+import m09FrutosSecos from '../assets/fotos/09-frutos-secos-movil.webp';
+import m10Infusiones from '../assets/fotos/10-infusiones-movil.webp';
+import m11Especias from '../assets/fotos/11-especias-movil.webp';
+import m12Exhibidores from '../assets/fotos/12-exhibidores-movil.webp';
+import m13Heladeras from '../assets/fotos/13-heladeras-movil.webp';
+import m14GranelEstantes from '../assets/fotos/14-granel-estantes-movil.webp';
+import m15Aceites from '../assets/fotos/15-aceites-movil.webp';
+import m16Snacks from '../assets/fotos/16-snacks-movil.webp';
 
 // Logos de marcas (de los sitios oficiales de cada una).
 import marcaNatier from '../assets/marcas/natier.png';
@@ -169,17 +165,17 @@ export const recorridoMovil: ParadaMovil[] = [
     etiqueta: 'La entrada',
     titulo: 'Pasá, que te estábamos esperando',
     linea: 'Un almacén luminoso sobre la avenida, en pleno Victoria.',
-    foto: fachada,
-    alt: 'Puerta de vidrio y vidriera iluminada de El Almacén de Lola',
-    encuadre: '35% 50%',
-    foco: '25% 65%',
-    zoom: 1.2,
+    foto: m03Entrada,
+    alt: 'Vidriera de El Almacén de Lola con el logo, un banco de madera y plantas en la entrada',
+    encuadre: '50% 50%',
+    foco: '45% 60%',
+    zoom: 1.06,
   },
   {
     etiqueta: 'Góndolas',
     titulo: 'Góndolas de punta a punta',
     linea: 'Despensa natural, heladeras y congelados para resolver la semana.',
-    foto: pasillo,
+    foto: fotoPasillo,
     alt: 'Pasillo del almacén con góndolas de madera a ambos lados y heladeras',
     encuadre: '50% 50%',
     foco: '50% 55%',
@@ -189,19 +185,19 @@ export const recorridoMovil: ParadaMovil[] = [
     etiqueta: 'Granel',
     titulo: 'Frutos secos para todos los gustos',
     linea: 'Frutos secos, semillas y mezclas fraccionadas, listas para llevar.',
-    foto: granelLamparas,
-    alt: 'Lámparas blancas colgantes sobre vitrinas de frutos secos y estantes de madera',
+    foto: m09FrutosSecos,
+    alt: 'Mesa con potes de frutos secos, mezclas y budines fraccionados en el local',
     encuadre: '50% 50%',
-    foco: '50% 70%',
+    foco: '50% 45%',
     zoom: 1.08,
   },
   {
     etiqueta: 'El mostrador',
     titulo: 'Te ayudamos a elegir',
     linea: 'Preguntanos lo que necesites: nos encanta ayudarte.',
-    foto: mostrador,
-    alt: 'Mesa de madera con frutos secos fraccionados frente al mostrador',
-    encuadre: '65% 50%',
+    foto: fotoMostrador,
+    alt: 'Mesa de madera con budines, chocolates y frutos secos frente al mostrador',
+    encuadre: '55% 50%',
     foco: '60% 50%',
     zoom: 1.06,
   },
@@ -209,10 +205,10 @@ export const recorridoMovil: ParadaMovil[] = [
     etiqueta: 'Despensa',
     titulo: 'Y mucho más para descubrir',
     linea: 'Recorré con tiempo: siempre hay algo rico para probar.',
-    foto: exhibidores,
-    alt: 'Exhibidores con yerbas, tés, barritas y snacks',
-    encuadre: '100% 50%',
-    foco: '80% 50%',
+    foto: fotoVistaGeneral,
+    alt: 'Vista del interior con estanterías de madera, granel y golosinas a la vista',
+    encuadre: '50% 50%',
+    foco: '55% 60%',
     zoom: 1.06,
   },
 ];
@@ -238,28 +234,24 @@ export const momentos: Array<{
   { foto: catOrganicos, cuando: 'Cuando quieras', titulo: 'De la tierra, sin vueltas', linea: 'Productos orgánicos certificados. Te ayudamos a reconocerlos.', rubros: 'Orgánicos', pendiente: true },
 ];
 
-// Fotos reales del local para la galería deslizable. `credito`: autora de la foto en
-// Google Maps; las que no tienen crédito son del Instagram del propio almacén.
+// Galería deslizable: fotos reales del local en 3:4. `credito`: autora de la foto original
+// en Google Maps (hay que pedirle permiso; ver PENDIENTES.md).
 export const galeria: Array<{ foto: ImageMetadata; alt: string; credito?: string }> = [
-  { foto: galMesaChocolates, alt: 'Mesa de madera con budines, chocolates orgánicos y frutos secos, con lámparas y heladeras al fondo' },
-  { foto: galVideoGondola, alt: 'Góndola de madera llena de paquetes, con luz cálida y una planta arriba' },
-  { foto: galPublicacion05, alt: 'Cajas de té en hebras sobre un estante de madera' },
-  { foto: galVideoLamparas, alt: 'Lámparas colgantes sobre la mesa de granel y las góndolas del fondo' },
-  { foto: galPublicacion04, alt: 'Pastas de maní y proteínas en frascos sobre un estante de madera' },
-  { foto: pasillo, alt: 'Pasillo del almacén con góndolas a ambos lados y piso de madera', credito: 'Julia Marquez' },
-  { foto: galVideoGranel, alt: 'Estantes con frutos secos y semillas fraccionados en bolsas' },
-  { foto: galPublicacion09, alt: 'Budines y panificados envasados sobre la mesa del almacén' },
-  { foto: galVideoMostrador, alt: 'Mostrador con estantes de suplementos, snacks y productos naturales' },
-  { foto: galPublicacion08, alt: 'Estantes de madera con frascos de mermeladas y dulces' },
-  { foto: galFachadaAcceso, alt: 'Entrada del almacén con revestimiento de madera y plantas en la vereda' },
-  { foto: galVideoPaquetes, alt: 'Estantes con harinas, cereales y premezclas envasadas' },
-  { foto: galPublicacion06, alt: 'Paquete de galletitas de chocolate sostenido frente a la mesa de granel' },
-  { foto: granelLamparas, alt: 'Lámparas blancas colgantes sobre vitrinas y estantes de madera', credito: 'Julia Marquez' },
-  { foto: galVideoCongelados, alt: 'Heladeras de congelados con puertas de vidrio' },
-  { foto: galProductosExhibicion, alt: 'Exhibidor de madera con productos y carteles informativos' },
-  { foto: galVideoPlanta, alt: 'Estante de madera con snacks y una planta al costado' },
-  { foto: galPublicacion10, alt: 'Tabletas de chocolate con manteca de cacao en la góndola' },
-  { foto: exhibidores, alt: 'Exhibidores con barritas, snacks y productos sin sellos', credito: 'Miriam Marto' },
+  { foto: m03Entrada, alt: 'Vidriera con el logo de Lola, un banco de madera y plantas en la entrada' },
+  { foto: m09FrutosSecos, alt: 'Potes de frutos secos y mezclas sobre la mesa, con budines adelante' },
+  { foto: m04Pasillo, alt: 'Pasillo con góndolas de madera, heladeras y lámparas colgantes', credito: 'Julia Marquez' },
+  { foto: m10Infusiones, alt: 'Estantes con yerbas, tés en caja e infusiones' },
+  { foto: m05Granel, alt: 'Rincón del granel con frascos, balanza y un ramo de flores', credito: 'Julia Marquez' },
+  { foto: m11Especias, alt: 'Frascos de especias y semillas en estantes de madera clara' },
+  { foto: m06Mostrador, alt: 'Mesa central con budines, chocolates y frutos secos', credito: 'Miriam Marto' },
+  { foto: m15Aceites, alt: 'Botellas de aceite de oliva y aceites saludables en la góndola' },
+  { foto: m07VistaGeneral, alt: 'Interior con estanterías de madera, granel y golosinas a la vista' },
+  { foto: m12Exhibidores, alt: 'Exhibidor de barritas y snacks sin sellos', credito: 'Miriam Marto' },
+  { foto: m14GranelEstantes, alt: 'Estantes con frascos de granos, semillas y legumbres' },
+  { foto: m13Heladeras, alt: 'Heladera con quesos, untables y productos refrigerados' },
+  { foto: m08Despensa, alt: 'Estanterías con harinas, azúcares y productos fraccionados' },
+  { foto: m16Snacks, alt: 'Snacks, mezclas y golosinas en exhibidores transparentes' },
+  { foto: m02FachadaReal, alt: 'Frente del almacén con el cartel de Lola y la vidriera' },
 ];
 
 // Escenas ilustrativas para la franja "Del almacén a tu mesa".

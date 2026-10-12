@@ -53,7 +53,7 @@ const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: r
                   <Image
                     src={parada.foto}
                     alt={parada.alt}
-                    widths={i === 0 ? [960, 1600, 2560] : [parada.foto.width]}
+                    widths={i === 0 ? [960, 1600, 2560].filter((w) => w < parada.foto.width).concat(parada.foto.width) : [parada.foto.width]}
                     sizes={i === 0 ? '100vw' : '(min-width: 1024px) 40vw, 90vw'}
                     quality={i === 0 ? 80 : 86}
                     loading={i === 0 ? 'eager' : 'lazy'}
