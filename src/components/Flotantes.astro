@@ -79,11 +79,15 @@ const hrefWhatsApp = `https://wa.me/${negocio.whatsapp}?text=${encodeURIComponen
       transition:
         top 700ms var(--ease-fluid),
         bottom 700ms var(--ease-fluid),
-        translate 500ms var(--ease-fluid);
+        opacity 400ms var(--ease-fluid),
+        translate 400ms var(--ease-fluid);
     }
-    /* Mientras se scrollea se corren a un costado para no tapar texto; vuelven al frenar */
+    /* Mientras se scrollea se desvanecen para no tapar texto; vuelven al frenar.
+       (No se sacan de la pantalla: un fijo fuera del borde ensancha la página en celular.) */
     .flotantes.is-oculto {
-      translate: calc(100% + 24px) 0;
+      opacity: 0;
+      translate: 0 12px;
+      pointer-events: none;
     }
     :global(html.en-recorrido) .flotantes {
       top: 104px;

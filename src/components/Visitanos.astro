@@ -23,7 +23,7 @@ const estrella = 'M12 2.5l2.9 6.06 6.6.8-4.87 4.57 1.25 6.57L12 17.3l-5.88 3.2 1
 
     {/* Fila 1: dónde y cuándo + mapa */}
     <div class="mt-10 grid gap-4 lg:mt-12 lg:grid-cols-2 lg:gap-6">
-      <div class="rounded-3xl bg-white p-6 lg:p-8" data-reveal>
+      <div class="min-w-0 rounded-3xl bg-white p-6 lg:p-8" data-reveal>
         <div class="flex items-start gap-4">
           <span class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-menta-suave text-profundo">
             <Icon name="map-pin" class="size-6" />
@@ -89,7 +89,7 @@ const estrella = 'M12 2.5l2.9 6.06 6.6.8-4.87 4.57 1.25 6.57L12 17.3l-5.88 3.2 1
       </div>
 
       {/* El navegador lo carga recién cuando la persona llega a esta parte (loading="lazy") */}
-      <div class="relative min-h-[320px] overflow-hidden rounded-3xl bg-white ring-1 ring-profundo/10" data-reveal style="--delay:120ms">
+      <div class="relative min-h-[320px] min-w-0 overflow-hidden rounded-3xl bg-white ring-1 ring-profundo/10" data-reveal style="--delay:120ms">
         <iframe
           src={negocio.mapsEmbed}
           title={`Mapa con la ubicación de ${negocio.nombre}`}
@@ -101,7 +101,7 @@ const estrella = 'M12 2.5l2.9 6.06 6.6.8-4.87 4.57 1.25 6.57L12 17.3l-5.88 3.2 1
 
     {/* Fila 2: medios de pago + Google */}
     <div class="mt-4 grid gap-4 lg:mt-6 lg:grid-cols-[2fr_3fr] lg:gap-6">
-      <div class="rounded-3xl bg-white p-6 lg:p-8" data-reveal>
+      <div class="min-w-0 rounded-3xl bg-white p-6 lg:p-8" data-reveal>
         <p class="text-lg font-semibold text-profundo">Medios de pago</p>
         <ul class="mt-4 grid grid-cols-3 gap-2">
           {
@@ -120,7 +120,7 @@ const estrella = 'M12 2.5l2.9 6.06 6.6.8-4.87 4.57 1.25 6.57L12 17.3l-5.88 3.2 1
         <p class="mt-3 text-sm font-semibold text-marca-texto">{negocio.pagosNota}</p>
       </div>
 
-      <div class="rounded-3xl bg-white p-6 lg:p-8" data-reveal style="--delay:120ms">
+      <div class="min-w-0 rounded-3xl bg-white p-6 lg:p-8" data-reveal style="--delay:120ms">
         <div class="flex flex-wrap items-center justify-between gap-4">
           <div class="flex items-center gap-4">
             <p class="text-5xl font-bold tracking-tight text-profundo tabular-nums">{negocio.googleCalificacion}</p>
@@ -145,21 +145,38 @@ const estrella = 'M12 2.5l2.9 6.06 6.6.8-4.87 4.57 1.25 6.57L12 17.3l-5.88 3.2 1
 
         {
           resenas.length > 0 && (
-            <ul class="mt-6 grid gap-3 sm:grid-cols-2">
-              {resenas.slice(0, 4).map((r) => (
-                <li class="rounded-2xl bg-menta-suave p-4">
-                  <span class="estrellas-fijas" role="img" aria-label={`${r.estrellas} de 5 estrellas`}>
-                    {[0, 1, 2, 3, 4].map((k) => (
-                      <svg viewBox="0 0 24 24" class:list={['size-4', k < r.estrellas ? 'estrella-llena' : 'text-arena']} fill="currentColor" aria-hidden="true">
-                        <path d={estrella} />
-                      </svg>
+            <div class="resenas mt-6 min-w-0" data-resenas role="region" aria-roledescription="carrusel" aria-label="Opiniones en Google">
+              {/* Una opinión por vez: pasan solas cada 6 s; se frenan con el mouse, el foco o el botón de pausa */}
+              <div class="overflow-hidden rounded-2xl bg-menta-suave">
+                <ul class="resenas-pista flex" data-resenas-pista>
+                  {resenas.map((r, i) => (
+                    <li class="w-full shrink-0 p-5 lg:p-6" aria-roledescription="opinión" aria-label={`${i + 1} de ${resenas.length}`}>
+                      <span class="estrellas-fijas" role="img" aria-label={`${r.estrellas} de 5 estrellas`}>
+                        {[0, 1, 2, 3, 4].map((k) => (
+                          <svg viewBox="0 0 24 24" class:list={['size-4', k < r.estrellas ? 'estrella-llena' : 'text-arena']} fill="currentColor" aria-hidden="true">
+                            <path d={estrella} />
+                          </svg>
+                        ))}
+                      </span>
+                      <p class="mt-3 text-base leading-relaxed text-texto">“{r.texto}”</p>
+                      <p class="mt-3 text-sm font-semibold text-texto-2">{r.autor} · en Google</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              {resenas.length > 1 && (
+                <div class="mt-3 flex items-center justify-between gap-3">
+                  <div class="flex gap-1.5">
+                    {resenas.map((_, i) => (
+                      <button type="button" class="resenas-punto" data-resenas-ir={i} aria-label={`Ver opinión ${i + 1}`} aria-current={i === 0 ? 'true' : undefined}></button>
                     ))}
-                  </span>
-                  <p class="mt-2 text-sm leading-relaxed text-texto">“{r.texto}”</p>
-                  <p class="mt-2 text-xs font-semibold text-texto-2">{r.autor} · en Google</p>
-                </li>
-              ))}
-            </ul>
+                  </div>
+                  <button type="button" class="resenas-pausa text-sm font-semibold text-marca-texto" data-resenas-pausa aria-pressed="false">
+                    Pausar
+                  </button>
+                </div>
+              )}
+            </div>
           )
         }
       </div>
@@ -190,9 +207,69 @@ const estrella = 'M12 2.5l2.9 6.06 6.6.8-4.87 4.57 1.25 6.57L12 17.3l-5.88 3.2 1
   .estrella-llena {
     color: #f5b301;
   }
+  .resenas-pista {
+    transition: translate 700ms var(--ease-fluid);
+  }
+  .resenas-punto {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background: var(--color-arena);
+    transition:
+      width 500ms var(--ease-fluid),
+      background-color 500ms var(--ease-fluid);
+  }
+  .resenas-punto[aria-current='true'] {
+    width: 24px;
+    background: var(--color-profundo);
+  }
   .boton-chico {
     padding: 8px 16px;
     font-size: 0.875rem;
     line-height: 1.25rem;
   }
 </style>
+
+<script>
+  // Carrusel de opiniones: avanza solo cada 6 s y vuelve al principio al final. Se frena
+  // con el mouse encima, con foco de teclado, fuera de pantalla o con el botón Pausar.
+  document.querySelectorAll<HTMLElement>('[data-resenas]').forEach((caja) => {
+    const pista = caja.querySelector<HTMLElement>('[data-resenas-pista]')!;
+    const puntos = [...caja.querySelectorAll<HTMLButtonElement>('[data-resenas-ir]')];
+    const pausa = caja.querySelector<HTMLButtonElement>('[data-resenas-pausa]');
+    const total = pista.children.length;
+    if (total < 2) return;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let actual = 0;
+    let detenido = reduce;
+    let encima = false;
+    let visible = false;
+
+    const ir = (i: number) => {
+      actual = (i + total) % total;
+      pista.style.translate = `${-actual * 100}% 0`;
+      [...pista.children].forEach((li, k) => li.toggleAttribute('inert', k !== actual));
+      puntos.forEach((p, k) => (k === actual ? p.setAttribute('aria-current', 'true') : p.removeAttribute('aria-current')));
+    };
+    ir(0);
+    puntos.forEach((p) => p.addEventListener('click', () => ir(Number(p.dataset.resenasIr))));
+
+    if (pausa) {
+      if (reduce) pausa.hidden = true;
+      pausa.addEventListener('click', () => {
+        detenido = !detenido;
+        pausa.setAttribute('aria-pressed', String(detenido));
+        pausa.textContent = detenido ? 'Seguir' : 'Pausar';
+      });
+    }
+    caja.addEventListener('pointerenter', () => (encima = true));
+    caja.addEventListener('pointerleave', () => (encima = false));
+    caja.addEventListener('focusin', (e) => (encima = (e.target as HTMLElement).matches(':focus-visible')));
+    caja.addEventListener('focusout', (e) => (encima = caja.contains(e.relatedTarget as Node | null)));
+    new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(caja);
+
+    setInterval(() => {
+      if (!detenido && !encima && visible && !document.hidden) ir(actual + 1);
+    }, 6000);
+  });
+</script>

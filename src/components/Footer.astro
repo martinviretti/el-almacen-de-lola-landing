@@ -1,70 +1,31 @@
 ---
+// Pie mínimo: quién es, dónde está y los dos links que faltan. Horarios, mapa y
+// "Cómo llegar" ya están en Visitanos: acá no se repiten.
 import { url } from '../lib/url';
 import { Image } from 'astro:assets';
 import logo from '../assets/logo-lola-circulo.png';
-import Icon from './Icon.astro';
 import IconoMarca from './IconoMarca.astro';
-import { negocio, horariosResumen } from '../data/site';
+import { negocio } from '../data/site';
 
 const anio = new Date().getFullYear();
 ---
 
-<footer class="bg-profundo px-5 pt-16 pb-8 text-white lg:px-10 lg:pt-24">
-  <div class="mx-auto max-w-[1200px]">
-    <div class="grid gap-12 lg:grid-cols-[2fr_1fr_1fr_1fr]">
+<footer class="bg-profundo px-5 py-10 text-white lg:px-10">
+  <div class="mx-auto flex max-w-[1200px] flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex items-center gap-3">
+      <Image src={logo} alt="" width={44} height={44} densities={[1, 2]} class="size-11 rounded-full" loading="lazy" />
       <div>
-        <Image src={logo} alt="" width={64} height={64} class="size-16 rounded-full" loading="lazy" />
-        <p class="mt-4 text-xl font-semibold">{negocio.nombre}</p>
-        <p class="mt-1 text-base text-white/70">{negocio.tagline} en {negocio.localidad}</p>
-      </div>
-
-      <div>
-        <p class="text-sm font-semibold text-menta">Dirección</p>
-        <p class="mt-3 text-base text-white/80">
-          {negocio.direccion}<br />
-          {negocio.localidad}
-        </p>
-        <a
-          href={negocio.mapsDestino}
-          target="_blank"
-          rel="noopener"
-          class="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-white underline-offset-4 hover:underline"
-        >
-          Cómo llegar <Icon name="arrow-up-right" class="size-4" />
-        </a>
-      </div>
-
-      <div>
-        <p class="text-sm font-semibold text-menta">Horarios</p>
-        <dl class="mt-3 flex flex-col gap-2 text-base">
-          {
-            horariosResumen.map((h) => (
-              <div>
-                <dt class="text-white/60 text-sm">{h.dias}</dt>
-                <dd class="text-white/90">{h.horas}</dd>
-              </div>
-            ))
-          }
-        </dl>
-      </div>
-
-      <div>
-        <p class="text-sm font-semibold text-menta">Seguinos</p>
-        <a
-          href={negocio.instagram}
-          target="_blank"
-          rel="noopener"
-          class="mt-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-semibold transition-colors duration-700 ease-fluid hover:bg-white/20"
-        >
-          <IconoMarca name="instagram" class="size-5" />
-          {negocio.instagramUsuario}
-        </a>
+        <p class="font-semibold">{negocio.nombre}</p>
+        <p class="text-sm text-white/70">{negocio.direccion}, {negocio.localidad}</p>
       </div>
     </div>
-
-    <div class="mt-16 flex flex-col gap-4 border-t border-white/15 pt-8 text-sm text-white/60 sm:flex-row sm:items-center sm:justify-between">
-      <p>© {anio} {negocio.nombre}. Todos los derechos reservados.</p>
-      <a href={url('/privacidad')} class="font-semibold text-white/80 underline-offset-4 hover:underline">Privacidad</a>
+    <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/70">
+      <a href={negocio.instagram} target="_blank" rel="noopener" class="inline-flex items-center gap-2 font-semibold text-white underline-offset-4 hover:underline">
+        <IconoMarca name="instagram" class="size-4" />
+        {negocio.instagramUsuario}
+      </a>
+      <a href={url('/privacidad')} class="underline-offset-4 hover:underline">Privacidad</a>
+      <span>© {anio}</span>
     </div>
   </div>
 </footer>
