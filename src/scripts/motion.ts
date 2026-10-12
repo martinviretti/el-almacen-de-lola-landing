@@ -37,7 +37,7 @@ const reveal = new IntersectionObserver(
 );
 document.querySelectorAll('[data-reveal]').forEach((el) => reveal.observe(el));
 
-// Recorrido por el almacén: en escritorio atado al scroll, en celular tipo historias.
+// Recorrido por la almacén: en escritorio atado al scroll, en celular tipo historias.
 const esMovil = window.matchMedia('(max-width: 1023px)').matches;
 const world = document.querySelector<HTMLElement>('[data-world]');
 if (world && motion && !esMovil) initWorld(world);
@@ -63,7 +63,7 @@ document.querySelectorAll<HTMLElement>('[data-words]').forEach((block) => {
   });
 });
 
-// Franja "Del almacén a tu mesa": se desliza de costado mientras pasa por la pantalla.
+// Franja "De la almacén a tu mesa": se desliza de costado mientras pasa por la pantalla.
 if (motion) {
   document.querySelectorAll<HTMLElement>('[data-carrusel]').forEach((section) => {
     const track = section.querySelector<HTMLElement>('[data-carrusel-track]');

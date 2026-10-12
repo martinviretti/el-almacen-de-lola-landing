@@ -4,7 +4,8 @@
 const GOOGLE_PLACE_ID = 'ChIJn3Y_lXGvvJURWcWfWPucoqs';
 
 export const negocio = {
-  nombre: 'El Almacén de Lola',
+  // Así dice el cartel (decisión de Martín, 12/10/2026): los usos que hablan del local van en femenino.
+  nombre: 'La Almacén de Lola',
   tagline: 'Alimentos saludables',
   instagram: 'https://www.instagram.com/lolasaludable/',
   instagramUsuario: '@lolasaludable',

@@ -83,17 +83,17 @@ export const recorrido: Parada[] = [
     titulo: 'Lo rico de elegir natural',
     texto: 'Comer mejor empieza cerca de casa. En Lola te ayudamos a encontrar lo que te hace bien, con la calidez de un almacén de barrio.',
     foto: fachada,
-    alt: 'Fachada de El Almacén de Lola: cartel con el logo, vidriera iluminada con góndolas de madera y plantas en la entrada',
-    // La puerta de vidrio del almacén (la de madera es del edificio).
+    alt: 'Fachada de La Almacén de Lola: cartel con el logo, vidriera iluminada con góndolas de madera y plantas en la entrada',
+    // La puerta de vidrio de la almacén (la de madera es del edificio).
     foco: '27% 64%',
   },
   {
     id: 'entrada',
     etiqueta: 'La entrada',
     titulo: 'Pasá, que te estábamos esperando',
-    texto: 'Un almacén luminoso sobre la avenida, en pleno Victoria.',
+    texto: 'Una almacén luminosa sobre la avenida, en pleno Victoria.',
     foto: parada1,
-    alt: 'Vista desde la vereda hacia la entrada vidriada del almacén',
+    alt: 'Vista desde la vereda hacia la entrada vidriada de la almacén',
     video: [0, 4.2],
   },
   {
@@ -164,9 +164,9 @@ export const recorridoMovil: ParadaMovil[] = [
   {
     etiqueta: 'La entrada',
     titulo: 'Pasá, que te estábamos esperando',
-    linea: 'Un almacén luminoso sobre la avenida, en pleno Victoria.',
+    linea: 'Una almacén luminosa sobre la avenida, en pleno Victoria.',
     foto: m03Entrada,
-    alt: 'Vidriera de El Almacén de Lola con el logo, un banco de madera y plantas en la entrada',
+    alt: 'Vidriera de La Almacén de Lola con el logo, un banco de madera y plantas en la entrada',
     encuadre: '50% 50%',
     foco: '45% 60%',
     zoom: 1.06,
@@ -176,7 +176,7 @@ export const recorridoMovil: ParadaMovil[] = [
     titulo: 'Góndolas de punta a punta',
     linea: 'Despensa natural, heladeras y congelados para resolver la semana.',
     foto: fotoPasillo,
-    alt: 'Pasillo del almacén con góndolas de madera a ambos lados y heladeras',
+    alt: 'Pasillo de la almacén con góndolas de madera a ambos lados y heladeras',
     encuadre: '50% 50%',
     foco: '50% 55%',
     zoom: 1.08,
@@ -251,10 +251,10 @@ export const galeria: Array<{ foto: ImageMetadata; alt: string; credito?: string
   { foto: m13Heladeras, alt: 'Heladera con quesos, untables y productos refrigerados' },
   { foto: m08Despensa, alt: 'Estanterías con harinas, azúcares y productos fraccionados' },
   { foto: m16Snacks, alt: 'Snacks, mezclas y golosinas en exhibidores transparentes' },
-  { foto: m02FachadaReal, alt: 'Frente del almacén con el cartel de Lola y la vidriera' },
+  { foto: m02FachadaReal, alt: 'Frente de la almacén con el cartel de Lola y la vidriera' },
 ];
 
-// Escenas ilustrativas para la franja "Del almacén a tu mesa".
+// Escenas ilustrativas para la franja "De la almacén a tu mesa".
 export const carrusel = [
   { foto: mesaNatural, alt: 'Mesa de madera con frutos secos, pan de masa madre, frutos rojos y leche' },
   { foto: desayuno, alt: 'Desayuno con tostadas con mermelada, yogur con avena y leche' },
@@ -289,12 +289,12 @@ export const tagline =
 
 export const preguntas = [
   {
-    p: '¿Dónde queda el almacén?',
+    p: '¿Dónde queda la almacén?',
     r: 'Estamos en Av. Presidente Perón 3099, en Victoria, partido de San Fernando. Tocá "Cómo llegar" y Google Maps te arma el recorrido.',
   },
   {
     p: '¿Qué horarios tienen?',
-    r: 'De lunes a viernes de 8 a 20 h y los sábados de 9 a 20 h. Los domingos el almacén está cerrado.',
+    r: 'De lunes a viernes de 8 a 20 h y los sábados de 9 a 20 h. Los domingos la almacén está cerrada.',
   },
   {
     p: '¿Qué medios de pago aceptan?',

@@ -1,6 +1,6 @@
-# Landing — El Almacén de Lola
+# Landing — La Almacén de Lola
 
-Sitio de presentación del almacén natural de Av. Presidente Perón 3099, Victoria.
+Sitio de presentación de La Almacén de Lola, almacén natural de Av. Presidente Perón 3099, Victoria.
 Astro 7 + Tailwind CSS 4 + GSAP ScrollTrigger + Lenis. Salida 100 % estática, publicada en GitHub Pages (https://martinviretti.github.io/el-almacen-de-lola-landing/) con el workflow de `.github/workflows/deploy.yml`: cada push a `main` se publica solo.
 
 Antes de publicar, revisar [PENDIENTES.md](PENDIENTES.md).

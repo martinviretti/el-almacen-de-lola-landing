@@ -13,7 +13,7 @@ Todo lo de esta lista es propuesta o dato sin confirmar. Validarlo con la encarg
 
 ## Imágenes ilustrativas
 
-Las 8 fotos de "Algo rico para cada momento" y las 2 de la franja "Del almacén a tu mesa" son **generadas**: no muestran el local ni el surtido real. La web ya no lo aclara al pie (se sacó el aviso el 12/10/2026, a pedido de Martín): reemplazarlas por fotos propias cuando estén. No usarlas en el recorrido ni en la galería del local.
+Las 8 fotos de "Algo rico para cada momento" y las 2 de la franja "De la almacén a tu mesa" son **generadas**: no muestran el local ni el surtido real. La web ya no lo aclara al pie (se sacó el aviso el 12/10/2026, a pedido de Martín): reemplazarlas por fotos propias cuando estén. No usarlas en el recorrido ni en la galería del local.
 
 ## Datos a confirmar
 
@@ -27,7 +27,7 @@ Las 8 fotos de "Algo rico para cada momento" y las 2 de la franja "Del almacén 
 
 ## Ficha de Google
 
-- **Sin reclamar** al 12/10/2026: reclamarla desde una cuenta del local, cargar el sitio web y corregir el nombre ("El Almacen de LOLA" → "El Almacén de Lola"). Guía completa en `../FICHA-GOOGLE.md` (fuera del repo).
+- **Sin reclamar** al 12/10/2026: reclamarla desde una cuenta del local, cargar el sitio web y corregir el nombre ("El Almacen de LOLA" → "La Almacén de Lola", como el cartel). Guía completa en `../FICHA-GOOGLE.md` (fuera del repo).
 - **Teléfono de la ficha** (011 15-5764-7235): confirmar que es del local y si tiene WhatsApp. Si sí, cargarlo en `negocio.ts` → `whatsapp` como `5491157647235`.
 - **Calificación** (`googleCalificacion`, 4,3 al 12/10/2026): actualizarla cada tanto. No se pone en los datos estructurados (Google no acepta calificaciones propias del negocio).
 
@@ -40,7 +40,7 @@ Las 8 fotos de "Algo rico para cada momento" y las 2 de la franja "Del almacén 
 
 - **Medios de pago** (12/10/2026): efectivo con descuento, tarjeta y Mercado Pago. El porcentaje del descuento no se publica.
 
-- Nombre comercial: **El Almacén de Lola** (11/10/2026).
+- Nombre comercial: **La Almacén de Lola**, como dice el cartel (12/10/2026; reemplaza a "El Almacén de Lola"). Los usos que hablan del local van en femenino ("la almacén"); "un almacén de barrio" y "almacén natural" como rubro quedan en masculino.
 - El bolsón de verduras ya no se hace: se sacó de categorías, preguntas e historias destacadas (11/10/2026).
 - Domingos cerrado (11/10/2026).
 - Sin TACC: se aseguran solo los envasados con logo oficial; lo fraccionado en el local no se recomienda a celíacos por contacto cruzado (11/10/2026).

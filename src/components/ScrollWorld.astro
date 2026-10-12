@@ -10,7 +10,7 @@ import { negocio, recorrido, videoRecorrido } from '../data/site';
 const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: recorrido[1].foto.width });
 ---
 
-<section id="recorrido" data-world aria-label="Recorrido por el almacén" style={`--paradas:${recorrido.length}`}>
+<section id="recorrido" data-world aria-label="Recorrido por la almacén" style={`--paradas:${recorrido.length}`}>
   <div class="world-track">
     <div class="world-stage">
       <div class="fondo-hojas world-bg" data-world-bg aria-hidden="true"></div>
@@ -34,7 +34,7 @@ const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: r
                     <p data-scroll-hint class="world-hint mt-6 flex items-center gap-2 text-sm font-semibold text-marca-texto">
                       <Icon name="arrow-down" class="size-4 animate-bounce" />
                       <span class="lg:hidden">Deslizá para verlo</span>
-                      <span class="hidden lg:inline">Deslizá para entrar al almacén</span>
+                      <span class="hidden lg:inline">Deslizá para entrar a la almacén</span>
                     </p>
                   </>
                 ) : (
@@ -308,7 +308,7 @@ const afiche = await getImage({ src: recorrido[1].foto, format: 'webp', width: r
     opacity: 0;
     transition: opacity 700ms var(--ease-fluid);
   }
-  /* La barra de progreso aparece recién adentro del almacén, no sobre la fachada */
+  /* La barra de progreso aparece recién adentro de la almacén, no sobre la fachada */
   :global(html.motion) [data-world].is-inside .world-rail {
     opacity: 1;
   }
