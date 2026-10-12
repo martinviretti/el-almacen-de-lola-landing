@@ -25,7 +25,7 @@ const anchos = (w: number) => [400, 640, 900].filter((a) => a < w).concat(w < 90
           <p class="mt-4 text-lg text-texto-2">Madera, luz cálida y góndolas ordenadas para que elegir sea un placer.</p>
         </div>
         <div class="flex shrink-0 gap-2">
-          <button type="button" class="galeria-boton galeria-pausa" data-galeria-pausa aria-pressed="false" aria-label="Pausar el movimiento">
+          <button type="button" class="galeria-boton galeria-pausa flex" data-galeria-pausa aria-pressed="false" aria-label="Pausar el movimiento">
             <Icon name="pause" class="icono-pausa size-5" />
             <Icon name="play" class="icono-play size-5" />
           </button>
@@ -102,8 +102,8 @@ const anchos = (w: number) => [400, 640, 900].filter((a) => a < w).concat(w < 90
     }
   }
 
+  /* Sin `display` acá: lo ponen las clases (flex / hidden lg:flex), así en celular no aparecen las flechas. */
   .galeria-boton {
-    display: flex;
     width: 48px;
     height: 48px;
     align-items: center;

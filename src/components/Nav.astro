@@ -78,7 +78,7 @@ const links = [
             href={l.href === '#el-almacen' ? '#recorrido-movil' : l.href}
             data-menu-link
             style={`transition-delay:${100 + i * 50}ms`}
-            class="block translate-y-12 py-2 text-4xl font-semibold text-profundo opacity-0 transition-[transform,opacity] duration-700 ease-fluid"
+            class="block translate-y-12 py-2 text-4xl font-semibold text-profundo opacity-0 transition-[translate,opacity] duration-700 ease-fluid"
           >
             {l.label}
           </a>
@@ -92,7 +92,7 @@ const links = [
     rel="noopener"
     data-menu-link
     style="transition-delay:320ms"
-    class="boton boton-principal mt-8 w-max translate-y-12 opacity-0 transition-[transform,opacity] duration-700 ease-fluid"
+    class="boton boton-principal mt-8 w-max translate-y-12 opacity-0 transition-[translate,opacity] duration-700 ease-fluid"
   >
     <Icon name="navigation-arrow" class="size-5" />
     Cómo llegar
@@ -104,8 +104,9 @@ const links = [
     visibility: visible;
     opacity: 1;
   }
+  /* Tailwind 4 mueve con la propiedad `translate` (no `transform`): se resetea esa. */
   [data-menu].is-open [data-menu-link] {
-    transform: translateY(0);
+    translate: 0 0;
     opacity: 1;
   }
   [aria-expanded='true'] [data-bar='1'] {
