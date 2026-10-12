@@ -13,7 +13,7 @@ Todo lo de esta lista es propuesta o dato sin confirmar. Validarlo con la encarg
 
 ## Imágenes ilustrativas
 
-Las 8 fotos de "Algo rico para cada momento" y las 2 de la franja "Del almacén a tu mesa" son **generadas**: no muestran el local ni el surtido real. La web lo aclara al pie de cada bloque ("Imágenes ilustrativas"). No usarlas en el recorrido ni en la galería del local.
+Las 8 fotos de "Algo rico para cada momento" y las 2 de la franja "Del almacén a tu mesa" son **generadas**: no muestran el local ni el surtido real. La web ya no lo aclara al pie (se sacó el aviso el 12/10/2026, a pedido de Martín): reemplazarlas por fotos propias cuando estén. No usarlas en el recorrido ni en la galería del local.
 
 ## Datos a confirmar
 
