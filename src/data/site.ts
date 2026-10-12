@@ -305,6 +305,10 @@ export const preguntas = [
     r: 'De lunes a viernes de 8 a 20 h y los sábados de 9 a 20 h. Los domingos el almacén está cerrado.',
   },
   {
+    p: '¿Qué medios de pago aceptan?',
+    r: 'Efectivo, tarjeta y Mercado Pago. Si pagás en efectivo, tenés descuento.',
+  },
+  {
     p: '¿Puedo consultar precios o si tienen un producto antes de ir?',
     r: 'Sí. Escribinos por mensaje directo en Instagram a @lolasaludable y te respondemos.',
     pendiente: true,

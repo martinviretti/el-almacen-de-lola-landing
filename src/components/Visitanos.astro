@@ -47,6 +47,35 @@ const semana = [...horarios.slice(1), horarios[0]];
         </div>
       </div>
 
+      <div class="mt-6 flex items-start gap-4">
+        <span class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-white text-profundo">
+          <Icon name="credit-card" class="size-6" />
+        </span>
+        <div>
+          <p class="text-lg font-semibold text-profundo">Medios de pago</p>
+          <ul class="mt-2 flex flex-wrap gap-2">
+            {negocio.pagos.map((p) => <li class="rounded-full bg-white px-3 py-1.5 text-sm font-semibold text-profundo">{p}</li>)}
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-6 flex items-start gap-4">
+        <span class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-white text-profundo">
+          <Icon name="star" class="size-6" />
+        </span>
+        <div>
+          <p class="text-lg font-semibold text-profundo">{negocio.googleCalificacion} en Google</p>
+          <p class="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm font-semibold">
+            <a href={negocio.googleFicha} target="_blank" rel="noopener" class="text-marca-texto underline-offset-4 hover:underline">
+              Ver las opiniones
+            </a>
+            <a href={negocio.googleOpinar} target="_blank" rel="noopener" class="text-marca-texto underline-offset-4 hover:underline">
+              Dejanos la tuya
+            </a>
+          </p>
+        </div>
+      </div>
+
       <div class="mt-8 flex flex-wrap gap-3">
         <a href={negocio.mapsDestino} target="_blank" rel="noopener" class="boton boton-principal">
           <Icon name="navigation-arrow" class="size-5" />

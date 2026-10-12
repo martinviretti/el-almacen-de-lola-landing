@@ -25,12 +25,20 @@ Las 8 fotos de "Algo rico para cada momento" y las 2 de la franja "Del almacén 
 - **Seguidores de Instagram**: el hero de escritorio dice "Más de 1.700" (eran 1.747 al 10/10/2026). Subirlo cuando pase un número redondo.
 - **Número de WhatsApp**: el botón flotante ya está, pero sin número (abre WhatsApp con el mensaje listo y la persona elige el chat). Cargarlo en `src/data/negocio.ts` → `whatsapp`, con código de país y sin espacios (ej. `5491112345678`).
 
+## Ficha de Google
+
+- **Sin reclamar** al 12/10/2026: reclamarla desde una cuenta del local, cargar el sitio web y corregir el nombre ("El Almacen de LOLA" → "El Almacén de Lola"). Guía completa en `../FICHA-GOOGLE.md` (fuera del repo).
+- **Teléfono de la ficha** (011 15-5764-7235): confirmar que es del local y si tiene WhatsApp. Si sí, cargarlo en `negocio.ts` → `whatsapp` como `5491157647235`.
+- **Calificación** (`googleCalificacion`, 4,3 al 12/10/2026): actualizarla cada tanto. No se pone en los datos estructurados (Google no acepta calificaciones propias del negocio).
+
 ## Mejoras opcionales
 
 - **Video en mejor calidad**: el reel viene a 480 × 856. Si la encargada tiene el video original del celular, se puede rehacer el recorrido en HD con los mismos tramos.
 - **Logo en vector** (AI, PDF, SVG) o PNG grande, para reemplazar el de 150 px.
 
 ## Confirmado
+
+- **Medios de pago** (12/10/2026): efectivo con descuento, tarjeta y Mercado Pago. El porcentaje del descuento no se publica.
 
 - Nombre comercial: **El Almacén de Lola** (11/10/2026).
 - El bolsón de verduras ya no se hace: se sacó de categorías, preguntas e historias destacadas (11/10/2026).

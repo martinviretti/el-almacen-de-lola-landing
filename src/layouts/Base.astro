@@ -41,8 +41,13 @@ const localSchema = {
     streetAddress: negocio.direccion,
     addressLocality: 'Victoria',
     addressRegion: 'Buenos Aires',
+    postalCode: negocio.codigoPostal,
     addressCountry: 'AR',
   },
+  geo: { '@type': 'GeoCoordinates', latitude: negocio.geo.lat, longitude: negocio.geo.lng },
+  hasMap: negocio.googleFicha,
+  paymentAccepted: 'Efectivo, tarjeta, Mercado Pago',
+  currenciesAccepted: 'ARS',
   openingHoursSpecification: horarios
     .map((h, i) => ({ ...h, i }))
     .filter((h) => h.abre !== null && h.cierra !== null)
