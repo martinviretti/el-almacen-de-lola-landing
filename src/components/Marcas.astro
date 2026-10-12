@@ -1,9 +1,17 @@
 ---
 // Sellos que el cliente busca en el envase + franja de marcas que corre sola.
-// Las marcas se muestran con su nombre hasta tener el logo (ver `marcas` en site.ts).
+// Logos de las marcas en `marcas` (site.ts).
+import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import { sellos, marcas } from '../data/site';
+
+// La serie se repite hasta tener al menos 12 logos, para que la franja nunca quede corta
+// en pantallas anchas; después se duplica entera para el loop sin saltos.
+// Mismo peso visual para todos: el alto de cada logo sale de su proporción, así un
+// logo cuadrado no queda chico al lado de uno apaisado (área parecida, alto máx. 64 px).
+const alto = (logo: ImageMetadata) => Math.round(Math.min(64, Math.sqrt(5600 / (logo.width / logo.height))));
+const serie = Array.from({ length: Math.ceil(12 / marcas.length) }, () => marcas).flat();
 ---
 
 <section id="marcas" aria-labelledby="marcas-titulo" class="overflow-hidden py-24 lg:py-32">
@@ -40,13 +48,16 @@ import { sellos, marcas } from '../data/site';
     <ul class="marcas-track flex w-max">
       {
         [0, 1].map((copia) =>
-          marcas.map((m) => (
-            <li class="marca" aria-hidden={copia === 1 ? 'true' : undefined}>
-              {m.logo ? (
-                <Image src={m.logo} alt={m.nombre} height={48} class="h-10 w-auto object-contain lg:h-12" loading="lazy" />
-              ) : (
-                <span>{m.nombre}</span>
-              )}
+          serie.map((m, k) => (
+            <li class="marca" aria-hidden={copia === 1 || k >= marcas.length ? 'true' : undefined}>
+              <Image
+                src={m.logo}
+                alt={m.nombre}
+                height={Math.min(m.logo.height, alto(m.logo) * 2)}
+                style={`--h:${alto(m.logo)}px`}
+                class="logo-marca w-auto object-contain"
+                loading="lazy"
+              />
             </li>
           )),
         )
@@ -68,19 +79,20 @@ import { sellos, marcas } from '../data/site';
     border: 1px solid var(--color-arena);
     background: #fff;
     padding: 0 22px;
-    font-size: 1rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    color: var(--color-profundo);
-    white-space: nowrap;
+  }
+
+  .logo-marca {
+    height: calc(var(--h) * 0.8);
   }
 
   @media (min-width: 1024px) {
+    .logo-marca {
+      height: var(--h);
+    }
     .marca {
-      height: 72px;
+      height: 80px;
       min-width: 150px;
       padding: 0 28px;
-      font-size: 1.125rem;
       margin-right: 16px;
     }
   }
@@ -110,6 +122,7 @@ import { sellos, marcas } from '../data/site';
     .marcas-track {
       animation: none;
     }
+    /* Solo la primera tanda, sin repeticiones. */
     .marca[aria-hidden='true'] {
       display: none;
     }

@@ -22,6 +22,15 @@ import galPublicacion08 from '../assets/galeria/publicacion-08.jpg';
 import galPublicacion09 from '../assets/galeria/publicacion-09.jpg';
 import galPublicacion10 from '../assets/galeria/publicacion-10.jpg';
 
+// Logos de marcas (de los sitios oficiales de cada una).
+import marcaNatier from '../assets/marcas/natier.png';
+import marcaKapac from '../assets/marcas/kapac.png';
+import marcaEntrenuts from '../assets/marcas/entrenuts.png';
+import marcaSmams from '../assets/marcas/smams.png';
+import marcaCachafaz from '../assets/marcas/cachafaz.png';
+import marcaKraus from '../assets/marcas/kraus.png';
+import marcaRoapipo from '../assets/marcas/roapipo.png';
+
 // Fotogramas del video del recorrido: afiches mientras carga y versión sin animación.
 import parada1 from '../assets/recorrido/parada-1.jpg';
 import parada2 from '../assets/recorrido/parada-2.jpg';
@@ -265,20 +274,17 @@ export const sellos = [
   { icono: 'grains', nombre: 'Integral', detalle: 'Harinas, panes y cereales' },
 ];
 
-// PENDIENTE: confirmar con la encargada qué marcas trabaja el local (estas son marcas
-// conocidas de dietética en Argentina, de ejemplo). Para mostrar el logo en lugar del
-// nombre, guardá el archivo en src/assets/marcas/ e importalo en `logo`.
-export const marcas: Array<{ nombre: string; logo?: ImageMetadata }> = [
-  { nombre: 'Granix' },
-  { nombre: 'Natier' },
-  { nombre: 'Felices las Vacas' },
-  { nombre: 'Kapac' },
-  { nombre: 'Smams' },
-  { nombre: 'Cachafaz' },
-  { nombre: 'Cereal Mix' },
-  { nombre: 'Kraus' },
-  { nombre: 'Roapipó' },
-  { nombre: 'Ades' },
+// Marcas con su logo oficial (bajado del sitio de cada marca). PENDIENTE: confirmar con
+// la encargada cuáles trabaja el local; Entrenuts aparece en las fotos del propio local.
+// Para sumar una: guardá el logo (PNG con fondo transparente) en src/assets/marcas/.
+export const marcas: Array<{ nombre: string; logo: ImageMetadata }> = [
+  { nombre: 'Natier', logo: marcaNatier },
+  { nombre: 'Kapac', logo: marcaKapac },
+  { nombre: 'Entrenuts', logo: marcaEntrenuts },
+  { nombre: 'Smams', logo: marcaSmams },
+  { nombre: 'Cachafaz', logo: marcaCachafaz },
+  { nombre: 'Kraus', logo: marcaKraus },
+  { nombre: 'Roapipó', logo: marcaRoapipo },
 ];
 
 export const tagline =
