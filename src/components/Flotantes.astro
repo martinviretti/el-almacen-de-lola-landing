@@ -2,11 +2,10 @@
 // Botones flotantes de contacto: Instagram (el canal que hoy responde) y WhatsApp.
 // WhatsApp sin número cargado abre la app con el mensaje listo para elegir el chat;
 // con número (src/data/negocio.ts), va directo al chat del almacén.
-import instagram from '@phosphor-icons/core/assets/fill/instagram-logo-fill.svg?raw';
-import whatsapp from '@phosphor-icons/core/assets/fill/whatsapp-logo-fill.svg?raw';
+// Con los logos oficiales: Instagram con su degradé y WhatsApp en su verde.
+import IconoMarca from './IconoMarca.astro';
 import { negocio } from '../data/negocio';
 
-const icono = (svg: string) => svg.replace('<svg ', '<svg class="size-6" aria-hidden="true" focusable="false" ');
 const hrefWhatsApp = `https://wa.me/${negocio.whatsapp}?text=${encodeURIComponent(negocio.whatsappMensaje)}`;
 ---
 
@@ -17,9 +16,9 @@ const hrefWhatsApp = `https://wa.me/${negocio.whatsapp}?text=${encodeURIComponen
     rel="noopener"
     aria-label={`Novedades en Instagram, ${negocio.instagramUsuario}`}
     title={`Novedades en Instagram · ${negocio.instagramUsuario}`}
-    class="flotante bg-[#D62976]"
+    class="flotante flotante-instagram"
   >
-    <Fragment set:html={icono(instagram)} />
+    <IconoMarca name="instagram" variante="glifo" class="size-6" />
   </a>
   <a
     href={hrefWhatsApp}
@@ -29,7 +28,7 @@ const hrefWhatsApp = `https://wa.me/${negocio.whatsapp}?text=${encodeURIComponen
     title="Escribinos por WhatsApp"
     class="flotante bg-[#25D366]"
   >
-    <Fragment set:html={icono(whatsapp)} />
+    <IconoMarca name="whatsapp" variante="glifo" class="size-7" />
   </a>
 </div>
 
@@ -44,6 +43,10 @@ const hrefWhatsApp = `https://wa.me/${negocio.whatsapp}?text=${encodeURIComponen
     color: #fff;
     box-shadow: 0 12px 32px -8px rgb(0 0 0 / 0.35);
     transition: transform 700ms var(--ease-fluid);
+  }
+  /* Degradé oficial del ícono de Instagram */
+  .flotante-instagram {
+    background: radial-gradient(circle at 25% 105%, #ffd600 0%, #ff7a00 25%, #ff0069 50%, #d300c5 75%, #7638fa 100%);
   }
   .flotante:hover {
     transform: scale(1.05);

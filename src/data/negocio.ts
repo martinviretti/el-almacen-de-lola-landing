@@ -27,7 +27,12 @@ export const negocio = {
   // Calificación que muestra la ficha. Actualizarla cada tanto (4,3 el 12/10/2026).
   googleCalificacion: '4,3',
   // Medios de pago confirmados por Martín (12/10/2026). El % de descuento en efectivo no se publica.
-  pagos: ['Efectivo, con descuento', 'Tarjeta', 'Mercado Pago'],
+  pagos: [
+    { id: 'efectivo', nombre: 'Efectivo' },
+    { id: 'tarjeta', nombre: 'Tarjeta' },
+    { id: 'mercadopago', nombre: 'Mercado Pago' },
+  ],
+  pagosNota: 'Pagando en efectivo tenés descuento.',
   mapsDestino: `https://www.google.com/maps/dir/?api=1&destination=El%20Almac%C3%A9n%20de%20Lola&destination_place_id=${GOOGLE_PLACE_ID}`,
   mapsEmbed: 'https://maps.google.com/maps?q=El%20Almacen%20de%20LOLA%2C%20Av.%20Pres.%20Per%C3%B3n%203099%2C%20Victoria&z=17&output=embed',
 };

@@ -27,6 +27,7 @@ npm run preview   # sirve dist/ para probar el build final
 | Nombre, dirección, Instagram, horarios | `src/data/negocio.ts` |
 | Paradas del recorrido, galería, marcas, sellos, productos por momento (`momentos`), frase, preguntas | `src/data/site.ts` |
 | Fotos del local | `src/assets/local/` y `src/assets/galeria/` (Astro las convierte a WebP en el build) |
+| Logos oficiales de Instagram, WhatsApp y Mercado Pago | `src/components/IconoMarca.astro` (trazos del paquete `simple-icons`) |
 | Logos de marcas | `src/assets/marcas/` (PNG con fondo transparente, bajados del sitio oficial de cada marca) |
 | Fotogramas del recorrido | `src/assets/recorrido/` |
 | Imágenes ilustrativas | `src/assets/categorias/` y `src/assets/carrusel/` |

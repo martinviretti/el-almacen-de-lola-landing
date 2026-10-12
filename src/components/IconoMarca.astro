@@ -1,0 +1,51 @@
+---
+// Logos oficiales de Instagram, WhatsApp y Mercado Pago (trazos de simple-icons).
+// variante "app": como el ícono de la app (Instagram con su degradé, WhatsApp verde,
+// Mercado Pago en su celeste). variante "glifo": solo el dibujo, en el color del texto.
+import { siInstagram, siWhatsapp, siMercadopago } from 'simple-icons';
+
+interface Props {
+  name: 'instagram' | 'whatsapp' | 'mercadopago';
+  variante?: 'app' | 'glifo';
+  class?: string;
+  label?: string;
+}
+
+const { name, variante = 'app', class: className = 'size-6', label } = Astro.props;
+const icono = { instagram: siInstagram, whatsapp: siWhatsapp, mercadopago: siMercadopago }[name];
+const a11y = label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': 'true', focusable: 'false' };
+// Id único por instancia para el degradé de Instagram.
+const id = `ig-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+{
+  variante === 'glifo' ? (
+    <svg viewBox="0 0 24 24" class={className} fill="currentColor" {...a11y}>
+      <path d={icono.path} />
+    </svg>
+  ) : name === 'instagram' ? (
+    <svg viewBox="0 0 24 24" class={className} {...a11y}>
+      <defs>
+        {/* Degradé del ícono de Instagram: amarillo abajo a la izquierda, violeta arriba a la derecha */}
+        <radialGradient id={id} cx="0.25" cy="1.05" r="1.25">
+          <stop offset="0" stop-color="#FFD600" />
+          <stop offset="0.25" stop-color="#FF7A00" />
+          <stop offset="0.5" stop-color="#FF0069" />
+          <stop offset="0.75" stop-color="#D300C5" />
+          <stop offset="1" stop-color="#7638FA" />
+        </radialGradient>
+      </defs>
+      <rect width="24" height="24" rx="6.5" fill={`url(#${id})`} />
+      <path d={icono.path} fill="#fff" transform="translate(4.8 4.8) scale(0.6)" />
+    </svg>
+  ) : name === 'whatsapp' ? (
+    <svg viewBox="0 0 24 24" class={className} {...a11y}>
+      <circle cx="12" cy="12" r="12" fill={`#${icono.hex}`} />
+      <path d={icono.path} fill="#fff" transform="translate(5 5) scale(0.5833)" />
+    </svg>
+  ) : (
+    <svg viewBox="0 0 24 24" class={className} fill={`#${icono.hex}`} {...a11y}>
+      <path d={icono.path} />
+    </svg>
+  )
+}
