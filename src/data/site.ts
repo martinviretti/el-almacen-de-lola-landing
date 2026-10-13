@@ -12,6 +12,7 @@ import fachada from '../assets/fotos/02-fachada-real.webp';
 import fotoPasillo from '../assets/fotos/04-pasillo.webp';
 import fotoMostrador from '../assets/fotos/06-mostrador.webp';
 import fotoDespensa from '../assets/fotos/08-despensa.webp';
+import fotoVistaGeneral from '../assets/fotos/07-vista-general.webp';
 import m02FachadaReal from '../assets/fotos/02-fachada-real-movil.webp';
 import m03Entrada from '../assets/fotos/03-entrada-movil.webp';
 import m04Pasillo from '../assets/fotos/04-pasillo-movil.webp';
@@ -157,10 +158,10 @@ export const recorridoMovil: ParadaMovil[] = [
     etiqueta: 'La entrada',
     titulo: 'Pasá, que te estábamos esperando',
     linea: 'Una almacén luminosa sobre la avenida, en pleno Victoria.',
-    foto: m03Entrada,
-    alt: 'Vidriera de La Almacén de Lola con el logo, un banco de madera y plantas en la entrada',
-    encuadre: '50% 50%',
-    foco: '45% 60%',
+    foto: fotoVistaGeneral,
+    alt: 'Interior de la almacén: estanterías de madera, granel y lámparas colgantes',
+    encuadre: '50% 45%',
+    foco: '55% 55%',
     zoom: 1.06,
   },
   {

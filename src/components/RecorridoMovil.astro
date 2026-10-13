@@ -5,8 +5,9 @@
 // En escritorio no se muestra (ahí está ScrollWorld). Sin JS o con movimiento
 // reducido, las paradas quedan como una lista normal.
 import { Image } from 'astro:assets';
-// Portada: la mejor foto del interior (propia, vertical), nítida y a pantalla completa.
-import portada from '../assets/fotos/07-vista-general.webp';
+// Portada: la puerta de vidrio con el logo (foto propia del 12/10/2026, vertical, con
+// retoque suave de luz y nitidez). Al deslizar, la cámara cruza la puerta hacia el interior.
+import portada from '../assets/fotos/01-puerta-movil.webp';
 import { recorridoMovil, negocio } from '../data/site';
 
 const ultima = recorridoMovil.length - 1;
@@ -14,18 +15,18 @@ const ultima = recorridoMovil.length - 1;
 
 <section id="recorrido-movil" class="rm" data-rm aria-label="Recorrido por la almacén">
   <div class="rm-stage" data-rm-stage>
-    <article class="rm-parada rm-portada" data-rm-parada="0">
+    <article class="rm-parada rm-portada" data-rm-parada="0" data-zoom="1.05">
       <div class="rm-foto">
         <Image
           src={portada}
-          alt="Interior de La Almacén de Lola: estanterías de madera, granel y lámparas colgantes"
-          widths={[640, 960].filter((w) => w < portada.width).concat(portada.width)}
+          alt="Puerta de vidrio de La Almacén de Lola con el logo, y las góndolas de madera del otro lado"
+          widths={[640].filter((w) => w < portada.width).concat(portada.width)}
           sizes="100vw"
           quality={80}
           loading="eager"
           fetchpriority="high"
           class="rm-img"
-          style="object-position:50% 45%"
+          style="object-position:50% 50%;transform-origin:58% 52%"
           data-rm-img
         />
       </div>
@@ -235,7 +236,6 @@ const ultima = recorridoMovil.length - 1;
     will-change: transform;
   }
 
-  /* Portada: fachada suave y el título al centro */
   /* Portada: la foto nítida a pantalla completa y un cartel liviano, casi transparente */
   :global(html.motion) .rm-portada-texto {
     position: absolute;

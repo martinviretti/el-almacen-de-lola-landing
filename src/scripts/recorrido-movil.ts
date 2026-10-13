@@ -7,7 +7,9 @@ gsap.registerPlugin(ScrollTrigger, Observer);
 // Recorrido del celular (ver RecorridoMovil.astro). Una deslizada = una parada:
 // la foto nueva entra con un fundido, se acerca muy lento (para que nunca se vea
 // congelada) y el cartel aparece por partes. Tocar la foto también avanza.
-// Desde la última parada, la deslizada baja al resto de la página.
+// De la portada (la puerta) a la primera parada, la cámara cruza el vidrio y aparece
+// el interior; al volver, sale por la puerta. Desde la última parada, la deslizada
+// baja al resto de la página.
 export function initRecorridoMovil(root: HTMLElement) {
   const stage = root.querySelector<HTMLElement>('[data-rm-stage]')!;
   const paradas = [...root.querySelectorAll<HTMLElement>('[data-rm-parada]')];
@@ -17,6 +19,8 @@ export function initRecorridoMovil(root: HTMLElement) {
   const n = paradas.length;
 
   const img = (i: number) => paradas[i].querySelector<HTMLElement>('[data-rm-img]')!;
+  // El cruce de la puerta se anima en el marco de la foto, así no choca con el acercamiento lento de la imagen.
+  const marco = (i: number) => paradas[i].querySelector<HTMLElement>('.rm-foto')!;
   const texto = (i: number) => paradas[i].querySelector<HTMLElement>('[data-rm-texto]')!;
   const piezas = (i: number) => [...paradas[i].querySelectorAll<HTMLElement>('[data-rm-pieza]')];
 
@@ -31,6 +35,9 @@ export function initRecorridoMovil(root: HTMLElement) {
   // Solo la parada visible queda al alcance del teclado y del lector de pantalla. Se pone
   // desde acá (no en el HTML) para que sin JS o sin animaciones la lista quede completa.
   paradas.slice(1).forEach((p) => p.setAttribute('inert', ''));
+  // Punto del vidrio por donde se "entra": entre las letras del logo, hacia las góndolas.
+  const puerta = img(0).style.transformOrigin || '58% 52%';
+  gsap.set(marco(0), { transformOrigin: puerta });
 
   const acercar = (i: number) => {
     acercamiento?.kill();
@@ -63,12 +70,16 @@ export function initRecorridoMovil(root: HTMLElement) {
     entra.removeAttribute('inert');
     gsap.set(entra, { zIndex: 2 });
     gsap.set(sale, { zIndex: 1 });
-    gsap.set(texto(destino), { autoAlpha: 1, y: 0 });
+    // El cartel aparece junto con su texto (nunca vacío mientras cruza la foto).
+    gsap.set(texto(destino), { autoAlpha: 0, y: 0 });
+
+    const cruzaPuerta = Math.min(desde, destino) === 0 && Math.max(desde, destino) === 1;
 
     const tl = gsap.timeline({
       onComplete: () => {
         gsap.set(sale, { autoAlpha: 0, zIndex: 0 });
         gsap.set(img(desde), { scale: 1 });
+        gsap.set(marco(desde), { scale: 1 });
         animando = false;
         if (pendiente !== null) {
           const siguiente = pendiente;
@@ -78,19 +89,38 @@ export function initRecorridoMovil(root: HTMLElement) {
       },
     });
     tl.to(texto(desde), { autoAlpha: 0, y: adelante ? -12 : 12, duration: 0.22, ease: 'power2.in' }, 0);
-    tl.to(img(desde), { scale: `+=0.03`, duration: 0.7, ease: 'power2.inOut' }, 0);
-    tl.fromTo(entra, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7, ease: 'power2.inOut' }, 0);
+    let piezasEn = 0.25;
+    if (cruzaPuerta && adelante) {
+      // Entrar: la puerta se agranda hasta "atravesarla" y el interior aparece acercándose.
+      tl.to(marco(0), { scale: 2.6, duration: 1.1, ease: 'power1.in' }, 0);
+      tl.fromTo(entra, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.55, ease: 'power1.inOut' }, 0.45);
+      tl.fromTo(marco(1), { scale: 1.3 }, { scale: 1, duration: 1, ease: 'power3.out' }, 0.45);
+      piezasEn = 0.85;
+    } else if (cruzaPuerta) {
+      // Salir: el interior se aleja y la puerta vuelve a su lugar.
+      tl.to(marco(1), { scale: 1.25, duration: 0.6, ease: 'power2.in' }, 0);
+      tl.fromTo(entra, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.5, ease: 'power1.inOut' }, 0.1);
+      tl.fromTo(marco(0), { scale: 2.6 }, { scale: 1, duration: 1, ease: 'power3.out' }, 0.1);
+      piezasEn = 0.6;
+    } else {
+      tl.to(img(desde), { scale: `+=0.03`, duration: 0.7, ease: 'power2.inOut' }, 0);
+      tl.fromTo(entra, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7, ease: 'power2.inOut' }, 0);
+    }
     tl.fromTo(
       piezas(destino),
       { autoAlpha: 0, y: adelante ? 24 : -16 },
       { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power3.out', stagger: 0.06 },
-      0.25,
+      piezasEn,
     );
+    tl.to(texto(destino), { autoAlpha: 1, duration: 0.3, ease: 'power1.out' }, piezasEn - 0.1);
 
     acercar(destino);
     pintarProgreso(destino);
     if (anuncio) anuncio.textContent = entra.querySelector('h1, h2')?.textContent?.trim() ?? '';
   };
+
+  // La portada también se acerca muy lento hacia la puerta, para que no quede quieta.
+  acercar(0);
 
   // Posición del escenario en la página: si está corrido (se volvió desde abajo),
   // la primera deslizada lo vuelve a encuadrar en lugar de cambiar de parada.
