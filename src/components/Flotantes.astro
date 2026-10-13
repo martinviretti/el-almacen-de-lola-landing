@@ -77,8 +77,6 @@ const hrefWhatsApp = `https://wa.me/${negocio.whatsapp}?text=${encodeURIComponen
   @media (max-width: 1023px) {
     .flotantes {
       transition:
-        top 700ms var(--ease-fluid),
-        bottom 700ms var(--ease-fluid),
         opacity 400ms var(--ease-fluid),
         translate 400ms var(--ease-fluid);
     }
@@ -89,14 +87,9 @@ const hrefWhatsApp = `https://wa.me/${negocio.whatsapp}?text=${encodeURIComponen
       translate: 0 12px;
       pointer-events: none;
     }
-    :global(html.en-recorrido) .flotantes {
-      top: 104px;
-      bottom: auto;
-      gap: 8px;
-    }
-    :global(html.en-recorrido) .flotante {
-      width: 44px;
-      height: 44px;
+    /* En celular queda solo WhatsApp: Instagram está en la página y en el menú */
+    .flotante-instagram {
+      display: none;
     }
   }
 </style>

@@ -11,7 +11,7 @@ import { url } from '../lib/url';
 import fachada from '../assets/fotos/02-fachada-real.webp';
 import fotoPasillo from '../assets/fotos/04-pasillo.webp';
 import fotoMostrador from '../assets/fotos/06-mostrador.webp';
-import fotoVistaGeneral from '../assets/fotos/07-vista-general.webp';
+import fotoDespensa from '../assets/fotos/08-despensa.webp';
 import m02FachadaReal from '../assets/fotos/02-fachada-real-movil.webp';
 import m03Entrada from '../assets/fotos/03-entrada-movil.webp';
 import m04Pasillo from '../assets/fotos/04-pasillo-movil.webp';
@@ -197,8 +197,8 @@ export const recorridoMovil: ParadaMovil[] = [
     etiqueta: 'Despensa',
     titulo: 'Y mucho más para descubrir',
     linea: 'Recorré con tiempo: siempre hay algo rico para probar.',
-    foto: fotoVistaGeneral,
-    alt: 'Vista del interior con estanterías de madera, granel y golosinas a la vista',
+    foto: fotoDespensa,
+    alt: 'Estanterías de madera con harinas, azúcares y productos fraccionados',
     encuadre: '50% 50%',
     foco: '55% 60%',
     zoom: 1.06,

@@ -5,7 +5,8 @@
 // En escritorio no se muestra (ahí está ScrollWorld). Sin JS o con movimiento
 // reducido, las paradas quedan como una lista normal.
 import { Image } from 'astro:assets';
-import fachada from '../assets/fotos/02-fachada-real.webp';
+// Portada: la mejor foto del interior (propia, vertical), nítida y a pantalla completa.
+import portada from '../assets/fotos/07-vista-general.webp';
 import { recorridoMovil, negocio } from '../data/site';
 
 const ultima = recorridoMovil.length - 1;
@@ -16,18 +17,17 @@ const ultima = recorridoMovil.length - 1;
     <article class="rm-parada rm-portada" data-rm-parada="0">
       <div class="rm-foto">
         <Image
-          src={fachada}
-          alt="Fachada de La Almacén de Lola, con el cartel y la vidriera iluminada"
-          widths={[960, 1600, 2560].filter((w) => w < fachada.width).concat(fachada.width)}
+          src={portada}
+          alt="Interior de La Almacén de Lola: estanterías de madera, granel y lámparas colgantes"
+          widths={[640, 960].filter((w) => w < portada.width).concat(portada.width)}
           sizes="100vw"
           quality={80}
           loading="eager"
           fetchpriority="high"
           class="rm-img"
-          style="object-position:42% 50%"
+          style="object-position:50% 45%"
           data-rm-img
         />
-        <div class="rm-velo" aria-hidden="true"></div>
       </div>
       <div class="rm-portada-texto" data-rm-texto>
         <p class="rm-kicker" data-rm-pieza>Dietética y almacén natural en Victoria</p>
@@ -35,14 +35,8 @@ const ultima = recorridoMovil.length - 1;
           Lo rico de <br />
           elegir natural
         </h1>
-        {/* Lo que busca quien llega desde Instagram: dónde queda, qué días y cómo hablar */}
-        <p class="rm-datos" data-rm-pieza>{negocio.direccionCorta} · Lunes a sábado</p>
-        <div class="rm-acciones" data-rm-pieza>
-          <a href={negocio.mapsDestino} target="_blank" rel="noopener" class="rm-accion rm-accion-principal">Cómo llegar</a>
-          <a href={negocio.instagramMensaje} target="_blank" rel="noopener" class="rm-accion">Escribinos</a>
-        </div>
         <p class="rm-hint" data-rm-hint>
-          <span aria-hidden="true">↓</span> Deslizá para empezar
+          <span aria-hidden="true">↓</span> Deslizá para entrar
         </p>
       </div>
     </article>
@@ -170,13 +164,6 @@ const ultima = recorridoMovil.length - 1;
     font-weight: 600;
     color: var(--color-marca-texto);
   }
-  .rm-datos {
-    margin-top: 10px;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    font-weight: 600;
-    color: var(--color-profundo);
-  }
   .rm-acciones {
     display: flex;
     flex-wrap: wrap;
@@ -208,7 +195,6 @@ const ultima = recorridoMovil.length - 1;
   .rm-progreso,
   .rm-hint,
   .rm-seguir,
-  .rm-velo,
   .rm-saltar,
   .rm-accion-salir {
     display: none;
@@ -250,37 +236,24 @@ const ultima = recorridoMovil.length - 1;
   }
 
   /* Portada: fachada suave y el título al centro */
-  :global(html.motion) .rm-portada {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  :global(html.motion) .rm-portada .rm-img {
-    filter: blur(3px) saturate(0.8);
-  }
-  :global(html.motion) .rm-velo {
-    display: block;
-    position: absolute;
-    inset: 0;
-    background: rgb(251 248 242 / 0.35);
-  }
+  /* Portada: la foto nítida a pantalla completa y un cartel liviano, casi transparente */
   :global(html.motion) .rm-portada-texto {
-    position: relative;
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: calc(84px + env(safe-area-inset-bottom));
     margin: 0;
-    width: min(340px, calc(100% - 40px));
-    padding: 24px 20px;
-    border-radius: 24px;
-    text-align: center;
-    background: rgb(251 248 242 / 0.9);
-    box-shadow: 0 16px 40px -16px rgb(33 76 59 / 0.45);
-    backdrop-filter: blur(12px);
+    padding: 18px 20px;
+    border-radius: 22px;
+    background: rgb(251 248 242 / 0.62);
+    box-shadow: 0 16px 40px -20px rgb(33 76 59 / 0.5);
+    backdrop-filter: blur(10px) saturate(1.1);
   }
   :global(html.motion) .rm-hint {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 6px;
-    margin-top: 16px;
+    margin-top: 10px;
   }
   :global(html.motion) .rm-hint span {
     animation: rebote 1.4s var(--ease-fluid) infinite;
@@ -291,7 +264,7 @@ const ultima = recorridoMovil.length - 1;
     position: absolute;
     left: 16px;
     right: 16px;
-    bottom: calc(24px + env(safe-area-inset-bottom));
+    bottom: calc(84px + env(safe-area-inset-bottom)); /* deja la esquina libre para WhatsApp */
     margin: 0;
     padding: 16px 18px;
     border-radius: 20px;
