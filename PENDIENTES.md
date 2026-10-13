@@ -33,7 +33,7 @@ Desde el 12/10/2026 **todas las fotos de la web son del local** (kit fotográfic
 
 ## Opiniones de Google
 
-- La tarjeta de Google en "Visitanos" muestra la calificación (`googleCalificacion` en `negocio.ts`) y tiene lugar para **hasta 4 opiniones destacadas** (`resenas` en `site.ts`). Hoy está vacía: pasar 3 o 4 opiniones reales, copiadas tal cual de Google, con nombre e inicial del apellido y las estrellas. No inventarlas ni retocarlas.
+- La tarjeta de Google en "Visitanos" pasa en carrusel las opiniones de `resenas` (`site.ts`): 6 opiniones reales copiadas de la ficha el 12/10/2026, con nombre e inicial. Para sumar o cambiar: copiarlas tal cual de Google, sin retocarlas. La calificación general está en `googleCalificacion` (`negocio.ts`).
 
 ## Mejoras opcionales
 

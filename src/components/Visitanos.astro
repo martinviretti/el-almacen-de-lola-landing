@@ -151,14 +151,16 @@ const estrella = 'M12 2.5l2.9 6.06 6.6.8-4.87 4.57 1.25 6.57L12 17.3l-5.88 3.2 1
                 <ul class="resenas-pista flex" data-resenas-pista>
                   {resenas.map((r, i) => (
                     <li class="w-full shrink-0 p-5 lg:p-6" aria-roledescription="opinión" aria-label={`${i + 1} de ${resenas.length}`}>
-                      <span class="estrellas-fijas" role="img" aria-label={`${r.estrellas} de 5 estrellas`}>
-                        {[0, 1, 2, 3, 4].map((k) => (
-                          <svg viewBox="0 0 24 24" class:list={['size-4', k < r.estrellas ? 'estrella-llena' : 'text-arena']} fill="currentColor" aria-hidden="true">
-                            <path d={estrella} />
-                          </svg>
-                        ))}
-                      </span>
-                      <p class="mt-3 text-base leading-relaxed text-texto">“{r.texto}”</p>
+                      {r.estrellas && (
+                        <span class="estrellas-fijas mb-3" role="img" aria-label={`${r.estrellas} de 5 estrellas`}>
+                          {[0, 1, 2, 3, 4].map((k) => (
+                            <svg viewBox="0 0 24 24" class:list={['size-4', k < r.estrellas! ? 'estrella-llena' : 'text-arena']} fill="currentColor" aria-hidden="true">
+                              <path d={estrella} />
+                            </svg>
+                          ))}
+                        </span>
+                      )}
+                      <p class="text-base leading-relaxed text-texto">“{r.texto}”</p>
                       <p class="mt-3 text-sm font-semibold text-texto-2">{r.autor} · en Google</p>
                     </li>
                   ))}

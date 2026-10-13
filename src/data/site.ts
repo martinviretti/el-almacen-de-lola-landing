@@ -271,7 +271,31 @@ export const marcas: Array<{ nombre: string; logo: ImageMetadata }> = [
 // Opiniones destacadas de Google para "Visitanos" (se muestran hasta 4). PENDIENTE: cargarlas
 // con el texto TAL CUAL está en Google y solo el nombre y la inicial del apellido de quien la
 // escribió. No inventar ni retocar opiniones. Si queda vacío, se ve solo la calificación.
-export const resenas: Array<{ texto: string; autor: string; estrellas: 1 | 2 | 3 | 4 | 5 }> = [];
+export const resenas: Array<{ texto: string; autor: string; estrellas?: 1 | 2 | 3 | 4 | 5 }> = [
+  // Copiadas de la ficha de Google el 12/10/2026 (texto tal cual; solo se unieron saltos de
+  // línea y espacios dobles). Las estrellas de cada una no vinieron en el copiado: no se muestran.
+  {
+    texto: 'Un lugar hermoso, con muy buenos productos y una atención impecable. La amabilidad y la buena onda con la que atienden hacen que uno siempre quiera volver. ¡Gracias por el trato de siempre!',
+    autor: 'Candela G.',
+  },
+  {
+    texto: 'Un lugar que te sorprende cada vez que voy encuentro nuevos productos, todo muy ordenado muy variado en opciones sin duda encuentro todo lo que busco, las chicas super encantadoras se toman el tiempo para asesorarme',
+    autor: 'Julia M.',
+  },
+  { texto: 'Productos de Calidad. Muy limpio el local. ¡Atienden con buena onda y ganas!', autor: 'Naty D.' },
+  {
+    texto: 'Tienen de todo! Muy surtido en serio!! Todo prolijamente ordenado, con su precio, limpio. Realmente da gusto entrar y mirar todo tranquilo para poder elegir.',
+    autor: 'Paula B.',
+  },
+  {
+    texto: 'Unas genias las chicas por su cordialidad y buena onda. Te asesoran y aconsejan sobre los productos y tienen de todo. Son lo mas',
+    autor: 'Gabriela B.',
+  },
+  {
+    texto: 'Excelente tienda de alimentos y muy buena atención. Voy desde que abrieron y siempre me atendieron muy bien!!!',
+    autor: 'María P.',
+  },
+];
 
 export const tagline =
   'Comer mejor no tendría que ser complicado. Por eso juntamos lo rico y lo natural en un solo lugar, cerca de casa.';
