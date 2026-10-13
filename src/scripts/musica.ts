@@ -1,6 +1,8 @@
 // Música ambiental generada en el navegador con Web Audio: acordes suaves tipo
 // piano eléctrico, un pad cálido y un bajo tranquilo. No usa archivos ni licencias.
-// Solo suena si la persona toca el botón; se apaga sola al cambiar de pestaña.
+// Suena si la persona toca el botón, o sola con la primera deslizada del recorrido del
+// celular (ver recorrido-movil.ts); si la apaga, no vuelve a arrancar. Se apaga sola al
+// cambiar de pestaña.
 //
 // Para usar una pista propia: poner el MP3 en public/audio/musica.mp3 y cambiar
 // PISTA a '/audio/musica.mp3'. El botón la reproduce en loop en lugar del generador.
@@ -167,7 +169,23 @@ export function initMusica() {
     }
   };
 
-  botones.forEach((b) => b.addEventListener('click', alternar));
+  // El navegador solo deja sonar después de un toque: si la deslizada todavía no cuenta como
+  // toque (recién cuenta al levantar el dedo), se espera a ese momento.
+  let decidio = false;
+  const arrancarSola = () => {
+    if (decidio || sonando) return;
+    decidio = true;
+    if (navigator.userActivation?.isActive) return void alternar();
+    document.addEventListener('touchend', () => !sonando && alternar(), { once: true, capture: true });
+  };
+  document.addEventListener('lola:primera-deslizada', arrancarSola, { once: true });
+
+  botones.forEach((b) =>
+    b.addEventListener('click', () => {
+      decidio = true;
+      alternar();
+    }),
+  );
   document.addEventListener('visibilitychange', () => {
     if (document.hidden && sonando) alternar();
   });

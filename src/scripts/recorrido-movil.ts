@@ -62,6 +62,7 @@ export function initRecorridoMovil(root: HTMLElement) {
     if (!empezo && hint) {
       empezo = true;
       gsap.to(hint, { autoAlpha: 0, duration: 0.3 });
+      document.dispatchEvent(new CustomEvent('lola:primera-deslizada')); // arranca la música (musica.ts)
     }
 
     const sale = paradas[desde];

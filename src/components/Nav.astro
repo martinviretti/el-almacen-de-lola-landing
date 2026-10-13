@@ -44,24 +44,12 @@ const links = [
       aria-pressed="false"
       aria-label="Música ambiental"
       title="Música ambiental"
-      class="musica relative hidden size-10 items-center lg:flex justify-center rounded-full bg-menta-suave text-profundo transition-colors duration-700 ease-fluid hover:bg-menta active:scale-95"
+      class="musica relative flex size-10 items-center justify-center rounded-full bg-menta-suave text-profundo transition-colors duration-700 ease-fluid hover:bg-menta active:scale-95"
     >
       <Icon name="music-notes" class="musica-icono size-5" />
       <span class="musica-barras" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
 
-
-    {/* En celular, el lugar de la música lo ocupa "Cómo llegar" (la música pasa al menú) */}
-    <a
-      href={negocio.mapsDestino}
-      target="_blank"
-      rel="noopener"
-      aria-label="Cómo llegar"
-      title="Cómo llegar"
-      class="flex size-10 items-center justify-center rounded-full bg-menta-suave text-profundo transition-colors duration-700 ease-fluid hover:bg-menta active:scale-95 lg:hidden"
-    >
-      <Icon name="navigation-arrow" class="size-5" />
-    </a>
 
     <button
       type="button"
@@ -109,17 +97,6 @@ const links = [
     <Icon name="navigation-arrow" class="size-5" />
     Cómo llegar
   </a>
-  <button
-    type="button"
-    data-musica
-    data-menu-link
-    aria-pressed="false"
-    style="transition-delay:370ms"
-    class="musica-menu mt-4 inline-flex w-max translate-y-12 items-center gap-2 rounded-full px-1 py-2 text-base font-semibold text-texto-2 opacity-0 transition-[translate,opacity] duration-700 ease-fluid"
-  >
-    <Icon name="music-notes" class="size-5" />
-    Música ambiental <span class="musica-estado text-sm font-normal"></span>
-  </button>
 </div>
 
 <style>
@@ -131,15 +108,6 @@ const links = [
   [data-menu].is-open [data-menu-link] {
     translate: 0 0;
     opacity: 1;
-  }
-  .musica-menu .musica-estado::before {
-    content: '· apagada';
-  }
-  .musica-menu[aria-pressed='true'] {
-    color: var(--color-profundo);
-  }
-  .musica-menu[aria-pressed='true'] .musica-estado::before {
-    content: '· sonando';
   }
   [aria-expanded='true'] [data-bar='1'] {
     transform: translateY(3px) rotate(45deg);
