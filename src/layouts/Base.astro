@@ -4,6 +4,7 @@ import '../styles/global.css';
 // Mismo archivo que pide el CSS de fontsource (Vite lo deduplica): se precarga para que
 // el primer texto no espere a que se lea el CSS.
 import manropeLatin from '@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url';
+import frauncesLatin from '@fontsource-variable/fraunces/files/fraunces-latin-wght-normal.woff2?url';
 import { negocio, horarios, preguntas } from '../data/site';
 
 interface Props {
@@ -75,6 +76,7 @@ const faqSchema = {
   <head>
     <meta charset="utf-8" />
     <link rel="preload" href={manropeLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={frauncesLatin} as="font" type="font/woff2" crossorigin />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -101,11 +103,6 @@ const faqSchema = {
       document.documentElement.classList.add('js');
       if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
         document.documentElement.classList.add('motion');
-        // En celular la página arranca en el recorrido: los botones flotantes ya salen
-        // arriba, sin saltar cuando carga el JS (evita el corrimiento de diseño).
-        if (matchMedia('(max-width: 1023px)').matches && scrollY < innerHeight / 2) {
-          document.documentElement.classList.add('en-recorrido');
-        }
       }
     </script>
 
@@ -114,10 +111,10 @@ const faqSchema = {
   </head>
   <body class="min-h-svh bg-crema font-sans text-texto">
     <a
-      href="#idea"
+      href="#contenido"
       class="fixed top-2 left-2 z-[100] -translate-y-24 rounded-full bg-profundo px-4 py-2 text-sm font-semibold text-white transition-transform duration-700 ease-fluid focus:translate-y-0"
     >
-      Saltar el recorrido
+      Saltar al contenido
     </a>
     <slot />
   </body>

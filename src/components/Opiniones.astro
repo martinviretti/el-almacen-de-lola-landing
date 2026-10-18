@@ -1,0 +1,145 @@
+---
+// Lo que dicen: una opinión real de Google por vez, grande, con la calificación al costado.
+// Pasan solas cada 7 s solo mientras se ven; se frenan con el mouse, el foco o el botón de pausa.
+import Icon from './Icon.astro';
+import { negocio } from '../data/negocio';
+import { resenas } from '../data/site';
+
+const calificacion = Number(negocio.googleCalificacion.replace(',', '.'));
+const llenas = `${Math.round((calificacion / 5) * 100)}%`;
+const estrella = 'M12 2.5l2.9 6.06 6.6.8-4.87 4.57 1.25 6.57L12 17.3l-5.88 3.2 1.25-6.57L2.5 9.36l6.6-.8z';
+---
+
+<section id="opiniones" class="px-5 py-20 lg:px-10 lg:py-28">
+  <div class="mx-auto grid max-w-[1240px] gap-10 rounded-[36px] bg-white p-7 shadow-[0_40px_80px_-56px_rgb(33_76_59/0.5)] ring-1 ring-profundo/8 lg:grid-cols-12 lg:gap-14 lg:p-14" data-reveal>
+    <div class="lg:col-span-4">
+      <p class="rotulo">Lo que dicen</p>
+      <div class="mt-6 flex items-end gap-4">
+        <p class="font-[family-name:var(--font-display)] text-7xl leading-none text-profundo tabular-nums lg:text-8xl">{negocio.googleCalificacion}</p>
+        <div class="pb-2">
+          <span class="estrellas" role="img" aria-label={`${negocio.googleCalificacion} de 5 estrellas`}>
+            <span class="estrellas-capa text-arena" aria-hidden="true">
+              {[0, 1, 2, 3, 4].map(() => <svg viewBox="0 0 24 24" class="size-5" fill="currentColor"><path d={estrella} /></svg>)}
+            </span>
+            <span class="estrellas-capa estrellas-llenas" style={`width:${llenas}`} aria-hidden="true">
+              {[0, 1, 2, 3, 4].map(() => <svg viewBox="0 0 24 24" class="size-5 shrink-0" fill="currentColor"><path d={estrella} /></svg>)}
+            </span>
+          </span>
+          <p class="mt-1 text-sm font-semibold text-texto-2">Calificación en Google</p>
+        </div>
+      </div>
+      <div class="mt-7 flex flex-wrap gap-2">
+        <a href={negocio.googleFicha} target="_blank" rel="noopener" class="boton boton-secundario boton-chico">Ver todas</a>
+        <a href={negocio.googleOpinar} target="_blank" rel="noopener" class="boton boton-principal boton-chico">Dejanos la tuya</a>
+      </div>
+    </div>
+
+    <div class="min-w-0 lg:col-span-8" data-resenas role="region" aria-roledescription="carrusel" aria-label="Opiniones en Google">
+      <Icon name="quotes" class="size-10 text-marca" />
+      <div class="resenas mt-4 grid">
+        {
+          resenas.map((r, i) => (
+            <figure class="resena" aria-roledescription="opinión" aria-label={`${i + 1} de ${resenas.length}`} data-activa={i === 0 ? 'true' : 'false'}>
+              <blockquote class="font-[family-name:var(--font-display)] text-[1.35rem] leading-[1.35] text-profundo sm:text-[1.6rem] lg:text-[2.1rem]">{r.texto}</blockquote>
+              <figcaption class="mt-5 text-sm font-semibold text-texto-2">{r.autor} · en Google</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+      <div class="mt-8 flex items-center gap-3">
+        <button type="button" class="control" data-resenas-paso="-1" aria-label="Opinión anterior"><Icon name="arrow-left" class="size-5" /></button>
+        <button type="button" class="control" data-resenas-paso="1" aria-label="Opinión siguiente"><Icon name="arrow-right" class="size-5" /></button>
+        <p class="ml-1 text-sm font-semibold text-texto-2 tabular-nums" aria-hidden="true"><span data-resenas-n>1</span> / {resenas.length}</p>
+        <button type="button" class="ml-auto text-sm font-semibold text-marca-texto" data-resenas-pausa aria-pressed="false">Pausar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .estrellas {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
+  }
+  .estrellas-capa {
+    display: inline-flex;
+    gap: 2px;
+  }
+  .estrellas-llenas {
+    position: absolute;
+    inset: 0 auto 0 0;
+    overflow: hidden;
+    color: #e0a100;
+  }
+  /* Todas las opiniones ocupan la misma celda: la caja toma el alto de la más larga y no salta */
+  .resena {
+    grid-area: 1 / 1;
+    transition:
+      opacity 700ms var(--ease-fluid),
+      translate 700ms var(--ease-fluid);
+  }
+  .resena[data-activa='false'] {
+    opacity: 0;
+    translate: 0 12px;
+    pointer-events: none;
+    visibility: hidden;
+  }
+  .control {
+    display: flex;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    color: var(--color-profundo);
+    box-shadow: inset 0 0 0 1px rgb(33 76 59 / 0.16);
+    transition: background-color 500ms var(--ease-fluid);
+  }
+  .control:hover {
+    background: var(--color-menta-suave);
+  }
+  .control:active {
+    transform: scale(0.96);
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-resenas]').forEach((caja) => {
+    const items = [...caja.querySelectorAll<HTMLElement>('.resena')];
+    const n = caja.querySelector<HTMLElement>('[data-resenas-n]')!;
+    const pausa = caja.querySelector<HTMLButtonElement>('[data-resenas-pausa]')!;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let actual = 0;
+    let detenido = reduce;
+    let encima = false;
+    let visible = false;
+
+    const ir = (i: number) => {
+      actual = (i + items.length) % items.length;
+      items.forEach((el, k) => {
+        el.dataset.activa = String(k === actual);
+        el.toggleAttribute('inert', k !== actual);
+      });
+      n.textContent = String(actual + 1);
+    };
+    ir(0);
+    caja.querySelectorAll<HTMLButtonElement>('[data-resenas-paso]').forEach((b) => b.addEventListener('click', () => ir(actual + Number(b.dataset.resenasPaso))));
+
+    if (reduce) pausa.hidden = true;
+    pausa.addEventListener('click', () => {
+      detenido = !detenido;
+      pausa.setAttribute('aria-pressed', String(detenido));
+      pausa.textContent = detenido ? 'Seguir' : 'Pausar';
+    });
+    caja.addEventListener('pointerenter', () => (encima = true));
+    caja.addEventListener('pointerleave', () => (encima = false));
+    caja.addEventListener('focusin', (e) => (encima = (e.target as HTMLElement).matches(':focus-visible')));
+    caja.addEventListener('focusout', (e) => (encima = caja.contains(e.relatedTarget as Node | null)));
+    new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(caja);
+
+    setInterval(() => {
+      if (!detenido && !encima && visible && !document.hidden) ir(actual + 1);
+    }, 7000);
+  });
+</script>

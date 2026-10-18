@@ -1,35 +1,24 @@
 ---
-import Icon from './Icon.astro';
+// Preguntas frecuentes, todas a la vista en dos columnas (sin acordeón): son pocas y cortas.
 import { preguntas } from '../data/site';
 ---
 
-<section id="preguntas" class="px-5 py-24 lg:px-10 lg:py-32">
-  <div class="mx-auto grid max-w-[1200px] gap-12 lg:grid-cols-[2fr_3fr] lg:gap-16">
+<section id="preguntas" class="px-5 py-20 lg:px-10 lg:py-28">
+  <div class="mx-auto max-w-[1240px]">
     <div data-reveal>
-      <p class="mb-3 text-sm font-semibold text-marca-texto">Preguntas frecuentes</p>
-      <h2 class="text-4xl font-bold tracking-tight text-profundo lg:text-5xl">Lo que más nos consultan</h2>
+      <p class="rotulo">Preguntas frecuentes</p>
+      <h2 class="mt-4 text-4xl text-profundo lg:text-6xl">Lo que más nos <em>consultan</em></h2>
     </div>
 
-    <div class="flex flex-col gap-3" data-reveal style="--delay:120ms">
+    <dl class="mt-10 grid gap-x-14 gap-y-10 md:grid-cols-2 lg:mt-14">
       {
-        preguntas.map((q) => (
-          <details class="faq group rounded-3xl bg-white ring-1 ring-profundo/8 transition-colors duration-700 ease-fluid open:bg-menta-suave">
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 rounded-3xl p-6 text-base font-semibold text-profundo lg:text-lg">
-              {q.p}
-              <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-menta-suave text-profundo transition-transform duration-700 ease-fluid group-open:rotate-45 group-open:bg-white">
-                <Icon name="plus" class="size-4" />
-              </span>
-            </summary>
-            <p class="px-6 pb-6 text-base text-texto-2">{q.r}</p>
-          </details>
+        preguntas.map((q, i) => (
+          <div class="border-t border-profundo/12 pt-6" data-reveal style={`--delay:${(i % 2) * 90}ms`}>
+            <dt class="text-lg font-semibold text-profundo">{q.p}</dt>
+            <dd class="mt-2 max-w-[56ch] text-base leading-relaxed text-texto-2">{q.r}</dd>
+          </div>
         ))
       }
-    </div>
+    </dl>
   </div>
 </section>
-
-<style>
-  .faq summary::-webkit-details-marker {
-    display: none;
-  }
-</style>

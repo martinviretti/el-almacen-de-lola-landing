@@ -1,118 +1,67 @@
 ---
-// Visitanos, en dos filas:
-// 1) Dónde y cuándo (dirección, Cómo llegar, horarios) | el mapa.
-// 2) Medios de pago | Google (calificación, opiniones destacadas y cómo dejar una).
+// Visitanos: si está abierto, dónde queda, cómo llegar y cómo pagar. A la derecha, la fachada
+// (para reconocerla desde la vereda) y el mapa.
+import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import IconoMarca from './IconoMarca.astro';
-import { negocio, horarios, horariosResumen, resenas } from '../data/site';
+import { negocio, horarios, hrefWhatsApp } from '../data/negocio';
+import { fotos } from '../data/site';
 
-// Lunes primero, domingo al final.
-const semana = [...horarios.slice(1), horarios[0]];
-// Ancho de la capa de estrellas llenas (4,3 → 86 %).
-const calificacion = Number(negocio.googleCalificacion.replace(',', '.'));
-const llenas = `${Math.round((calificacion / 5) * 100)}%`;
-const estrella = 'M12 2.5l2.9 6.06 6.6.8-4.87 4.57 1.25 6.57L12 17.3l-5.88 3.2 1.25-6.57L2.5 9.36l6.6-.8z';
+// Lunes primero, domingo al final. `i` es el día de la semana (0 = domingo) para marcar hoy.
+const semana = [...horarios.map((h, i) => ({ ...h, i })).slice(1), { ...horarios[0], i: 0 }];
 ---
 
-<section id="visitanos" class="bg-menta-suave px-5 py-24 lg:px-10 lg:py-32">
-  <div class="mx-auto max-w-[1200px]">
+<section id="visitanos" class="bg-menta-suave px-5 py-20 lg:px-10 lg:py-28">
+  <div class="mx-auto max-w-[1240px]">
     <div data-reveal>
-      <p class="mb-3 text-sm font-semibold text-marca-texto">Visitanos</p>
-      <h2 class="text-4xl font-bold tracking-tight text-profundo lg:text-5xl">Te esperamos en Victoria</h2>
+      <p class="rotulo">Visitanos</p>
+      <h2 class="mt-4 text-4xl text-profundo lg:text-6xl">Te esperamos en <em>Victoria</em></h2>
     </div>
 
-    {/* Fila 1: dónde y cuándo + mapa */}
-    <div class="mt-10 grid gap-4 lg:mt-12 lg:grid-cols-2 lg:gap-6">
-      <div class="min-w-0 rounded-3xl bg-white p-6 lg:p-8" data-reveal>
-        <div class="flex items-start gap-4">
-          <span class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-menta-suave text-profundo">
-            <Icon name="map-pin" class="size-6" />
-          </span>
-          <div>
-            <p class="text-lg font-semibold text-profundo">{negocio.direccion}</p>
-            <p class="text-base text-texto-2">{negocio.localidad}, {negocio.provincia}</p>
-          </div>
-        </div>
-        <div class="mt-5 flex flex-wrap gap-3">
-          <a href={negocio.mapsDestino} target="_blank" rel="noopener" class="boton boton-principal">
+    <div class="mt-10 grid gap-4 lg:mt-14 lg:grid-cols-12 lg:gap-6">
+      <div class="min-w-0 rounded-[28px] bg-white p-6 lg:col-span-5 lg:p-9" data-reveal>
+        <p class="flex items-center gap-2.5 text-base font-semibold text-profundo" data-estado>
+          <span class="punto-estado" aria-hidden="true"></span>
+          <span data-estado-texto>Lunes a sábado</span>
+        </p>
+
+        <p class="mt-6 font-[family-name:var(--font-display)] text-3xl leading-tight text-profundo">{negocio.direccion}</p>
+        <p class="mt-1 text-base text-texto-2">{negocio.localidad}, {negocio.provincia}</p>
+
+        <div class="mt-6 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+          <a href={negocio.mapsDestino} target="_blank" rel="noopener" class="boton boton-principal col-span-2">
             <Icon name="navigation-arrow" class="size-5" />
             Cómo llegar
           </a>
-          <a href={negocio.instagramMensaje} target="_blank" rel="noopener" class="boton boton-secundario">
+          <a href={hrefWhatsApp} target="_blank" rel="noopener" class="boton boton-secundario" aria-label="Escribinos por WhatsApp">
+            <IconoMarca name="whatsapp" class="size-5" />
+            WhatsApp
+          </a>
+          <a href={negocio.instagramMensaje} target="_blank" rel="noopener" class="boton boton-secundario" aria-label="Escribinos por Instagram">
             <IconoMarca name="instagram" class="size-5" />
-            Escribinos
+            Instagram
           </a>
         </div>
 
-        <div class="mt-8 flex items-start gap-4">
-          <span class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-menta-suave text-profundo">
-            <Icon name="clock" class="size-6" />
-          </span>
-          <div class="w-full">
-            <p class="text-lg font-semibold text-profundo">Horarios</p>
-            {/* Celular: resumen en 3 líneas y la semana completa plegada */}
-            <dl class="mt-2 text-sm lg:hidden">
-              {
-                horariosResumen.map((h) => (
-                  <div class="flex gap-2">
-                    <dt class="text-texto-2">{h.dias}:</dt>
-                    <dd class="font-semibold text-profundo">{h.horas}</dd>
-                  </div>
-                ))
-              }
-            </dl>
-            <details class="mt-2 lg:hidden">
-              <summary class="cursor-pointer text-sm font-semibold text-marca-texto">Ver todos los días</summary>
-              <dl class="mt-2 divide-y divide-profundo/10">
-                {
-                  semana.map((h) => (
-                    <div class="flex justify-between gap-4 py-2 text-sm">
-                      <dt class="text-texto-2">{h.dia}</dt>
-                      <dd class="font-semibold text-profundo tabular-nums">{h.abre === null ? 'Cerrado' : `${h.abre} a ${h.cierra} h`}</dd>
-                    </div>
-                  ))
-                }
-              </dl>
-            </details>
-            <dl class="mt-2 hidden divide-y divide-profundo/10 lg:block">
-              {
-                semana.map((h) => (
-                  <div class="flex justify-between gap-4 py-2 text-sm">
-                    <dt class="text-texto-2">{h.dia}</dt>
-                    <dd class="font-semibold text-profundo tabular-nums">{h.abre === null ? 'Cerrado' : `${h.abre} a ${h.cierra} h`}</dd>
-                  </div>
-                ))
-              }
-            </dl>
-          </div>
-        </div>
-      </div>
+        <h3 class="mt-9 text-sm font-semibold text-marca-texto">Horarios</h3>
+        <dl class="mt-2 divide-y divide-profundo/10">
+          {
+            semana.map((h) => (
+              <div class="dia flex justify-between gap-4 py-2.5 text-[15px]" data-dia={h.i}>
+                <dt class="text-texto-2">{h.dia}</dt>
+                <dd class="font-semibold text-profundo tabular-nums">{h.abre === null ? 'Cerrado' : `${h.abre} a ${h.cierra} h`}</dd>
+              </div>
+            ))
+          }
+        </dl>
 
-      {/* El navegador lo carga recién cuando la persona llega a esta parte (loading="lazy") */}
-      <div class="relative min-h-[320px] min-w-0 overflow-hidden rounded-3xl bg-white ring-1 ring-profundo/10" data-reveal style="--delay:120ms">
-        <iframe
-          src={negocio.mapsEmbed}
-          title={`Mapa con la ubicación de ${negocio.nombre}`}
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          class="absolute inset-0 size-full border-0"></iframe>
-      </div>
-    </div>
-
-    {/* Fila 2: medios de pago + Google */}
-    <div class="mt-4 grid gap-4 lg:mt-6 lg:grid-cols-[2fr_3fr] lg:gap-6">
-      <div class="min-w-0 rounded-3xl bg-white p-6 lg:p-8" data-reveal>
-        <p class="text-lg font-semibold text-profundo">Medios de pago</p>
-        <ul class="mt-4 grid grid-cols-3 gap-2">
+        <h3 class="mt-9 text-sm font-semibold text-marca-texto">Medios de pago</h3>
+        <ul class="mt-3 flex flex-wrap gap-2">
           {
             negocio.pagos.map((p) => (
-              <li class="flex flex-col items-center gap-2 rounded-2xl bg-menta-suave px-2 py-4 text-center">
-                {p.id === 'mercadopago' ? (
-                  <IconoMarca name="mercadopago" class="size-8" />
-                ) : (
-                  <Icon name={p.id === 'efectivo' ? 'money' : 'credit-card'} class="size-8 text-profundo" />
-                )}
-                <span class="text-sm leading-tight font-semibold text-profundo">{p.nombre}</span>
+              <li class="flex items-center gap-2 rounded-full bg-menta-suave px-3.5 py-2 text-sm font-semibold text-profundo">
+                {p.id === 'mercadopago' ? <IconoMarca name="mercadopago" class="size-5" /> : <Icon name={p.id === 'efectivo' ? 'money' : 'credit-card'} class="size-5" />}
+                {p.nombre}
               </li>
             ))
           }
@@ -120,158 +69,42 @@ const estrella = 'M12 2.5l2.9 6.06 6.6.8-4.87 4.57 1.25 6.57L12 17.3l-5.88 3.2 1
         <p class="mt-3 text-sm font-semibold text-marca-texto">{negocio.pagosNota}</p>
       </div>
 
-      <div class="min-w-0 rounded-3xl bg-white p-6 lg:p-8" data-reveal style="--delay:120ms">
-        <div class="flex flex-wrap items-center justify-between gap-4">
-          <div class="flex items-center gap-4">
-            <p class="text-5xl font-bold tracking-tight text-profundo tabular-nums">{negocio.googleCalificacion}</p>
-            <div>
-              {/* Estrellas: abajo 5 grises, arriba 5 doradas recortadas según la calificación */}
-              <span class="estrellas" role="img" aria-label={`${negocio.googleCalificacion} de 5 estrellas`}>
-                <span class="estrellas-capa text-arena" aria-hidden="true">
-                  {[0, 1, 2, 3, 4].map(() => <svg viewBox="0 0 24 24" class="size-6" fill="currentColor"><path d={estrella} /></svg>)}
-                </span>
-                <span class="estrellas-capa estrellas-llenas" style={`width:${llenas}`} aria-hidden="true">
-                  {[0, 1, 2, 3, 4].map(() => <svg viewBox="0 0 24 24" class="size-6 shrink-0" fill="currentColor"><path d={estrella} /></svg>)}
-                </span>
-              </span>
-              <p class="mt-1 text-sm text-texto-2">Calificación en Google</p>
-            </div>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <a href={negocio.googleFicha} target="_blank" rel="noopener" class="boton boton-secundario boton-chico">Ver opiniones</a>
-            <a href={negocio.googleOpinar} target="_blank" rel="noopener" class="boton boton-principal boton-chico">Dejanos la tuya</a>
-          </div>
+      <div class="grid min-w-0 gap-4 lg:col-span-7 lg:grid-rows-[auto_1fr] lg:gap-6">
+        <figure class="foto grano aspect-[16/9]" data-reveal style="--delay:100ms">
+          <Image src={fotos.fachada} alt="Frente de La Almacén de Lola: cartel verde con el logo y la vidriera" widths={[700, 1100, 1600]} sizes="(min-width: 1024px) 700px, 100vw" />
+          <figcaption class="absolute bottom-4 left-4 rounded-full bg-white/85 px-4 py-2 text-sm font-semibold text-profundo backdrop-blur-md">Buscá el cartel verde sobre Av. Perón</figcaption>
+        </figure>
+        {/* El navegador lo carga recién cuando la persona llega a esta parte (loading="lazy") */}
+        <div class="relative min-h-[300px] min-w-0 overflow-hidden rounded-[28px] bg-white ring-1 ring-profundo/10" data-reveal style="--delay:180ms">
+          <iframe
+            src={negocio.mapsEmbed}
+            title={`Mapa con la ubicación de ${negocio.nombre}`}
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            class="absolute inset-0 size-full border-0"></iframe>
         </div>
-
-        {
-          resenas.length > 0 && (
-            <div class="resenas mt-6 min-w-0" data-resenas role="region" aria-roledescription="carrusel" aria-label="Opiniones en Google">
-              {/* Una opinión por vez: pasan solas cada 6 s; se frenan con el mouse, el foco o el botón de pausa */}
-              <div class="overflow-hidden rounded-2xl bg-menta-suave">
-                <ul class="resenas-pista flex" data-resenas-pista>
-                  {resenas.map((r, i) => (
-                    <li class="w-full shrink-0 p-5 lg:p-6" aria-roledescription="opinión" aria-label={`${i + 1} de ${resenas.length}`}>
-                      {r.estrellas && (
-                        <span class="estrellas-fijas mb-3" role="img" aria-label={`${r.estrellas} de 5 estrellas`}>
-                          {[0, 1, 2, 3, 4].map((k) => (
-                            <svg viewBox="0 0 24 24" class:list={['size-4', k < r.estrellas! ? 'estrella-llena' : 'text-arena']} fill="currentColor" aria-hidden="true">
-                              <path d={estrella} />
-                            </svg>
-                          ))}
-                        </span>
-                      )}
-                      <p class="text-base leading-relaxed text-texto">“{r.texto}”</p>
-                      <p class="mt-3 text-sm font-semibold text-texto-2">{r.autor} · en Google</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              {resenas.length > 1 && (
-                <div class="mt-3 flex items-center justify-between gap-3">
-                  <div class="flex gap-1.5">
-                    {resenas.map((_, i) => (
-                      <button type="button" class="resenas-punto" data-resenas-ir={i} aria-label={`Ver opinión ${i + 1}`} aria-current={i === 0 ? 'true' : undefined}></button>
-                    ))}
-                  </div>
-                  <button type="button" class="resenas-pausa text-sm font-semibold text-marca-texto" data-resenas-pausa aria-pressed="false">
-                    Pausar
-                  </button>
-                </div>
-              )}
-            </div>
-          )
-        }
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .estrellas {
-    position: relative;
-    display: inline-block;
-    line-height: 0;
+  /* Hoy, resaltado en la lista de horarios */
+  .dia.es-hoy dt,
+  .dia.es-hoy dd {
+    color: var(--color-profundo);
+    font-weight: 700;
   }
-  .estrellas-capa {
-    display: inline-flex;
-    gap: 2px;
-  }
-  .estrellas-llenas {
-    position: absolute;
-    inset: 0 auto 0 0;
-    overflow: hidden;
-    color: #f5b301;
-  }
-  .estrellas-fijas {
-    display: inline-flex;
-    gap: 2px;
-  }
-  .estrella-llena {
-    color: #f5b301;
-  }
-  .resenas-pista {
-    transition: translate 700ms var(--ease-fluid);
-  }
-  .resenas-punto {
-    width: 8px;
-    height: 8px;
-    border-radius: 9999px;
-    background: var(--color-arena);
-    transition:
-      width 500ms var(--ease-fluid),
-      background-color 500ms var(--ease-fluid);
-  }
-  .resenas-punto[aria-current='true'] {
-    width: 24px;
-    background: var(--color-profundo);
-  }
-  .boton-chico {
-    padding: 8px 16px;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+  .dia.es-hoy dt::after {
+    content: ' · hoy';
+    font-weight: 600;
+    color: var(--color-marca-texto);
   }
 </style>
 
 <script>
-  // Carrusel de opiniones: avanza solo cada 6 s y vuelve al principio al final. Se frena
-  // con el mouse encima, con foco de teclado, fuera de pantalla o con el botón Pausar.
-  document.querySelectorAll<HTMLElement>('[data-resenas]').forEach((caja) => {
-    const pista = caja.querySelector<HTMLElement>('[data-resenas-pista]')!;
-    const puntos = [...caja.querySelectorAll<HTMLButtonElement>('[data-resenas-ir]')];
-    const pausa = caja.querySelector<HTMLButtonElement>('[data-resenas-pausa]');
-    const total = pista.children.length;
-    if (total < 2) return;
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let actual = 0;
-    let detenido = reduce;
-    let encima = false;
-    let visible = false;
-
-    const ir = (i: number) => {
-      actual = (i + total) % total;
-      pista.style.translate = `${-actual * 100}% 0`;
-      [...pista.children].forEach((li, k) => li.toggleAttribute('inert', k !== actual));
-      puntos.forEach((p, k) => (k === actual ? p.setAttribute('aria-current', 'true') : p.removeAttribute('aria-current')));
-    };
-    ir(0);
-    puntos.forEach((p) => p.addEventListener('click', () => ir(Number(p.dataset.resenasIr))));
-
-    if (pausa) {
-      if (reduce) pausa.hidden = true;
-      pausa.addEventListener('click', () => {
-        detenido = !detenido;
-        pausa.setAttribute('aria-pressed', String(detenido));
-        pausa.textContent = detenido ? 'Seguir' : 'Pausar';
-      });
-    }
-    caja.addEventListener('pointerenter', () => (encima = true));
-    caja.addEventListener('pointerleave', () => (encima = false));
-    caja.addEventListener('focusin', (e) => (encima = (e.target as HTMLElement).matches(':focus-visible')));
-    caja.addEventListener('focusout', (e) => (encima = caja.contains(e.relatedTarget as Node | null)));
-    new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(caja);
-
-    setInterval(() => {
-      if (!detenido && !encima && visible && !document.hidden) ir(actual + 1);
-    }, 6000);
-  });
+  const hoy = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(
+    new Intl.DateTimeFormat('en-US', { timeZone: 'America/Argentina/Buenos_Aires', weekday: 'short' }).format(new Date()),
+  );
+  document.querySelector(`.dia[data-dia="${hoy}"]`)?.classList.add('es-hoy');
 </script>

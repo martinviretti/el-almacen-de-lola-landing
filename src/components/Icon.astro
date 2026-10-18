@@ -10,7 +10,7 @@ const { name, class: className = 'size-6', label } = Astro.props;
 
 // Solo los íconos que usa el sitio: si sumás uno, agregalo a la lista.
 const icons = import.meta.glob<string>(
-  '/node_modules/@phosphor-icons/core/assets/light/{arrow-down,arrow-left,arrow-up-right,clock,map-pin,music-notes,navigation-arrow,plus,storefront,pause,play,grains-slash,plant,seal-check,drop-slash,cube,grains,credit-card,star,money,wallet}-light.svg',
+  '/node_modules/@phosphor-icons/core/assets/light/{arrow-down,arrow-left,arrow-right,arrow-up-right,clock,map-pin,navigation-arrow,plus,storefront,pause,play,grains-slash,plant,seal-check,drop-slash,cube,grains,credit-card,star,money,wallet,quotes}-light.svg',
   { query: '?raw', import: 'default', eager: true },
 );
 

@@ -1,0 +1,35 @@
+---
+// Barra fija abajo, solo en el celular: lo único que hace falta para venir. Reemplaza a los
+// botones flotantes. Respeta la zona segura del iPhone (la rayita de abajo).
+import Icon from './Icon.astro';
+import IconoMarca from './IconoMarca.astro';
+import { negocio, hrefWhatsApp } from '../data/negocio';
+---
+
+<nav aria-label="Acciones rápidas" class="barra-movil fixed inset-x-0 bottom-0 z-50 px-3 lg:hidden">
+  <div class="mx-auto flex max-w-md items-center gap-2 rounded-[22px] bg-white/90 p-2 shadow-[0_-8px_40px_-12px_rgb(33_76_59/0.35)] ring-1 ring-profundo/10 backdrop-blur-xl">
+    <p class="flex min-w-0 flex-1 items-center gap-2 pl-2 text-[13px] leading-tight font-semibold text-profundo" data-estado="corto">
+      <span class="punto-estado" aria-hidden="true"></span>
+      <span class="truncate" data-estado-texto>Lun a sáb</span>
+    </p>
+    <a
+      href={hrefWhatsApp}
+      target="_blank"
+      rel="noopener"
+      aria-label="Escribinos por WhatsApp"
+      class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-[#25D366] text-white active:scale-95"
+    >
+      <IconoMarca name="whatsapp" variante="glifo" class="size-6" />
+    </a>
+    <a href={negocio.mapsDestino} target="_blank" rel="noopener" class="boton boton-principal h-12 shrink-0 rounded-2xl !px-4">
+      <Icon name="navigation-arrow" class="size-5" />
+      Cómo llegar
+    </a>
+  </div>
+</nav>
+
+<style>
+  .barra-movil {
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+</style>

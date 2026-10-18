@@ -57,3 +57,6 @@ export const horariosResumen = [
   { dias: 'Sábados', horas: '9 a 20 h' },
   { dias: 'Domingos', horas: 'Cerrado' },
 ];
+
+/** WhatsApp: sin número cargado abre la app con el mensaje listo para elegir el chat; con número, va directo. */
+export const hrefWhatsApp = `https://wa.me/${negocio.whatsapp}?text=${encodeURIComponent(negocio.whatsappMensaje)}`;

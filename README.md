@@ -1,7 +1,7 @@
 # Landing — La Almacén de Lola
 
 Sitio de presentación de La Almacén de Lola, almacén natural de Av. Presidente Perón 3099, Victoria.
-Astro 7 + Tailwind CSS 4 + GSAP ScrollTrigger + Lenis. Salida 100 % estática, publicada en GitHub Pages (https://martinviretti.github.io/el-almacen-de-lola-landing/) con el workflow de `.github/workflows/deploy.yml`: cada push a `main` se publica solo.
+Astro 7 + Tailwind CSS 4 + Lenis (scroll suave). Salida 100 % estática, publicada en GitHub Pages (https://martinviretti.github.io/el-almacen-de-lola-landing/) con el workflow de `.github/workflows/deploy.yml`: cada push a `main` se publica solo.
 
 Antes de publicar, revisar [PENDIENTES.md](PENDIENTES.md).
 
@@ -25,33 +25,29 @@ npm run preview   # sirve dist/ para probar el build final
 | Qué | Archivo |
 |---|---|
 | Nombre, dirección, Instagram, horarios | `src/data/negocio.ts` |
-| Paradas del recorrido, galería, marcas, sellos, productos por momento (`momentos`), frase, preguntas | `src/data/site.ts` |
-| Fotos del local | `src/assets/fotos/` (kit fotográfico del 12/10/2026; las `-movil` son 3:4 para galería y celular) |
+| Categorías de "Qué vas a encontrar" (`categorias`), razones de "Por qué Lola" (`razones`), sellos, paradas del video, opiniones de Google, frase y preguntas | `src/data/site.ts` |
+| WhatsApp (`hrefWhatsApp`) | `src/data/negocio.ts` |
+| "Abierto ahora" (calcula con `horarios`, en hora de Argentina) | `src/scripts/estado.ts` |
+| Fotos del local | `src/assets/fotos/` (kit fotográfico del 12/10/2026, fotos del celular del local y publicaciones del Instagram de Lola) |
 | Logos oficiales de Instagram, WhatsApp y Mercado Pago | `src/components/IconoMarca.astro` (trazos del paquete `simple-icons`) |
-| Logos de marcas | `src/assets/marcas/` (PNG con fondo transparente, bajados del sitio oficial de cada marca) |
-| Fotogramas del recorrido | `src/assets/recorrido/` |
-| Video del recorrido (solo escritorio) | `public/video/recorrido.mp4` |
-| Colores y tipografía | `src/styles/global.css` → bloque `@theme` |
-| Animación del recorrido | `src/scripts/world.ts` |
+| Video del recorrido y su afiche | `public/video/recorrido.mp4` y `src/assets/recorrido/parada-1.jpg` |
+| Colores y tipografía (Fraunces en títulos, Manrope en texto) | `src/styles/global.css` → bloque `@theme` |
 | Imagen para compartir en redes | `public/og.jpg` (1200 × 630) |
-| Música ambiental | `src/scripts/musica.ts` (se genera en el navegador; para usar un MP3, ponerlo en `public/audio/` y completar `PISTA`) |
 
-Para cambiar un tramo del recorrido: editar `video: [inicio, fin]` de la parada en `site.ts` (segundos del video editado) y regenerar su fotograma en `src/assets/recorrido/`.
+La página tiene 7 bloques, en orden: portada (`Hero`), qué vas a encontrar (`Encontrar`), por qué Lola (`PorQue`), recorrido (`Recorrido`), opiniones (`Opiniones` + `InstagramLola`), visitanos (`Visitanos`) y preguntas (`Faq`). En el celular, `BarraMovil` deja fijos abajo el horario, WhatsApp y "Cómo llegar". El porqué de cada decisión está en [REDISENO.md](REDISENO.md).
+
+En una categoría, `forma` decide el tamaño en la grilla: `grande` (2 × 2), `alta` (1 × 2), `ancha` (2 × 1) o `chica`. Para cambiar dónde arranca una parada del video, editar su `desde` (segundos) en `paradas`.
 
 Para sumar un ícono: elegirlo en [phosphoricons.com](https://phosphoricons.com) (variante light) y agregar su nombre a la lista de `src/components/Icon.astro`.
 
 ## Cómo funciona el recorrido
 
-`ScrollWorld.astro` apila todas las paradas en la misma celda de una grilla, dentro de un escenario `position: sticky`. `world.ts` arma una línea de tiempo GSAP atada al scroll:
+`Recorrido.astro` muestra el video del local (3:4, ~22 s, sin sonido). Arranca solo cuando se ve en pantalla y se pausa al salir. **Nunca maneja el scroll.**
 
-1. **Fachada**: foto a pantalla completa con la tarjeta del hero. Al bajar, zoom hacia la puerta y se abre en círculo el arco del interior.
-2. **Recorrido**: dentro del arco, el video avanza con el scroll (cada parada recorre su tramo) y los textos se relevan en cada borde.
+- **En escritorio:** al costado, la lista de paradas marca dónde va el video. Tocar una parada salta a ese tramo.
+- **En el celular:** funciona como historias. Arriba hay barritas, abajo el cartel de la parada; tocar a la derecha avanza y a la izquierda vuelve.
 
-El video se descarga entero como blob después de que carga la página: así ir para atrás y para adelante es instantáneo. Mientras carga, si falla, o con "ahorro de datos" activado, se ven los fotogramas de cada parada.
-
-**En celular** (menos de 1024 px) el recorrido es otro componente, `RecorridoMovil.astro` + `scripts/recorrido-movil.ts`, tipo historias y **sin video**: fotos reales en alta a pantalla completa, una parada por deslizada (también se avanza tocando la foto o la barra de arriba). Cada foto entra con un fundido y se acerca muy lento; el cartel aparece por partes. Desde la última parada, la deslizada baja a la frase principal. Las paradas están en `recorridoMovil` de `site.ts` (texto, foto, encuadre y zoom).
-
-Sin JavaScript o con "reducir movimiento" activado, todo se muestra como una lista normal con los fotogramas, sin animaciones.
+Hay un botón de pausa. Con "reducir movimiento" activado no arranca solo.
 
 ### Cómo se armó el video
 
@@ -75,4 +71,4 @@ $env:SITE_URL = "https://dominio.com.ar"; $env:BASE_PATH = "/"; npm run build
 
 ## Origen de los materiales
 
-Logo y datos salen del perfil público [@lolasaludable](https://www.instagram.com/lolasaludable/), relevado el 10/10/2026. El video es un reel del local. Todas las fotos son del local: kit fotográfico del 12/10/2026 y fotos del celular de la encargada; cuatro salen de fotos de clientas en Google Maps (ver permisos en PENDIENTES.md).
+Logo y datos salen del perfil público [@lolasaludable](https://www.instagram.com/lolasaludable/), relevado el 10/10/2026. El video es un reel del local. Todas las fotos son propias del local: kit fotográfico del 12/10/2026, fotos del celular de la encargada y una publicación del Instagram de Lola. Desde el rediseño (18/10/2026) no se usan las cuatro que salían de fotos de clientas en Google Maps ni la fachada retocada con IA; quedan archivadas en `../fotos-lola/`.

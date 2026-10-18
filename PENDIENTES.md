@@ -6,24 +6,24 @@ Todo lo de esta lista es propuesta o dato sin confirmar. Validarlo con la encarg
 
 | # | Tema | Situación | Dónde se cambia |
 |---|---|---|---|
-| 1 | **Fotos de Google Maps** | Las fotos `04-pasillo`, `05-granel`, `06-mostrador` y `12-exhibidores` de `src/assets/fotos/` son versiones retocadas de fotos que subieron a Google Maps dos clientas: **Miriam Marto** y **Julia Marquez**. Los derechos son de ellas: subirlas a Maps no autoriza a usarlas en otra web. Pedirles permiso por Maps o Instagram, o reemplazarlas por fotos propias de las mismas tomas. La galería no muestra créditos (decisión de diseño); si se pide permiso, conviene ofrecerles mencionarlas. | `src/data/site.ts` → `galeria` y `recorridoMovil`. Las demás fotos del kit son propias (12/10/2026) |
-| 2 | **Fachada de la portada** | `01-fachada-hero.webp` es una versión retocada con IA (la elegida por el kit por impacto). "Visitanos" usa la foto real `02-fachada-real`. | `src/assets/fotos/` |
-| 3 | **Video del recorrido** | Sale del reel propio del local. Se usaron solo los tramos sin personas y sin texto, pero conviene que la dueña lo apruebe. La galería también usa 7 cuadros de ese video (`src/assets/galeria/video-*.jpg`) y 8 fotos de publicaciones del Instagram del local. | `public/video/recorrido.mp4` |
+| 1 | **Fotos de Google Maps** | Desde el rediseño (18/10/2026) **ya no se usan**: `04-pasillo`, `05-granel`, `06-mostrador` y `12-exhibidores` eran retoques de fotos que subieron a Google Maps dos clientas (**Miriam Marto** y **Julia Marquez**). Quedan en `../fotos-lola/`. Si se consigue su permiso, se pueden volver a sumar (conviene ofrecerles mencionarlas). | — |
+| 2 | **Fachada retocada con IA** | Ya no se usa: la portada usa la foto real de la entrada (`03-entrada`) y "Visitanos", la fachada real (`02-fachada-real`). | — |
+| 3 | **Video del recorrido** | Sale del reel propio del local. Se usaron solo los tramos sin personas y sin texto, pero conviene que la dueña lo apruebe. También se usa una publicación del Instagram del local (pasta de maní: `ig-pasta-de-mani.jpg`). | `public/video/recorrido.mp4` |
 | 4 | **Dominio** | Hoy en GitHub Pages (`martinviretti.github.io/el-almacen-de-lola-landing`). Con dominio propio: build con `SITE_URL` y `BASE_PATH=/`, y dar de alta el sitio en Google Search Console mandando `sitemap-index.xml` (en una subcarpeta los buscadores no leen `robots.txt`). | `astro.config.mjs` → `SITE` / `BASE` |
 
 ## Fotos
 
-Desde el 12/10/2026 **todas las fotos de la web son del local** (kit fotográfico + fotos del celular de la encargada). Ya no hay imágenes generadas con IA: se sacó la franja "De la almacén a tu mesa" y las tarjetas de "Algo rico para cada momento" usan fotos reales. Las originales y las viejas quedan en `../fotos-lola/`.
+Desde el rediseño del 18/10/2026 **todas las fotos de la web son propias del local**: kit fotográfico, fotos del celular de la encargada y publicaciones del Instagram de Lola. Sin imágenes generadas con IA ni fotos de terceros. Las originales y las viejas quedan en `../fotos-lola/`.
 
 ## Datos a confirmar
 
 - **Preguntas frecuentes** marcadas `pendiente: true`: consulta por Instagram, orgánicos. → `src/data/site.ts` → `preguntas`
-- **Productos por momento del día** (`momentos`): confirmar que cada momento coincida con lo que venden (en especial "Algo fresco para tomar": kéfir, jugos, bebidas; y "Para cocinar rico": aceites, especias, harinas, legumbres). Se sacó la tarjeta de orgánicos certificados porque no estaba confirmado.
-- **Textos del recorrido**: son propuestas. En particular "mezclas fraccionadas" (granel) y "Yogures, leches vegetales y congelados" (heladeras).
-- **Marcas**: la franja muestra los logos oficiales (bajados de cada sitio) de Natier, Kapac, Entrenuts, Smams, Cachafaz, Kraus y Roapipó. Entrenuts aparece en las fotos del local; las demás hay que confirmarlas con la encargada → `src/data/site.ts` → `marcas`. Sin logo ubicable: Felices las Vacas, Cereal Mix, Ades, Hierbas del Oasis y Trefo (estas dos también aparecen en las fotos). Para sumarlas: guardar el logo (PNG transparente) en `src/assets/marcas/` e importarlo.
+- **Qué vas a encontrar** (`categorias`): confirmar que cada categoría y su línea coincida con lo que venden. En especial: congelados ("hamburguesas vegetales y más") y untables ("pastas de maní y más").
+- **Por qué Lola** (`razones`): son propuestas. Confirmar que se fraccionen en el local frutos secos, semillas, **legumbres y especias**. Las paradas del video (`paradas`) también son propuestas.
+- **Marcas**: la franja de logos se sacó en el rediseño porque solo Entrenuts estaba confirmada. Si la encargada confirma marcas, se puede volver a sumar (los logos están en el historial de git).
 - **Sellos**: Sin TACC, vegano, orgánico, sin lactosa, sin azúcar agregada e integral, con íconos propios (no los logos oficiales: el de Sin TACC solo puede ir en envases certificados). Sacar los que no apliquen → `sellos`.
-- **Seguidores de Instagram**: el hero de escritorio dice "Más de 1.700" (eran 1.747 al 10/10/2026). Subirlo cuando pase un número redondo.
-- **Número de WhatsApp**: el botón flotante ya está, pero sin número (abre WhatsApp con el mensaje listo y la persona elige el chat). Cargarlo en `src/data/negocio.ts` → `whatsapp`, con código de país y sin espacios (ej. `5491112345678`).
+- **Calificación de Google**: la portada y "Lo que dicen" muestran `googleCalificacion` (4,3). Actualizarla cada tanto.
+- **Número de WhatsApp**: los botones (portada, barra del celular y Visitanos) están, pero sin número: abren WhatsApp con el mensaje listo y la persona elige el chat. Cargarlo en `src/data/negocio.ts` → `whatsapp`, con código de país y sin espacios (ej. `5491112345678`).
 
 ## Ficha de Google
 

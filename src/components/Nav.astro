@@ -2,22 +2,24 @@
 import { Image } from 'astro:assets';
 import logo from '../assets/logo-lola-circulo.png';
 import Icon from './Icon.astro';
+import IconoMarca from './IconoMarca.astro';
 import { negocio } from '../data/site';
 
 const links = [
-  { href: '#el-almacen', label: 'La almacén' },
-  { href: '#productos', label: 'Productos' },
+  { href: '#productos', label: 'Qué hay' },
+  { href: '#por-que', label: 'Por qué Lola' },
+  { href: '#recorrido', label: 'Recorrido' },
   { href: '#visitanos', label: 'Visitanos' },
   { href: '#preguntas', label: 'Preguntas' },
 ];
 ---
 
-<header class="pointer-events-none fixed inset-x-0 top-0 z-50 px-4 pt-4 lg:pt-6">
+<header class="pointer-events-none fixed inset-x-0 top-0 z-50 px-4 pt-4 lg:pt-5">
   <nav
     aria-label="Principal"
-    class="pointer-events-auto mx-auto flex w-full max-w-max items-center gap-2 rounded-full bg-white/75 p-2 shadow-[0_8px_32px_rgb(33_76_59/0.08)] ring-1 ring-profundo/10 backdrop-blur-xl"
+    class="pointer-events-auto mx-auto flex w-full max-w-max items-center gap-2 rounded-full bg-white/80 p-2 shadow-[0_8px_32px_rgb(33_76_59/0.08)] ring-1 ring-profundo/10 backdrop-blur-xl"
   >
-    <a href="#contenido" class="flex items-center gap-2 rounded-full pr-2" aria-label={`${negocio.nombre}, volver al inicio`}>
+    <a href="#inicio" class="flex items-center gap-2 rounded-full pr-2" aria-label={`${negocio.nombre}, volver al inicio`}>
       <Image src={logo} alt="" width={40} height={40} densities={[1, 2]} class="size-10 rounded-full" loading="eager" />
       <span class="text-sm font-semibold text-profundo">La Almacén de Lola</span>
     </a>
@@ -29,7 +31,7 @@ const links = [
             <a
               href={l.href}
               data-nav-link
-              class="rounded-full px-3 py-2 text-sm font-semibold text-texto-2 transition-colors duration-700 ease-fluid hover:bg-menta-suave hover:text-profundo aria-[current=true]:bg-menta-suave aria-[current=true]:text-profundo"
+              class="rounded-full px-3 py-2 text-sm font-semibold text-texto-2 transition-colors duration-500 ease-fluid hover:bg-menta-suave hover:text-profundo aria-[current=true]:bg-menta-suave aria-[current=true]:text-profundo"
             >
               {l.label}
             </a>
@@ -38,29 +40,21 @@ const links = [
       }
     </ul>
 
-    <button
-      type="button"
-      data-musica
-      aria-pressed="false"
-      aria-label="Música ambiental"
-      title="Música ambiental"
-      class="musica relative flex size-10 items-center justify-center rounded-full bg-menta-suave text-profundo transition-colors duration-700 ease-fluid hover:bg-menta active:scale-95"
-    >
-      <Icon name="music-notes" class="musica-icono size-5" />
-      <span class="musica-barras" aria-hidden="true"><span></span><span></span><span></span></span>
-    </button>
-
+    <a href={negocio.mapsDestino} target="_blank" rel="noopener" class="boton boton-principal boton-chico ml-1 hidden lg:inline-flex">
+      <Icon name="navigation-arrow" class="size-4" />
+      Cómo llegar
+    </a>
 
     <button
       type="button"
       data-menu-toggle
       aria-expanded="false"
       aria-controls="menu-movil"
-      class="relative ml-2 size-10 rounded-full bg-profundo text-white transition-transform duration-700 ease-fluid active:scale-95 lg:hidden"
+      class="relative ml-2 size-10 rounded-full bg-profundo text-white transition-transform duration-500 ease-fluid active:scale-95 lg:hidden"
     >
       <span class="sr-only">Abrir menú</span>
-      <span data-bar="1" class="absolute top-[16px] left-[12px] h-0.5 w-4 rounded-full bg-current transition-transform duration-700 ease-fluid"></span>
-      <span data-bar="2" class="absolute top-[22px] left-[12px] h-0.5 w-4 rounded-full bg-current transition-transform duration-700 ease-fluid"></span>
+      <span data-bar="1" class="absolute top-[16px] left-[12px] h-0.5 w-4 rounded-full bg-current transition-transform duration-500 ease-fluid"></span>
+      <span data-bar="2" class="absolute top-[22px] left-[12px] h-0.5 w-4 rounded-full bg-current transition-transform duration-500 ease-fluid"></span>
     </button>
   </nav>
 </header>
@@ -68,17 +62,17 @@ const links = [
 <div
   id="menu-movil"
   data-menu
-  class="invisible fixed inset-0 z-40 flex flex-col justify-center bg-crema/80 px-6 opacity-0 backdrop-blur-3xl transition-[opacity,visibility] duration-700 ease-fluid lg:hidden"
+  class="invisible fixed inset-0 z-40 flex flex-col justify-center bg-crema/85 px-6 opacity-0 backdrop-blur-3xl transition-[opacity,visibility] duration-500 ease-fluid lg:hidden"
 >
-  <ul class="flex flex-col gap-2">
+  <ul class="flex flex-col gap-1">
     {
       links.map((l, i) => (
         <li class="overflow-hidden">
           <a
-            href={l.href === '#el-almacen' ? '#recorrido-movil' : l.href}
+            href={l.href}
             data-menu-link
             style={`transition-delay:${100 + i * 50}ms`}
-            class="block translate-y-12 py-2 text-4xl font-semibold text-profundo opacity-0 transition-[translate,opacity] duration-700 ease-fluid"
+            class="block translate-y-12 py-2 font-[family-name:var(--font-display)] text-4xl text-profundo opacity-0 transition-[translate,opacity] duration-500 ease-fluid"
           >
             {l.label}
           </a>
@@ -87,15 +81,15 @@ const links = [
     }
   </ul>
   <a
-    href={negocio.mapsDestino}
+    href={negocio.instagram}
     target="_blank"
     rel="noopener"
     data-menu-link
-    style="transition-delay:320ms"
-    class="boton boton-principal mt-8 w-max translate-y-12 opacity-0 transition-[translate,opacity] duration-700 ease-fluid"
+    style="transition-delay:380ms"
+    class="mt-8 flex w-max translate-y-12 items-center gap-2 text-base font-semibold text-profundo opacity-0 transition-[translate,opacity] duration-500 ease-fluid"
   >
-    <Icon name="navigation-arrow" class="size-5" />
-    Cómo llegar
+    <IconoMarca name="instagram" class="size-6" />
+    {negocio.instagramUsuario}
   </a>
 </div>
 
@@ -114,45 +108,6 @@ const links = [
   }
   [aria-expanded='true'] [data-bar='2'] {
     transform: translateY(-3px) rotate(-45deg);
-  }
-
-  /* Botón de música: nota cuando está apagada, barritas que bailan cuando suena */
-  .musica-barras {
-    display: none;
-    align-items: flex-end;
-    gap: 2px;
-    height: 14px;
-  }
-  .musica-barras span {
-    width: 3px;
-    height: 100%;
-    border-radius: 2px;
-    background: currentColor;
-    animation: barra 1.1s var(--ease-fluid) infinite alternate;
-  }
-  .musica-barras span:nth-child(2) {
-    animation-delay: -0.4s;
-  }
-  .musica-barras span:nth-child(3) {
-    animation-delay: -0.8s;
-  }
-  .musica[aria-pressed='true'] {
-    background: var(--color-profundo);
-    color: #fff;
-  }
-  .musica[aria-pressed='true'] :global(.musica-icono) {
-    display: none;
-  }
-  .musica[aria-pressed='true'] .musica-barras {
-    display: flex;
-  }
-  @keyframes barra {
-    from {
-      transform: scaleY(0.3);
-    }
-    to {
-      transform: scaleY(1);
-    }
   }
 </style>
 

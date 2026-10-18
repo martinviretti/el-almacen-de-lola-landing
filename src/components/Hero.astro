@@ -1,0 +1,78 @@
+---
+// Portada: en 3 segundos, qué es, dónde queda, si está abierto y los dos botones que importan.
+// La foto cambia según la pantalla: apaisada en escritorio, vertical en el celular.
+import { Image, getImage } from 'astro:assets';
+import Icon from './Icon.astro';
+import IconoMarca from './IconoMarca.astro';
+import { negocio, hrefWhatsApp } from '../data/negocio';
+import { fotos } from '../data/site';
+
+const escritorio = await getImage({ src: fotos.entrada, widths: [960, 1280, 1600], format: 'webp' });
+const movil = await getImage({ src: fotos.entradaMovil, widths: [450, 700], format: 'webp', quality: 72 });
+const alt = 'Entrada de La Almacén de Lola: vidriera con el logo, puerta de vidrio, un banco de madera y plantas';
+const estrella = 'M12 2.5l2.9 6.06 6.6.8-4.87 4.57 1.25 6.57L12 17.3l-5.88 3.2 1.25-6.57L2.5 9.36l6.6-.8z';
+---
+
+<section id="inicio" class="relative px-5 pt-24 pb-14 lg:px-10 lg:pt-32 lg:pb-24">
+  <div class="mx-auto grid max-w-[1240px] items-center gap-8 lg:min-h-[calc(100dvh-14rem)] lg:grid-cols-12 lg:gap-12">
+    {/* Foto: primero en el celular, a la derecha en escritorio */}
+    <div class="relative lg:order-2 lg:col-span-7">
+      <div class="foto grano aspect-[4/3] lg:aspect-[4/3.4] lg:rounded-[36px]">
+        <picture class="block size-full">
+          <source media="(min-width: 1024px)" srcset={escritorio.srcSet.attribute} sizes="(min-width: 1240px) 700px, 58vw" />
+          <img
+            src={movil.src}
+            srcset={movil.srcSet.attribute}
+            sizes="(min-width: 640px) 600px, 100vw"
+            width="900"
+            height="1200"
+            alt={alt}
+            fetchpriority="high"
+            decoding="async"
+            class="object-[50%_62%] lg:object-center"
+          />
+        </picture>
+        <p class="absolute right-4 bottom-4 hidden items-center gap-2 rounded-full bg-white/85 px-4 py-2 text-sm font-semibold text-profundo backdrop-blur-md sm:flex">
+          <Icon name="map-pin" class="size-4" />
+          {negocio.direccionCorta}, Victoria
+        </p>
+      </div>
+      {/* Segunda foto, chica y montada encima: le da profundidad (solo escritorio) */}
+      <div class="foto absolute -bottom-10 -left-10 hidden aspect-[3/4] w-[30%] rotate-[-3deg] ring-8 ring-crema lg:block">
+        <Image src={fotos.frutosSecosMovil} alt="" widths={[240, 400]} sizes="220px" loading="lazy" />
+      </div>
+    </div>
+
+    <div class="lg:order-1 lg:col-span-5">
+      <p class="rotulo">Dietética y almacén natural · Victoria</p>
+      <h1 class="mt-4 text-[2.9rem] text-profundo sm:text-6xl lg:text-[5.2rem]">Lo rico de elegir <em>natural</em></h1>
+      <p class="mt-5 max-w-[46ch] text-lg leading-relaxed text-texto-2">
+        Frutos secos, yerbas, especias, leches vegetales, sin TACC y mucho más, con la calidez de un almacén de barrio. Pasá, que te ayudamos a elegir.
+      </p>
+      <div class="mt-7 flex flex-wrap gap-3">
+        <a href={negocio.mapsDestino} target="_blank" rel="noopener" class="boton boton-principal">
+          <Icon name="navigation-arrow" class="size-5" />
+          Cómo llegar
+        </a>
+        <a href={hrefWhatsApp} target="_blank" rel="noopener" class="boton boton-secundario">
+          <IconoMarca name="whatsapp" class="size-5" />
+          Escribinos
+        </a>
+      </div>
+      <ul class="mt-8 flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold text-profundo">
+        <li class="flex items-center gap-2" data-estado>
+          <span class="punto-estado" aria-hidden="true"></span>
+          <span data-estado-texto>Lun a vie 8 a 20 h · Sáb 9 a 20 h</span>
+        </li>
+        <li class="flex items-center gap-1.5">
+          <svg viewBox="0 0 24 24" class="size-4 text-[#e0a100]" fill="currentColor" aria-hidden="true"><path d={estrella} /></svg>
+          {negocio.googleCalificacion} en Google
+        </li>
+        <li class="flex items-center gap-1.5 sm:hidden">
+          <Icon name="map-pin" class="size-4" />
+          {negocio.direccionCorta}
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
