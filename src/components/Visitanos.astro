@@ -82,6 +82,11 @@ const semana = [...horarios.map((h, i) => ({ ...h, i })).slice(1), { ...horarios
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
             class="absolute inset-0 size-full border-0"></iframe>
+          {/* Por si el mapa no carga (redes que bloquean Google Maps embebido): siempre hay salida */}
+          <a href={negocio.googleFicha} target="_blank" rel="noopener" class="boton boton-principal boton-chico absolute right-3 bottom-3 shadow-lg">
+            <Icon name="arrow-up-right" class="size-4" />
+            Abrir en Google Maps
+          </a>
         </div>
       </div>
     </div>

@@ -38,7 +38,9 @@ export const negocio = {
   ],
   pagosNota: 'Pagando en efectivo tenés descuento.',
   mapsDestino: `https://www.google.com/maps/dir/?api=1&destination=El%20Almac%C3%A9n%20de%20Lola&destination_place_id=${GOOGLE_PLACE_ID}`,
-  mapsEmbed: 'https://maps.google.com/maps?q=El%20Almacen%20de%20LOLA%2C%20Av.%20Pres.%20Per%C3%B3n%203099%2C%20Victoria&z=17&output=embed',
+  // Dirección final del mapa embebido. La vieja (maps.google.com/maps?…&output=embed) pasaba por una
+  // redirección que manda X-Frame-Options y algunos navegadores la bloqueaban dentro de la página.
+  mapsEmbed: 'https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1sEl+Almacen+de+LOLA,+Av.+Pres.+Per%C3%B3n+3099,+Victoria!6i17',
 };
 
 // Día 0 = domingo. `null` = cerrado. Domingos cerrado: confirmado (11/10/2026).
